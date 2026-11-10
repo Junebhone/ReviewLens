@@ -82,7 +82,7 @@ The same `Llama-3.1-8B-Instruct` model, loaded in 4-bit precision (NF4, double q
 - **Inference:** greedy decoding, at most 8 new tokens, and the same extraction rule as 3.2.
 - **Validation:** checked on the same 600 validation reviews used in 3.2 before running the test set.
 
-**Final run.** The settings above are the ones used. The adapters add 41,943,040 trainable parameters (0.52% of the 8.07 billion in the model). Training took 114.4 minutes on one NVIDIA A100 (80 GB) in Google Colab, in a single uninterrupted run; validation loss fell from 0.244 at step 500 to 0.197 at the end (step 2,500). On the 600 validation reviews the model reached accuracy 0.837 and macro-F1 0.839. All 6,200 generated outputs (validation, test and Experiment 2) were an exact label, so the fallback rule was never needed and no output was invalid.
+**Final run.** The settings above are the ones used. The adapters add 41,943,040 trainable parameters (0.52% of the 8.07 billion in the model). Training took 114.1 minutes on one NVIDIA A100 (80 GB) in Google Colab, in a single uninterrupted run; validation loss fell from 0.241 at step 500 to 0.194 at the end (step 2,500). On the 600 validation reviews the model reached accuracy 0.837 and macro-F1 0.839. All 6,200 generated outputs (validation, test and Experiment 2) were an exact label, so the fallback rule was never needed and no output was invalid.
 
 ## 4. Evaluation
 
@@ -102,7 +102,7 @@ Both Llama methods are scored on the extracted discrete labels.
 | BERT (fine-tuned) | TODO | TODO | TODO | TODO | TODO |
 | Llama, zero-shot | 0.699 | 0.721 | 0.699 | 0.677 | 0.699 |
 | Llama, few-shot (k = 3) | 0.762 | 0.769 | 0.762 | 0.757 | 0.762 |
-| Llama + QLoRA | 0.833 | 0.838 | 0.833 | 0.835 | 0.833 |
+| Llama + QLoRA | 0.837 | 0.841 | 0.837 | 0.838 | 0.837 |
 
 Per-class precision / recall / F1:
 
@@ -111,7 +111,7 @@ Per-class precision / recall / F1:
 | BERT (fine-tuned) | TODO | TODO | TODO |
 | Llama, zero-shot | 0.592 / 0.959 / 0.732 | 0.641 / 0.324 / 0.430 | 0.931 / 0.813 / 0.868 |
 | Llama, few-shot (k = 3) | 0.689 / 0.900 / 0.780 | 0.700 / 0.539 / 0.609 | 0.917 / 0.848 / 0.881 |
-| Llama + QLoRA | 0.830 / 0.822 / 0.826 | 0.738 / 0.791 / 0.764 | 0.947 / 0.887 / 0.916 |
+| Llama + QLoRA | 0.838 / 0.814 / 0.826 | 0.739 / 0.800 / 0.768 | 0.946 / 0.896 / 0.920 |
 
 ### 5.2 Experiment 2: 600 AI-labeled reviews
 
@@ -119,7 +119,7 @@ Per-class precision / recall / F1:
 |---|---|---|---|
 | BERT (fine-tuned) | TODO | TODO | TODO |
 | Llama, few-shot (k = 3) | 0.874 | 0.882 | 0.766 |
-| Llama + QLoRA | 0.829 | 0.832 | 0.836 |
+| Llama + QLoRA | 0.838 | 0.840 | 0.842 |
 
 ### 5.3 Cost
 
@@ -128,7 +128,7 @@ Per-class precision / recall / F1:
 | BERT (fine-tuned) | TODO | TODO | TODO |
 | Llama, zero-shot | none | 0.160 | L4 |
 | Llama, few-shot (k = 3) | none | 0.708 | L4 |
-| Llama + QLoRA | 114.4 min | 0.056 | A100 (80 GB) |
+| Llama + QLoRA | 114.1 min | 0.056 | A100 (80 GB) |
 
 Inference time is measured on 300 test reviews (100 per class) after a warm-up batch. Timings from different GPUs are not directly comparable.
 
@@ -138,7 +138,9 @@ Inference time is measured on 300 test reviews (100 per class) after a warm-up b
 
 **Star labels versus AI labels.** The prompted model agrees much more with Claude's labels (macro-F1 0.874) than with the star labels of the same 600 reviews (0.766), and Claude itself agrees with the stars only at macro-F1 0.746. This suggests a large part of the "error" against star labels is label noise in the stars, especially for 3-star reviews whose text reads as negative, rather than model mistakes.
 
-**TODO (all):** once BERT and QLoRA results are in — which method wins on macro-F1, whether fine-tuning fixes the Neutral/Negative confusion, whether the fine-tuned models (trained on star labels) agree less with the AI labels than the prompted model does, and the accuracy-versus-cost trade-off.
+**Fine-tuned Llama (QLoRA).** Fine-tuning the same model on the 40,000 star-labeled training reviews raises test macro-F1 from 0.757 (few-shot) to 0.838. Most of the gain is on Neutral: recall rises from 54% to 80% and Neutral F1 from 0.609 to 0.768, so fine-tuning largely fixes the Neutral-predicted-as-Negative problem of the prompted model. Neutral is still the weakest class. On Experiment 2 the pattern reverses: the fine-tuned model agrees about equally with Claude's labels (macro-F1 0.838) and with the star labels (0.842), while the prompted model agrees far more with Claude (0.874 vs 0.766). This fits a model that has learned the star-label convention it was trained on, including where stars and text disagree. The price is 114 minutes of A100 training; inference uses the short zero-shot prompt, at 0.056 s per review.
+
+**TODO (all):** once BERT results are in — which method wins on macro-F1, how BERT handles Neutral, and the accuracy-versus-cost trade-off across all three.
 
 ## 7. Conclusion
 

@@ -6,7 +6,7 @@ Three-class sentiment classification (Negative / Neutral / Positive) of Amazon C
 |---|---|---|---|---|
 | Fine-tuned BERT | Longqi Sun | [longqi_bert/](longqi_bert/) | not added yet | not added yet |
 | Prompted Llama 3.1 8B (few-shot, k=3) | Quoc Cuong Dinh | [quoc_llama_prompting/](quoc_llama_prompting/) | 0.757 | 0.874 |
-| Llama 3.1 8B + QLoRA | Bhone Kyaw Si Hein (JN) | [jn_llama_qlora/](jn_llama_qlora/) | 0.835 | 0.829 |
+| Llama 3.1 8B + QLoRA | Bhone Kyaw Si Hein (JN) | [jn_llama_qlora/](jn_llama_qlora/) | 0.838 | 0.838 |
 
 ## Layout
 
@@ -21,7 +21,18 @@ ReviewLens/
 └── report/                shared: final report draft
 ```
 
-The three method folders and `shared_data/` use the same names as the team's `ReviewLens/` Drive folder, so results can be copied across as they are. Each folder has its own README.
+Each method folder is laid out the same way, with its own README:
+
+```
+<method>/
+├── <notebook>.ipynb   the notebook, saved with its outputs
+├── results/           metrics: results_summary.csv, inference_cost.csv, confusion matrices (.csv)
+├── outputs/           per-review predictions (preds_*.csv) and raw model outputs
+├── figures/           confusion-matrix plots (.png)
+└── prompts/           prompt examples (prompting only)
+```
+
+The method folders and `shared_data/` use the same names as the team's `ReviewLens/` Drive folder. The notebooks write their files flat into that Drive folder; sort them into the subfolders above when copying them here.
 
 - `shared_data/` — `train.csv` 40,000 / `val.csv` 5,000 / `test.csv` 5,000, plus `ai_labeled_600.csv` for Experiment 2. Everyone evaluates on these exact files.
 - `data_prep/prepare_data.py check shared_data` verifies those files follow every preparation rule in the proposal.
@@ -33,6 +44,6 @@ The three method folders and `shared_data/` use the same names as the team's `Re
 2. Accept the [Llama 3.1 licence](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) and add your Hugging Face token as a Colab secret named `HF_TOKEN`.
 3. Make sure the team's `ReviewLens/` Drive folder is at `MyDrive/ReviewLens`, then Run all.
 
-Results are written to `ReviewLens/jn_llama_qlora/` on Drive in the same format as Dinh's (`results_summary.csv`, `inference_cost.csv`, `preds_*.csv`, `cm_*.csv/png`). Copy them into `jn_llama_qlora/` here afterwards.
+Results are written to `ReviewLens/jn_llama_qlora/` on Drive in the same format as Dinh's (`results_summary.csv`, `inference_cost.csv`, `preds_*.csv`, `cm_*.csv/png`). Copy them into the matching subfolders of `jn_llama_qlora/` here afterwards.
 
 It uses the same prompt and the same label-extraction rule as the prompted method (exact match, then first whole-word case-insensitive label).

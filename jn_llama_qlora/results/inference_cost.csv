@@ -1,0 +1,2 @@
+setting,gpu_inference,batch_size,timed_reviews,sec_per_review,reviews_per_sec,gpu_training,training_minutes,train_n,epochs
+QLoRA,NVIDIA A100-SXM4-80GB,32,300,0.055656409046666036,17.967382681148788,NVIDIA A100-SXM4-80GB,114.12065666666668,40000,1
