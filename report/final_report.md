@@ -2,7 +2,7 @@
 
 Bhone Kyaw Si Hein, Quoc Cuong Dinh, Longqi Sun
 
-> **Draft status.** Sections 1, 2, 4 and the prompted-Llama parts are written from the proposal and the files in this repo. Anything marked **TODO** is waiting on results that do not exist yet (BERT, QLoRA). Dinh's own write-up (`Dinh_ReviewLens_Report_Section.docx`) should replace 3.2 and his parts of section 5 when merged.
+> **Draft status.** Sections 1, 2, 4 and the prompted-Llama parts are written from the proposal and the files in this repo. Anything marked **TODO** is waiting on results that do not exist yet (BERT). Dinh's own write-up (`Dinh_ReviewLens_Report_Section.docx`) should replace 3.2 and his parts of section 5 when merged.
 
 ## 1. Introduction
 
@@ -82,7 +82,7 @@ The same `Llama-3.1-8B-Instruct` model, loaded in 4-bit precision (NF4, double q
 - **Inference:** greedy decoding, at most 8 new tokens, and the same extraction rule as 3.2.
 - **Validation:** checked on the same 600 validation reviews used in 3.2 before running the test set.
 
-**TODO (JN):** confirm these settings match the final run, trainable-parameter count, GPU.
+**Final run.** The settings above are the ones used. The adapters add 41,943,040 trainable parameters (0.52% of the 8.07 billion in the model). Training took 114.4 minutes on one NVIDIA A100 (80 GB) in Google Colab, in a single uninterrupted run; validation loss fell from 0.244 at step 500 to 0.197 at the end (step 2,500). On the 600 validation reviews the model reached accuracy 0.837 and macro-F1 0.839. All 6,200 generated outputs (validation, test and Experiment 2) were an exact label, so the fallback rule was never needed and no output was invalid.
 
 ## 4. Evaluation
 
@@ -102,7 +102,7 @@ Both Llama methods are scored on the extracted discrete labels.
 | BERT (fine-tuned) | TODO | TODO | TODO | TODO | TODO |
 | Llama, zero-shot | 0.699 | 0.721 | 0.699 | 0.677 | 0.699 |
 | Llama, few-shot (k = 3) | 0.762 | 0.769 | 0.762 | 0.757 | 0.762 |
-| Llama + QLoRA | TODO | TODO | TODO | TODO | TODO |
+| Llama + QLoRA | 0.833 | 0.838 | 0.833 | 0.835 | 0.833 |
 
 Per-class precision / recall / F1:
 
@@ -111,7 +111,7 @@ Per-class precision / recall / F1:
 | BERT (fine-tuned) | TODO | TODO | TODO |
 | Llama, zero-shot | 0.592 / 0.959 / 0.732 | 0.641 / 0.324 / 0.430 | 0.931 / 0.813 / 0.868 |
 | Llama, few-shot (k = 3) | 0.689 / 0.900 / 0.780 | 0.700 / 0.539 / 0.609 | 0.917 / 0.848 / 0.881 |
-| Llama + QLoRA | TODO | TODO | TODO |
+| Llama + QLoRA | 0.830 / 0.822 / 0.826 | 0.738 / 0.791 / 0.764 | 0.947 / 0.887 / 0.916 |
 
 ### 5.2 Experiment 2: 600 AI-labeled reviews
 
@@ -119,7 +119,7 @@ Per-class precision / recall / F1:
 |---|---|---|---|
 | BERT (fine-tuned) | TODO | TODO | TODO |
 | Llama, few-shot (k = 3) | 0.874 | 0.882 | 0.766 |
-| Llama + QLoRA | TODO | TODO | TODO |
+| Llama + QLoRA | 0.829 | 0.832 | 0.836 |
 
 ### 5.3 Cost
 
@@ -128,7 +128,7 @@ Per-class precision / recall / F1:
 | BERT (fine-tuned) | TODO | TODO | TODO |
 | Llama, zero-shot | none | 0.160 | L4 |
 | Llama, few-shot (k = 3) | none | 0.708 | L4 |
-| Llama + QLoRA | TODO | TODO | TODO |
+| Llama + QLoRA | 114.4 min | 0.056 | A100 (80 GB) |
 
 Inference time is measured on 300 test reviews (100 per class) after a warm-up batch. Timings from different GPUs are not directly comparable.
 
