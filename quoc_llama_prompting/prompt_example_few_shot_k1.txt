@@ -1,0 +1,41 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are a sentiment classifier for e-commerce product reviews. Read the customer review and classify its overall sentiment as Positive, Neutral, or Negative. Return only one label: Positive, Neutral, or Negative.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Review:
+"""
+OUCH! I have been a LEO for 14 years. I love the ability to have the in ear sound of my radio but not at the cost of me going nuts. First, it looks good, but that is where the positives end. When I connected the earbud to the tube, it went in fine with no issues, but when I tried to put it in my ear....it would not stay! The earbud would not stay in my ear and the tube started hurting my ear. The sad thing is that the tube is from Zeadio. I was really disappointed in this. I was really hoping that it would improve the sound quality, but it did not.
+"""
+
+Return only one label: Positive, Neutral, or Negative.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Negative<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Review:
+"""
+I really like the style and price of this lifeproof & purchased it with the thought of it being useful at the beach and pool. It does keep the phone safe from water damage but my speaker has become distorted & my camera has been affected the most, my picture quality has went down tremendously. I can’t use my flash or the picture is just a pink blur (the color from the case interacts with flash). My camera also will not focus now, it moves in and out. I’m disappointed. My phone works well without the case and it’s a hassle to have to take it off for pictures. I wouldn’t recommend you buy this.
+"""
+
+Return only one label: Positive, Neutral, or Negative.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Neutral<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Review:
+"""
+I had previously used this pen for over a year with no issues until I dropped it from my standing desk oneee too many times, which was completely my fault. So, believe me when I say that I believe in this brand's durability. Unfortunately, around a month after I got a replacement, the new pen stopped working. But! Luckily, Lucio from Renaisser's customer support team offered a new one after I showed how it was malfunctioning. This is a great purchase, and I hope you will feel secure knowing that they've got you covered. Plus, it's just a great product. Highly recommend it!
+"""
+
+Return only one label: Positive, Neutral, or Negative.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Positive<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Review:
+"""
+I got one of these from Amazon about 6 months ago for $3 (shipped!) and it lasted about 5 months and 20+ drops onto sidewalks etc before 2 of the corners broke off and it was to ghetto looking to continue to use. After being dissapointed with the longevity of my otterbox defender I HATE to spend money on this kind of stuff, so when I saw these on Amazon again I bought two more. I keep my phone in my pocket, so the sleek and slippery case works well for me. It doesn't slip out of my hand when i am holding it, and the corner is comfortable to hold to my ear. I have had the current case on for about 2 months and other than the corner chip on the "chrome" from where I dropped it down a flight of concrete stairs it still looks brand new. All the apple and aftermarket charging cords/headphones/docking stations/ etc i have work with the case ON, and I am totally happy with it, even if it were twice the price (shhh don't tell the seller LOL) .
+"""
+
+Return only one label: Positive, Neutral, or Negative.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

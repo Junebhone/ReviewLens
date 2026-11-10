@@ -1,0 +1,4 @@
+,exact,fallback,invalid
+test zero-shot,4482,518,0
+test few-shot k=3,5000,0,0
+exp2 few_shot,600,0,0

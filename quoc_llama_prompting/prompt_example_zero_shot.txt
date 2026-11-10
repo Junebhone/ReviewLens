@@ -1,0 +1,14 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are a sentiment classifier for e-commerce product reviews. Read the customer review and classify its overall sentiment as Positive, Neutral, or Negative. Return only one label: Positive, Neutral, or Negative.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Review:
+"""
+I got one of these from Amazon about 6 months ago for $3 (shipped!) and it lasted about 5 months and 20+ drops onto sidewalks etc before 2 of the corners broke off and it was to ghetto looking to continue to use. After being dissapointed with the longevity of my otterbox defender I HATE to spend money on this kind of stuff, so when I saw these on Amazon again I bought two more. I keep my phone in my pocket, so the sleek and slippery case works well for me. It doesn't slip out of my hand when i am holding it, and the corner is comfortable to hold to my ear. I have had the current case on for about 2 months and other than the corner chip on the "chrome" from where I dropped it down a flight of concrete stairs it still looks brand new. All the apple and aftermarket charging cords/headphones/docking stations/ etc i have work with the case ON, and I am totally happy with it, even if it were twice the price (shhh don't tell the seller LOL) .
+"""
+
+Return only one label: Positive, Neutral, or Negative.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

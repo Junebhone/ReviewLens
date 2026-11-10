@@ -1,0 +1,1555 @@
+review_id,gold,raw_output,pred,extract_method,label_words_found
+706c85b0109c51c6,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+dba3ae0e46052786,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a18169e819f5bd80,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+82bd4fa6b4f3683f,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+aefe25262ee26123,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+9d020fb61f6b29d5,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+197fef0b2c8f5127,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+7f7ec299010882f9,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b7706e6210322c8c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+739d06ca5597d0ad,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+fd0e2904f8eb2b18,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d022528f2574623c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ccc2b4b7f11ac78e,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+fdc45d2b67d2564e,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a0e6e9315a2e1d02,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+8828e31ff30257b3,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d5a783f04f0e9bce,Positive,"Neutral
+
+The review is mixed, with",Neutral,fallback,neutral
+aef4b7f7ba685a05,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+2a66b1388ea7186b,Positive,"Neutral
+
+The review contains both positive and",Neutral,fallback,"neutral, positive"
+161aba8ea4067b3a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+69314568ee49e6e8,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+486e2647bcef3728,Negative,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+5960b375c40ebc99,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+814385dc2cfb7a2a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+166fa5b117cdd339,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+4bae6ddf028db224,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+24e308b7eab80254,Neutral,"Negative 
+
+The customer mentions several positive aspects",Negative,fallback,"negative, positive"
+fbda07609a378920,Positive,"Neutral
+
+The review is generally informative and",Neutral,fallback,neutral
+55b720a245beb089,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+94d73dd0336dad5d,Neutral,"Neutral
+
+The review mentions several negative aspects",Neutral,fallback,"negative, neutral"
+360949dd67f24d02,Neutral,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+95aa772e37bf5206,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0d057072c35d50f0,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+8b7f78bcb8ff8ae3,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+8ffdcd02a5c557a5,Neutral,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+87460e640be7dcb8,Neutral,"Neutral
+
+The customer mentions both positive and",Neutral,fallback,"neutral, positive"
+9024bbf761e624c6,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d79ce1ad8d31317e,Neutral,"Neutral
+
+The customer had some issues with",Neutral,fallback,neutral
+4429439f33375b08,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+dbf98e5b6626696a,Positive,"Neutral
+
+The review initially expresses a negative",Neutral,fallback,"negative, neutral"
+a135012b951621de,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+48401a4266429cd6,Positive,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+0c0bb7a97b852513,Positive,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+5dd2a0d95b7b0ca4,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+e17991d550ea1c41,Positive,"Neutral
+
+The customer mentions both positive and",Neutral,fallback,"neutral, positive"
+a3e0c8c644275fbc,Neutral,"Neutral
+
+The customer starts with a positive",Neutral,fallback,"neutral, positive"
+ac14b054aefcf5bc,Neutral,"Neutral
+
+The customer expresses mixed feelings about",Neutral,fallback,neutral
+320ad430fed0f32f,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+351ce3a688b4c727,Neutral,"Negative
+
+The customer had a generally positive",Negative,fallback,"negative, positive"
+7111d05f978a0b0a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+fd4966a638453c8e,Neutral,"Negative
+
+The review starts with a strong",Negative,fallback,negative
+df6af0c1751d9f91,Negative,"Negative
+
+The customer mentions several negative aspects",Negative,fallback,negative
+78bb3b7ed80824c1,Neutral,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+ce34b1f565d4d39c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a05d74a628582695,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ae56c3d60e7eadce,Positive,"Neutral
+
+The customer had mixed experiences with",Neutral,fallback,neutral
+7a7aadadfc6b9ddc,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+7814d9de967dfaf0,Neutral,"Neutral
+
+The customer had mixed feelings about",Neutral,fallback,neutral
+e24e7ae42808fa2b,Neutral,"Neutral
+
+The review contains both positive and",Neutral,fallback,"neutral, positive"
+87ce9bd96143f5da,Positive,"Neutral 
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+c1d87fef30c3e7b5,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2d0a7d9d43e4b7a7,Positive,"Neutral
+
+The review mentions some minor complaints",Neutral,fallback,neutral
+09351674c7e3786c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+f0b62e9972fb6be7,Negative,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+bf1c9f60f3cc0812,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+c3d8fe61387333e3,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6df9fd1d32dfb5a9,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+6a357783b501c284,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+464e93f6d5d107a2,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+f819407946ac3001,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a8d623a5ee00e3ba,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+bc6d8076c73404cc,Neutral,"Negative
+
+The customer expresses disappointment with the",Negative,fallback,negative
+3fc14498e0d50be8,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+41293b73107b847a,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+d4574bc3720137c5,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+da106af4ca19f036,Neutral,"Negative
+
+The review starts with positive comments",Negative,fallback,"negative, positive"
+381630509b020b70,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c87642d431e905f0,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+08a73f8572c2d795,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+9bdda699c95231ca,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+f17013249f7a1a7e,Positive,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+cba687a221e80db9,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0cc446a31b03a7d3,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+fc833f78ab0cd140,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ed64a23550de8a70,Positive,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+4c9819bf23873fce,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2ef7b7c6f825e4f5,Neutral,"Neutral
+
+The review mentions several negative aspects",Neutral,fallback,"negative, neutral"
+5b1877507094d825,Positive,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+c592e65d85b52fc4,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0d843a0d0d3d61ba,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+a65454faf3d6be31,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0d8751481dd06655,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6386380810937b12,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+8f2aa57ec1aaba7b,Neutral,"Negative
+
+The customer mentions several negative aspects",Negative,fallback,negative
+e707dac69bc6fe12,Neutral,"Neutral
+
+The customer mentions both positive and",Neutral,fallback,"neutral, positive"
+b0634c43f4c8bc41,Neutral,"Neutral
+
+The customer had mixed feelings about",Neutral,fallback,neutral
+1439f5a9c5b44417,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+982b828a8497b3f1,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+9750d7ec66a5949d,Negative,"Negative
+
+The customer had a positive initial",Negative,fallback,"negative, positive"
+eb3814a947b2f2ed,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+e75cf0735b2cf525,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+17b2b7015f3627ac,Neutral,"Neutral
+
+The review mentions a negative experience",Neutral,fallback,"negative, neutral"
+79d7666badc645cc,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+5ba7e3c508fc8be4,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+ae397fea4df7fe9a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ae0fc2ebd7c1e2fe,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+36d33c3cf9b47273,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0021abfe3375bf78,Neutral,"Neutral
+
+The review mentions several issues with",Neutral,fallback,neutral
+64749c790444d9a0,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c491d7bc4379dc22,Positive,"Neutral
+
+The review starts with a very",Neutral,fallback,neutral
+2f59489fe9de4207,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a2d9f5a315bf9343,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a63057174e4a9f2d,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+97fb50d82b4806cc,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d8212fc02126b99f,Neutral,"Negative
+
+The review mentions a significant software",Negative,fallback,negative
+6ad6e87182504b9e,Neutral,"Neutral
+
+The customer mentions both positive aspects",Neutral,fallback,"neutral, positive"
+d50b29a313d51cbd,Neutral,"Neutral
+
+The customer mentions both positive and",Neutral,fallback,"neutral, positive"
+90182559234784f7,Neutral,"Neutral
+
+The review mentions several negative points",Neutral,fallback,"negative, neutral"
+751c57495b3586ac,Neutral,"Neutral
+
+The review mentions several negative aspects",Neutral,fallback,"negative, neutral"
+1ab6ea47e0a53a97,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c65ec54e059fd6e4,Neutral,"Negative
+
+The review mentions several negative aspects",Negative,fallback,negative
+b61522cd08422356,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+40ecb68cbde5afbf,Neutral,"Neutral
+
+The customer is generally satisfied with",Neutral,fallback,neutral
+c6f1280d0092badb,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+8fbaf010fe8f0c68,Neutral,"Neutral
+
+The review starts with a negative",Neutral,fallback,"negative, neutral"
+44cf64c01f2535b1,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+e5988c90988b7967,Positive,"Neutral
+
+The customer is generally satisfied with",Neutral,fallback,neutral
+389f23f58857373d,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+71f2a725977f8e5f,Neutral,"Negative 
+
+The review initially expresses disappointment and",Negative,fallback,negative
+70c660af6601b6f8,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+f4465cdee2118cdb,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+5e3acd95d2daed50,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+944948543d0fca54,Negative,"Negative
+
+The customer starts with a positive",Negative,fallback,"negative, positive"
+bd60b704fc976622,Neutral,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+d82d9b557f8029c0,Neutral,"Negative
+
+The customer had a favorite case",Negative,fallback,negative
+a08a21e37cc06216,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+11ee333df977fa5a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d0218a4b77b1274f,Positive,"Neutral
+
+The customer mentions a few negative",Neutral,fallback,"negative, neutral"
+d15d1418b858507f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+215319bcf9172f5b,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+4e12fbb9299ec5a5,Negative,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+d32007a765bb1e07,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2c1703cb6d73a288,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+9922344012fe0239,Negative,"Neutral
+
+The customer had mixed feelings about",Neutral,fallback,neutral
+d901fc1a2e554fb2,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b6e11704efed7451,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+fa1feb2505cfa087,Positive,"Neutral
+
+The review starts with positive comments",Neutral,fallback,"neutral, positive"
+bb38d6d03d85851f,Positive,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+564ce8b562056817,Positive,"Neutral
+
+The customer expresses both positive and",Neutral,fallback,"neutral, positive"
+76d17312e31b747c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+096aa213119b2cec,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+7e7ae7afd8f4eda0,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+46f03ccefa387cf8,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+aba59ba20d9e8216,Neutral,"Negative
+
+The customer mentions that the product",Negative,fallback,negative
+110c6edbf26c7731,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d06ca4c8d6034a50,Positive,"Negative 
+
+The customer initially had a negative",Negative,fallback,negative
+2b3ef82cde8e6c7b,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+7dfe26bd0b2a8afa,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+99d936bd4193de70,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+908324be7135eacd,Negative,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+cb66745bbee91760,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2b5266555789b701,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c44f539c8bb2aeb3,Neutral,"Neutral
+
+The customer expresses a mix of",Neutral,fallback,neutral
+1fde63a076ab5fe8,Negative,"Negative
+
+The customer is expressing strong negative",Negative,fallback,negative
+155bbe40c98a9b0b,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+45361c23602340ae,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b0147ce473d2cecf,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+58b1698388a075ab,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ccbe46f513e05d45,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a180107950361a33,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+491d99d455b8ce78,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0aa6b66ff15b7ed5,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ea7b0c33f76500e8,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+5ac004af469db8d4,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+9e71386cdb88b48f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+feb57c54e2a2710e,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1640049a79f42bcc,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+d6e8f69063d48d7f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+5ef4880539a567b5,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c446b6f63f74230e,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+571f749b392f54b8,Neutral,"Neutral
+
+The customer mentions a problem with",Neutral,fallback,neutral
+5d08312931d9556a,Neutral,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+6606cd365f430ab5,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+3d39fd03dfc9c33c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+17dc46b28c0179f3,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ff654b6a68ad26ed,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+28e84d7d951e9b5f,Negative,"Neutral
+
+The review starts with a negative",Neutral,fallback,"negative, neutral"
+579f82461dd4014b,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a21d1b44f2d7b23c,Neutral,"Neutral
+
+The review mentions a negative experience",Neutral,fallback,"negative, neutral"
+44f5abab760e9792,Positive,"Neutral
+
+The review starts with a negative",Neutral,fallback,"negative, neutral"
+089e224e4c85c1a1,Neutral,"Neutral
+
+The review starts off as Negative",Neutral,fallback,"negative, neutral"
+29700d4f5b2c773b,Negative,"Negative
+
+The customer mentions several negative aspects",Negative,fallback,negative
+823c5c4392c72f58,Neutral,"Neutral
+
+The customer is generally satisfied with",Neutral,fallback,neutral
+62405fd9845f5204,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ca97c8f2beac299d,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d9b619a54b450a00,Neutral,"Neutral 
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+15748fcf1a1e8a48,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+cf29618c9a179834,Positive,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+34d20022ccd65e8a,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+8869fbb4da55a51d,Neutral,"Neutral
+
+The customer mentions some issues with",Neutral,fallback,neutral
+e35cbc709fd552d8,Positive,"Neutral
+
+The review mentions some positive aspects",Neutral,fallback,"neutral, positive"
+a8e576aff18e2461,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ec6d82681043f50d,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+770f57139087bd19,Negative,"Negative 
+
+Although the customer initially had a",Negative,fallback,negative
+f13c7452048a9869,Neutral,"Neutral 
+
+The customer expresses both positive and",Neutral,fallback,"neutral, positive"
+f27b8076fc8f127b,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1b4c0fe04c017dc8,Neutral,"Neutral
+
+The review starts with a negative",Neutral,fallback,"negative, neutral"
+516ae24980f290c3,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+93f3c5f86035d51b,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+104b28b99366a02b,Neutral,"Neutral
+
+The review is neutral because the",Neutral,fallback,neutral
+4c52577e527f1bed,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1b59d982de59a644,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+612956b1deb8ec42,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+be277f2e04d12fcd,Neutral,"Neutral
+
+The review contains both positive and",Neutral,fallback,"neutral, positive"
+867ce1846222ff35,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+5dea45536db5f241,Positive,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+aae76d98c17ef32f,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+7ccd41ff215d862f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+65145d345b789b2f,Positive,"Neutral
+
+The review starts with a negative",Neutral,fallback,"negative, neutral"
+ac3e590adc1c9230,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+8627e90d0ec4edaf,Neutral,"Negative
+
+The review starts with a positive",Negative,fallback,"negative, positive"
+de5236a1540ee7c6,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6430148cb8daedc3,Negative,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+0eb8998a04377f25,Positive,"Neutral
+
+The review mentions some negative aspects",Neutral,fallback,"negative, neutral"
+a0e4d9d1b527a38f,Negative,"Negative
+
+The customer had to return the",Negative,fallback,negative
+21da56afee4b1b19,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+fdf31a79e0656fd5,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1cd6862de73f90ce,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+295165e193f0765f,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a667940c16c2d7c4,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+74857244c6bf3439,Positive,"Negative 
+
+The review starts off positive,",Negative,fallback,"negative, positive"
+7ccffcec04b922ad,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+e2f71e82e0001c68,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+87c55bfa66292989,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b0ab0a07f91cfc98,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+acf3fde86d24c93a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+de117cb0753bb734,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+69de050f8cd42766,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+bb27dae44371c773,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+262d3222182c7f92,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+668dda1021da5542,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+ba4d0c5ffec9c85d,Positive,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+b9dbdd866f4b1aa2,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2bc679f5900b1331,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+46f847e2760dce1d,Negative,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+e9a7c705e45929c1,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2c81754932efd917,Neutral,"Neutral
+
+The review mentions some minor issues",Neutral,fallback,neutral
+6dabb47cde82d319,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ce5ff78432268960,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+11ea29e58249f13e,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+9452b46619b0674f,Neutral,"Neutral
+
+The customer is generally satisfied with",Neutral,fallback,neutral
+15ac1fe00067b478,Positive,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+072ec5857aae3bd5,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b49e5509f6e82292,Positive,"Neutral
+
+The customer is generally satisfied with",Neutral,fallback,neutral
+44787ee7f1a354d9,Neutral,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+9f25d414cd639f49,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+bc2022a257d9e204,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c679b294a12884d0,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b91ab54e95321c14,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+b406e7915fd9c79f,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+595c01f9b662bb0f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+4c2b8f18eb730d6e,Neutral,"Negative
+
+The customer mentions several negative aspects",Negative,fallback,negative
+2218908d2cf99bf9,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+fa3beb090e1e9ee5,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+3f041ac57b62a6ee,Neutral,"Neutral
+
+The customer is generally satisfied with",Neutral,fallback,neutral
+9c4e2541674f4214,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+228b2ff5331887e8,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c1f64ac632e75e1e,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ab7d7e066831ea66,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+17e733ec4e8a2724,Neutral,"Negative
+
+The review starts with a positive",Negative,fallback,"negative, positive"
+2330f3f590cdaf02,Negative,"Negative
+
+The customer initially loved the product",Negative,fallback,negative
+2b06bff222ce8d2d,Neutral,"Neutral
+
+The customer's review is mixed",Neutral,fallback,neutral
+056c7ba69c2ee04a,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2ba94ad4749ef09b,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+07314bf08a5398ba,Positive,"Neutral
+
+The customer is generally satisfied with",Neutral,fallback,neutral
+0dfc97e45bbba3e4,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+58c4a874766ede6e,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+da903574e9abaef1,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+15ec745fdd725486,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+20c3dcbe85bd04ee,Neutral,"Neutral
+
+The customer had a positive initial",Neutral,fallback,"neutral, positive"
+607d00adf38b184c,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+50c4f84cde5ed832,Positive,"Neutral
+
+The review starts with a very",Neutral,fallback,neutral
+d707d26d59cc834a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+f99d3fd6bb4b1da4,Neutral,"Neutral
+
+The review starts off as Negative",Neutral,fallback,"negative, neutral"
+a5d0aef1b4230511,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c07f029ea6311954,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+230a337ecca44221,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+226f8f2dbf80e011,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+4fe924a8fa219120,Negative,"Negative
+
+The customer mentions several negative aspects",Negative,fallback,negative
+132fe544a7b7a6c5,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+aae043e04b890051,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+9dedeb0828bb9a8b,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+14c283b27bc9b6a8,Positive,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+2605a0d99d5157ad,Neutral,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+250d309c20e27cff,Neutral,"Neutral
+
+The review mentions some issues with",Neutral,fallback,neutral
+3203e36afd700b2c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1b9054956b501702,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2f1097a47e365539,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+7f2ec1fcbbb00e5c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+103301cff400143a,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d9f142971abd1b98,Positive,"Neutral
+
+The review mentions some negative aspects",Neutral,fallback,"negative, neutral"
+5b20ee9942845ddb,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+3ea818a112592260,Neutral,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+4232d190a5d3a049,Positive,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+1c796d04734028d9,Positive,"Neutral
+
+The customer mentions that the product",Neutral,fallback,neutral
+d89cadf59f77d59c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+bcb63f600f5f8fe4,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+14a1d9f3a4c55829,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+36f6220e830667fa,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1277f06bcf73ae37,Positive,"Neutral
+
+The review contains both positive comments",Neutral,fallback,"neutral, positive"
+881b6822351031f6,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+23907e56b2335fd0,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6ce2693d930f19c6,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+e4024d9ff966a770,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+652d1416b328c2b8,Neutral,"Negative
+
+The review mentions several issues with",Negative,fallback,negative
+b468d5d67b7b08ae,Negative,"Neutral
+
+The customer had some initial frustration",Neutral,fallback,neutral
+2cd0c2ee7c894e08,Neutral,"Neutral
+
+The review contains both positive and",Neutral,fallback,"neutral, positive"
+95144e39fe0bd328,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+fa82ceb06763aafc,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1d0227f1dec29f17,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+5e53644e53de9db2,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6461c62a591592ad,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ee453518790fd209,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+788525c6b12c8181,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ed810bee7c0af5e4,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b626194e4db3fd88,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+87e381373ff84f4b,Neutral,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+05ddbc0e092cd70d,Negative,"Negative
+
+The customer expresses disappointment and frustration",Negative,fallback,negative
+85ce818e0611528c,Neutral,"Neutral
+
+The review starts off very positively",Neutral,fallback,neutral
+b279808153ef3c19,Neutral,"Neutral
+
+The review contains both positive and",Neutral,fallback,"neutral, positive"
+de3f31f3ace6a3f2,Negative,"Neutral
+
+The review mentions a negative experience",Neutral,fallback,"negative, neutral"
+8e40afbee0935a84,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+51c81ef255793242,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+993fc41a57b71ff4,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+bce908a1ca6829c6,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+5cd681c21c649e9c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6af939cdcf528ef2,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+4acc7684f5746dfa,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+f25fe4178f618424,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b583107d8e159f71,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+5b975c5c044651ad,Neutral,"Neutral
+
+The customer mentions both positive and",Neutral,fallback,"neutral, positive"
+2cf2257f9e250bc6,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b87e186dda07c5d9,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d418fb64b96299ff,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+06406a73f6c52379,Neutral,"Negative
+
+The customer mentions several negative aspects",Negative,fallback,negative
+a0520cfc9a016fc7,Neutral,"Neutral
+
+The customer mentions both positive aspects",Neutral,fallback,"neutral, positive"
+b320fe194067e991,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+80099e1014fbc327,Neutral,"Negative
+
+The customer mentions several negative aspects",Negative,fallback,negative
+47f719f21c1d880b,Negative,"Neutral
+
+The review mentions several issues with",Neutral,fallback,neutral
+68a4e261db8f1018,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1d5db30c2d1582c8,Negative,"Neutral
+
+The review mentions several negative aspects",Neutral,fallback,"negative, neutral"
+d249b8e9c35ba353,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+f4e6dc37591c1b92,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+3d4e1f97b9d73851,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+890f2ff2db511a0d,Positive,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+7e42c0082dc01203,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+c1ba1a93a3189c52,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d91e1596cce89a3b,Positive,"Neutral
+
+The review starts with a negative",Neutral,fallback,"negative, neutral"
+4a8f9017b22f7f0b,Positive,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+fbdd0be7e0deda66,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+741394a269975c8a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+4ae6dfd7181df964,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b76c3240531ab80d,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1a141bb0aa52d98d,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+29db9fe8f2b8e03f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1e9f017d703c2812,Positive,"Negative
+
+The customer has expressed some negative",Negative,fallback,negative
+5ef06a9d06d6d0b0,Positive,"Neutral
+
+The review starts with a negative",Neutral,fallback,"negative, neutral"
+2c6ff2445cb687ff,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+7b7e64949cdaa314,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+243798937f40d0d7,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+3d26a8e7250b9dbe,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d54a8f19bf9dee9d,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+34fa6181818a6858,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c0c5fcdf03a9026e,Neutral,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+d2c283b5c8ad4900,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+47e1e97a841e228a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6d86b2e55edd601c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+806ea96599b50f4e,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+262042c5befea4a0,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+af6a7b9f123b1785,Neutral,"Neutral
+
+The customer is expressing mixed feelings",Neutral,fallback,neutral
+588034d6275dcb1e,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+8b80cc94cd8967b6,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+157a573ef044508b,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+6bac54c30623f240,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+941f22b346cda361,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+53d7c685779a8da9,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c60ef6724479946f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d0d36ad303f24416,Neutral,"Neutral
+
+The customer mentions both positive and",Neutral,fallback,"neutral, positive"
+192ec65152b8ed17,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+eb1fbb54b2ec6165,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+ce0cb4e22828efd5,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+994a8a428ceac338,Positive,"Neutral
+
+The customer is generally satisfied with",Neutral,fallback,neutral
+f2a9b410bca70f30,Neutral,"Negative
+
+The review starts with positive comments",Negative,fallback,"negative, positive"
+6f22c317119087e9,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0e6e07ed6d5f2817,Neutral,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+f28aaa433d4eff9d,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1440d2fad9cc76e1,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+14402595aad6a41a,Neutral,"Negative
+
+The review mentions several negative aspects",Negative,fallback,negative
+7e47e1454e242158,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+f58e68a163d4f6a8,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+4b6d600f01a95e8f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+9ab8389c1fb0a657,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6f737637f779d01a,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1288fab80c28613c,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+c98d87fca739be32,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+15a2600337c54cbe,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+738ec34406595291,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2f078b921c428d25,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+8a4a800008f24c1b,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+56927c620892a784,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b454b52f887b21f3,Neutral,"Negative 
+
+The customer is giving the product",Negative,fallback,negative
+9c052d6f13d8c8ca,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+e81ed2c3d5e2468b,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+83aaed3429d8cf51,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0fd22001ff7f94f5,Neutral,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+ed0ab1831f4463b2,Neutral,"Negative
+
+The review starts with a positive",Negative,fallback,"negative, positive"
+1ef2cb2e6981e314,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+9d311ddd5b723020,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+96e47f1fac5fe4c7,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+4d79a74e1b530555,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+9b652b8d2631bc70,Neutral,"Negative
+
+The customer mentions several negative aspects",Negative,fallback,negative
+2a0e49b371888739,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0482da646b89c4f0,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+10de8f9c718ed54f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2df63aef66a63a14,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d0b99fcea45dfddd,Neutral,"Neutral
+
+The customer mentions both positive and",Neutral,fallback,"neutral, positive"
+3f6224c6aca8a338,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0248ff050e6f7ac5,Neutral,"Negative
+
+The review mentions several negative aspects",Negative,fallback,negative
+dcccc708cf2f1551,Neutral,"Neutral
+
+The customer had mixed feelings about",Neutral,fallback,neutral
+0e288fa8e0c1a47c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6f570656a4b4010f,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+eb37a52cde8e0ffe,Neutral,"Neutral
+
+The customer mentions some positive aspects",Neutral,fallback,"neutral, positive"
+edcd9ad503cf19d8,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+d340802ca54a1eb0,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+3183311d02271d37,Negative,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+72575e12f1ec848a,Positive,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+43a3aa443ea18cb0,Neutral,"Neutral
+
+The review mentions some negative aspects",Neutral,fallback,"negative, neutral"
+a6116131e6c2381b,Neutral,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+04125b554019c0d7,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+8559ab46f92ef089,Neutral,"Neutral
+
+The review initially expresses a negative",Neutral,fallback,"negative, neutral"
+f54c6889344a2ed3,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+3e5d5d8a3c1d6e2e,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+72fbe1b1aff42936,Neutral,"Negative
+
+The customer mentions several negative aspects",Negative,fallback,negative
+c0f187bd0e4a0032,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+27dab987391940d5,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0920aac01fb3a3fc,Neutral,"Neutral
+
+The customer had mixed feelings about",Neutral,fallback,neutral
+9d0126ddb0c4ec15,Positive,"Negative
+
+The customer had a positive experience",Negative,fallback,"negative, positive"
+53ccc200883cada4,Neutral,"Neutral
+
+The review mentions several flaws with",Neutral,fallback,neutral
+08f183428d03201f,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+77df68857571aec9,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1529304519edd48d,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+258cbcc27d7f24d7,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+916c12208d62cd1c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6839b3c3cd244077,Positive,"Negative
+
+The customer mentions that the case",Negative,fallback,negative
+9f48f202ea6029d3,Positive,"Neutral 
+
+The review starts off positively,",Neutral,fallback,neutral
+625e2ba3c733753e,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+fe4e92ea9f95ab89,Neutral,"Neutral
+
+The customer mentions several positive aspects",Neutral,fallback,"neutral, positive"
+4f6607f12fe51482,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+f53c05a1df85778c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2d66f1e39474e8aa,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a0b3831371bd70ab,Neutral,"Neutral
+
+The review starts off with a",Neutral,fallback,neutral
+5fcf68a47dfc3394,Neutral,"Negative
+
+The customer had multiple issues with",Negative,fallback,negative
+d11f3d6221cfe124,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1c8ecbfb0e37b4d3,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+4b86a1b483b0d4e2,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6118ba414ea1c0c5,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+b37852c8de1075c9,Negative,"Negative
+
+The review mentions several positive aspects",Negative,fallback,"negative, positive"
+8a3537c7e9f743b2,Neutral,"Neutral
+
+The review mentions several negative points",Neutral,fallback,"negative, neutral"
+c635b1b0be9e6c5b,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+75f60d765137a3be,Neutral,"Negative
+
+The customer mentions two areas of",Negative,fallback,negative
+ef2230d7aca9a81c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a7a09eb7a3b83f18,Neutral,"Neutral
+
+The review mentions several positive aspects",Neutral,fallback,"neutral, positive"
+7160a502637ff9bd,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ab1eec50e33f0655,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0086753302e84ccc,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+7fae31d2e3cd7c8f,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ea719b6cfcae3293,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+f4c51e844fbae880,Positive,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+26b0401bad4df12a,Negative,"Negative
+
+The customer mentions a ""fatal",Negative,fallback,negative
+9c19d2d8c0e2e8a2,Neutral,"Neutral
+
+The customer mentions both positive and",Neutral,fallback,"neutral, positive"
+4ef7de6481f28c54,Neutral,"Neutral
+
+The review mentions a few issues",Neutral,fallback,neutral
+d425742d87c6f5bf,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+4bfc17a08381d8ba,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+7aafca6d2b870218,Negative,"Neutral
+
+The review starts with a positive",Neutral,fallback,"neutral, positive"
+73685d93f254762b,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+bc6b0ff65dd7944a,Neutral,"Neutral
+
+The customer mentions several positive aspects",Neutral,fallback,"neutral, positive"
+c60ffa17d100302d,Neutral,"Neutral
+
+The review starts with extremely positive",Neutral,fallback,"neutral, positive"
+e921493d7614aeac,Positive,"Neutral
+
+The review mentions some drawbacks,",Neutral,fallback,neutral
+988a97c31d3f8302,Positive,"Negative
+
+The customer is unhappy with the",Negative,fallback,negative
+71ea6be9ca9ae43e,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+6743d03686665ce3,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+2fc47708c6c979b8,Positive,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+4b4e71d3bdd9d58d,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+3db2cdf87ddd573e,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+34ee9d4796d59389,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+98e9b60031b49c27,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+298ee63c82febc87,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+688aa046936701fa,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ccbdfe2c8fd1b116,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+1174b039f13859bd,Neutral,"Neutral
+
+The review mentions both positive aspects",Neutral,fallback,"neutral, positive"
+e3d3bbea81f9b7fc,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+34a6358d9065ca5b,Negative,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+0555fcef26f58942,Positive,"Neutral
+
+The review starts with positive comments",Neutral,fallback,"neutral, positive"
+735119cc0ee1be99,Neutral,"Neutral
+
+The review starts with a negative",Neutral,fallback,"negative, neutral"
+47f9f5c1da98de7b,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+4fd91dd6a8dd5721,Neutral,"Neutral
+
+The customer had a generally positive",Neutral,fallback,"neutral, positive"
+62a0bdcbcb29d0b2,Positive,"Neutral
+
+The review mentions a negative experience",Neutral,fallback,"negative, neutral"
+20edfd178c598e2e,Negative,"Neutral
+
+The customer expresses both positive and",Neutral,fallback,"neutral, positive"
+1180e3fc769903df,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+bb8e8f40e135466c,Negative,"Neutral
+
+The review is a mix of",Neutral,fallback,neutral
+3fbf2bf87619badf,Neutral,"Neutral
+
+The customer has mixed feelings about",Neutral,fallback,neutral
+a78678b7220c5c7b,Neutral,"Neutral
+
+The customer has a generally positive",Neutral,fallback,"neutral, positive"
+847e5483fc5cccfa,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+a3bfc39c004ef695,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+5dac8a0b4d724137,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+84947d4f1cb3d232,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+ee28f6173641876c,Neutral,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
+be3cfe68e95305b8,Positive,"Neutral
+
+The review mentions both positive and",Neutral,fallback,"neutral, positive"
