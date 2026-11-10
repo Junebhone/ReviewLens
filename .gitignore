@@ -1,3 +1,6 @@
 .DS_Store
 *.zip
 .ipynb_checkpoints/
+adapter/
+checkpoints/
+__pycache__/

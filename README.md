@@ -1,18 +1,31 @@
 # ReviewLens
 
-Three-class sentiment classification (Negative / Neutral / Positive) of Amazon Cell Phones & Accessories reviews, solved with three methods on the same data. See [the proposal](ReviewLens_Project_Proposal_Revised_2.pdf).
+Three-class sentiment classification (Negative / Neutral / Positive) of Amazon Cell Phones & Accessories reviews, solved with three methods on the same data. See [the proposal](docs/ReviewLens_Project_Proposal_Revised_2.pdf).
 
 | Method | Owner | Folder | Test macro-F1 | Exp. 2 macro-F1 (vs AI labels) |
 |---|---|---|---|---|
-| Fine-tuned BERT | Longqi Sun | — | — | — |
+| Fine-tuned BERT | Longqi Sun | [longqi_bert/](longqi_bert/) | not added yet | not added yet |
 | Prompted Llama 3.1 8B (few-shot, k=3) | Quoc Cuong Dinh | [quoc_llama_prompting/](quoc_llama_prompting/) | 0.757 | 0.874 |
 | Llama 3.1 8B + QLoRA | Bhone Kyaw Si Hein (JN) | [jn_llama_qlora/](jn_llama_qlora/) | not run yet | not run yet |
 
 ## Layout
 
-- `shared_data/` — the shared split (`train.csv` 40,000 / `val.csv` 5,000 / `test.csv` 5,000) and `ai_labeled_600.csv` for Experiment 2. Everyone evaluates on these exact files.
-- `quoc_llama_prompting/` — Dinh's results (metrics, predictions, confusion matrices, inference cost).
-- `jn_llama_qlora/qlora_llama.ipynb` — QLoRA fine-tuning and evaluation, runs on Google Colab.
+```
+ReviewLens/
+├── docs/                  project proposal
+├── data_prep/             shared: cleaning, labeling, balanced sampling, split (all members)
+├── shared_data/           shared: the split everyone trains and evaluates on
+├── longqi_bert/           Longqi — fine-tuned BERT
+├── quoc_llama_prompting/  Dinh — prompted Llama 3.1 8B
+├── jn_llama_qlora/        JN — Llama 3.1 8B + QLoRA
+└── report/                shared: final report draft
+```
+
+The three method folders and `shared_data/` use the same names as the team's `ReviewLens/` Drive folder, so results can be copied across as they are. Each folder has its own README.
+
+- `shared_data/` — `train.csv` 40,000 / `val.csv` 5,000 / `test.csv` 5,000, plus `ai_labeled_600.csv` for Experiment 2. Everyone evaluates on these exact files.
+- `data_prep/prepare_data.py check shared_data` verifies those files follow every preparation rule in the proposal.
+- `report/final_report.md` — the report, with TODOs where BERT and QLoRA results are still missing.
 
 ## Running the QLoRA notebook
 
