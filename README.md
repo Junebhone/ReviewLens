@@ -4,7 +4,7 @@ Three-class sentiment classification (Negative / Neutral / Positive) of Amazon C
 
 | Method | Owner | Folder | Test macro-F1 | Exp. 2 macro-F1 (vs AI labels) |
 |---|---|---|---|---|
-| Fine-tuned BERT | Longqi Sun | [longqi_bert/](longqi_bert/) | not added yet | not added yet |
+| Fine-tuned BERT | Longqi Sun | [longqi_bert/](longqi_bert/) | 0.783 | 0.803 |
 | Prompted Llama 3.1 8B (few-shot, k=3) | Quoc Cuong Dinh | [quoc_llama_prompting/](quoc_llama_prompting/) | 0.757 | 0.874 |
 | Llama 3.1 8B + QLoRA | Bhone Kyaw Si Hein (JN) | [jn_llama_qlora/](jn_llama_qlora/) | 0.838 | 0.838 |
 
