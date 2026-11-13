@@ -1,0 +1,2 @@
+n,mean_tokens,median_tokens,p95_tokens,max_tokens,pct_over_256,pct_over_384,pct_over_512,selected_max_length
+40000,181.824175,163.0,307.0,621,12.2625,0.18,0.0075,384

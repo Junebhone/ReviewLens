@@ -1,0 +1,2 @@
+setting,gpu_inference,batch_size,timed_reviews,sec_per_review,reviews_per_sec,gpu_training,training_minutes,train_n,epochs
+BERT,NVIDIA L4,32,300,0.002946193693334559,339.42099674654474,NVIDIA L4,16.890988483649995,40000,3

@@ -1,0 +1,20 @@
+{
+  "model": "bert-base-uncased",
+  "gpu": "NVIDIA L4",
+  "seed": 42,
+  "train_n": 40000,
+  "val_n": 5000,
+  "epochs": 3,
+  "learning_rate": 2e-05,
+  "train_batch_size": 16,
+  "gradient_accumulation_steps": 1,
+  "effective_train_batch_size": 16,
+  "eval_batch_size": 32,
+  "max_length": 384,
+  "weight_decay": 0.01,
+  "warmup_ratio": 0.1,
+  "training_minutes": 16.890988483649995,
+  "best_checkpoint": "/content/drive/MyDrive/NLP/Final_Project/longqi_bert/checkpoints/checkpoint-7500",
+  "best_validation_macro_f1": 0.7961024902775709,
+  "resumed_from_checkpoint": null
+}
