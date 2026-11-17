@@ -1,0 +1,11 @@
+{
+  "name": "reviewlens-slides",
+  "private": true,
+  "description": "Builds Dinh_ReviewLens_Slides.pptx (prompted Llama 3.1 8B results and three-method comparison).",
+  "scripts": {
+    "build": "node build_slides.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "4.0.1"
+  }
+}
