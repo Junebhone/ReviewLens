@@ -101,10 +101,7 @@ pres.addSection({ title: "Prompted Llama" });
   T(s, "Evaluated on the shared 5,000-review balanced test set · main metric: macro-F1",
     { x: 0.5, y: 4.6, w: 9, h: 0.3, fontSize: 12, italic: true, color: C.text2 });
 
-  s.addNotes("My part is the method that needs no training: we prompt Llama 3.1 8B Instruct and read the label from its answer. " +
-    "Each review goes in a prompt, the model generates, and we extract the label: exact match first, then the first whole-word label. " +
-    "I tried zero-shot, and few-shot with 1, 2 or 3 examples per class; k = 3 was best on 600 validation reviews. " +
-    "Few-shot prompts are about 7 times longer. Everything is scored with macro-F1 on the same 5,000 test reviews as the other methods.");
+  s.addNotes("[~30 s · 0:00–0:30]\nMy part is the method with no training at all. I just prompt Llama 3.1 8B Instruct. Each review goes into a prompt, the model answers with greedy decoding, and I pull the label out of the answer. I compared two settings: zero-shot, with only the instruction, and few-shot, with three labelled examples per class. I picked three on the validation set. Like everyone else, I report macro-F1 on the same 5,000 test reviews.");
 }
 
 // ---------- Slide 2: Test results ----------
@@ -147,10 +144,7 @@ pres.addSection({ title: "Prompted Llama" });
     { text: "Neutral is the weak class (recall 54%; 32% zero-shot). Few-shot helps most there: F1 0.43 → 0.61.", options: { color: HEX.ink } },
   ], { x: 5.9, y: 3.75, w: 3.4, h: 0.95, fontSize: 12, valign: "top" });
 
-  s.addNotes("Adding three examples per class raises macro-F1 from 0.68 to 0.76, and accuracy from 70% to 76%. " +
-    "Negative and Positive are already good zero-shot; the gain is almost all on Neutral, F1 0.43 to 0.61. " +
-    "The confusion matrix shows the remaining problem: 39% of 3-star reviews are predicted Negative. " +
-    "Reading them, many 3-star reviews are mostly complaints, so the star label itself is debatable.");
+  s.addNotes("[~40 s · 0:30–1:10]\nSo, the examples really help. Macro-F1 goes from 0.68 zero-shot to 0.76 few-shot. Negative and Positive were already good, so almost all of the gain is on Neutral, where F1 goes from 0.43 to 0.61. But Neutral is still the weak spot. In the confusion matrix, 39% of the 3-star reviews are predicted Negative. When I read some of them, a lot of these 3-star reviews are basically complaints, so honestly the star label is debatable.");
 }
 
 // ---------- Slide 3: Experiment 2 ----------
@@ -180,10 +174,7 @@ pres.addSection({ title: "Prompted Llama" });
     { text: "Claude and the prompted model both read many 3-star reviews as Negative, so part of the test \"error\" is label noise, not model error.", options: { color: HEX.ink } },
   ], { x: 0.75, y: 4.1, w: 8.5, h: 0.75, fontSize: 13, valign: "middle" });
 
-  s.addNotes("For Experiment 2, I labelled 600 new reviews with Claude Haiku using the text only. " +
-    "Against these AI labels, the few-shot model scores 0.874 macro-F1, much higher than 0.766 against the stars of the same reviews. " +
-    "And Claude itself only agrees with the stars at 0.746. So when two independent readers of the text disagree with the stars in the same way, " +
-    "the star rating is the noisy part, especially for Neutral.");
+  s.addNotes("[~35 s · 1:10–1:45]\nThat's why I ran Experiment 2. I had Claude Haiku label 600 new reviews from the text only, without the stars. Against those AI labels, my few-shot model gets 0.874, compared to 0.766 against the stars for the same reviews. And Claude itself only agrees with the stars at 0.746. So two models reading the text disagree with the stars in the same way, which tells us the star rating is partly noise.");
 }
 
 // ---------- Slide 4: Comparison ----------
@@ -222,10 +213,7 @@ pres.addSection({ title: "Comparison" });
     { text: "few-shot wins on AI labels with no training at all." },
   ], { x: 5.55, y: 4.2, w: 4.0, h: 0.75, fontSize: 13, color: C.text1 });
 
-  s.addNotes("Now all three methods side by side. On the star-labelled test set, QLoRA is best at 0.838, then BERT at 0.783, then few-shot prompting at 0.757. " +
-    "On the AI-labelled set the order flips: few-shot prompting is best at 0.874, because the fine-tuned models learned the star convention. " +
-    "Neutral is the weakest class for every method; QLoRA handles it best. " +
-    "On cost: prompting needs no training but is the slowest at inference; BERT is by far the fastest.");
+  s.addNotes("[~45 s · 1:45–2:30]\nNow all three methods together. On the star-labelled test set, QLoRA is best with 0.838, then BERT with 0.783, then my prompting at 0.757. On the AI labels, it flips: prompting comes first at 0.874, probably because the fine-tuned models learned the star labels they were trained on. In the table, QLoRA handles Neutral best. On cost, prompting needs no training but it's the slowest per review, and BERT is by far the fastest. One note: QLoRA was timed on an A100, the others on an L4.");
 }
 
 // ---------- Slide 5: Conclusion ----------
@@ -251,10 +239,7 @@ pres.addSection({ title: "Comparison" });
     { text: "partly because star ratings and review text often disagree.", options: { color: HEX.paper } },
   ], { x: 0.5, y: 4.3, w: 9, h: 0.6, fontSize: 14, valign: "middle" });
 
-  s.addNotes("To conclude: if labelled data and a GPU for training are available, QLoRA gives the best accuracy. " +
-    "BERT is the practical choice for high volume because it is cheap and fast. " +
-    "Few-shot prompting is the fastest to set up, needs no training data beyond a few examples, and matches human-like reading of the text best. " +
-    "For all three, Neutral is the hard case, partly because the stars themselves are a noisy label.");
+  s.addNotes("[~30 s · 2:30–3:00]\nTo wrap up: if you have labelled data and a GPU, QLoRA gives the best accuracy. If you need to process a lot of reviews cheaply, BERT is the practical choice. And if you have no training data, few-shot prompting works out of the box and agrees best with the text-based AI labels. For all three, Neutral is the hardest class, partly because the stars themselves are noisy. Thank you.");
 }
 
 (async () => {
