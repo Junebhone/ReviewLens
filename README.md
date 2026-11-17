@@ -12,7 +12,8 @@ Three-class sentiment classification (Negative / Neutral / Positive) of Amazon C
 
 ```
 ReviewLens/
-├── docs/                  project proposal
+├── docs/                  project proposal, final project guidelines
+│   └── slides/            Dinh's presentation slides (.pptx) and their build script
 ├── data_prep/             shared: cleaning, labeling, balanced sampling, split (all members)
 ├── shared_data/           shared: the split everyone trains and evaluates on
 ├── longqi_bert/           Longqi — fine-tuned BERT
@@ -37,6 +38,7 @@ The method folders and `shared_data/` use the same names as the team's `ReviewLe
 - `shared_data/` — `train.csv` 40,000 / `val.csv` 5,000 / `test.csv` 5,000, plus `ai_labeled_600.csv` for Experiment 2. Everyone evaluates on these exact files.
 - `data_prep/prepare_data.py check shared_data` verifies those files follow every preparation rule in the proposal.
 - `report/final_report.md` — the report, with TODOs where BERT results are still missing.
+- `docs/slides/Dinh_ReviewLens_Slides.pptx` — Dinh's presentation section: prompted Llama results, Experiment 2, and the comparison of all three methods. To rebuild it after editing `build_slides.js`, run `npm install && npm run build` in `docs/slides/` (needs Node).
 
 ## Running the QLoRA notebook
 
