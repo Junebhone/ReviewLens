@@ -1,0 +1,13 @@
+review_id,gold,raw_output,pred,extract_method,label_words_found
+5093c299ce6ecfb5,Neutral,"Neutral 
+
+The reviewer initially had a positive",Neutral,fallback,"neutral, positive"
+c65ec54e059fd6e4,Neutral,"Neutral 
+
+(Note: I'm assuming the",Neutral,fallback,neutral
+408b97ce1114c2c4,Negative,"Neutral 
+
+(Note: Although the review starts",Neutral,fallback,neutral
+208514c7f9dbfcbe,Positive,"Neutral 
+
+Note: This review is more",Neutral,fallback,neutral
