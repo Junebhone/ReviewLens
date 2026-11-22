@@ -38,7 +38,7 @@ The method folders and `shared_data/` use the same names as the team's `ReviewLe
 - `shared_data/` — `train.csv` 40,000 / `val.csv` 5,000 / `test.csv` 5,000, plus `ai_labeled_600.csv` for Experiment 2. Everyone evaluates on these exact files.
 - `data_prep/prepare_data.py check shared_data` verifies those files follow every preparation rule in the proposal.
 - `report/final_report.md` — the report, with TODOs where BERT results are still missing.
-- `docs/slides/Dinh_ReviewLens_Slides.pptx` — Dinh's presentation section: prompted Llama results, Experiment 2, and the comparison of all three methods. To rebuild it after editing `build_slides.js`, run `npm install && npm run build` in `docs/slides/` (needs Node).
+- `docs/slides/Dinh_ReviewLens_Slides.pptx` — Dinh's presentation section: introduction, data, prompted Llama results and Experiment 2. The comparison and conclusion are presented by the other members. To rebuild it after editing `build_slides.js`, run `npm install && npm run build` in `docs/slides/` (needs Node).
 
 ## Running the QLoRA notebook
 

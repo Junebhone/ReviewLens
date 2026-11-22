@@ -317,72 +317,7 @@ pres.addSection({ title: "Prompted Llama" });
     { text: "Both models read many 3-star reviews as Negative, so part of the test \"error\" is label noise. 0.879 is agreement between two LLMs, not accuracy.", options: { color: HEX.ink } },
   ], { x: 0.75, y: 4.1, w: 8.5, h: 0.75, fontSize: 13, valign: "middle" });
 
-  s.addNotes("[~35 s · 2:50–3:25]\nBack to the star labels: that's why I ran Experiment 2. I had Claude Haiku label 600 new reviews from the text only, without the stars. Against those AI labels, my few-shot model gets 0.879, compared to 0.788 against the stars for the same reviews. And Claude itself only agrees with the stars at 0.746. So two models reading the text disagree with the stars in the same way, which tells us the star rating is partly noise. One caution: that 0.879 is two language models agreeing with each other, not accuracy against the truth.");
-}
-
-// ---------- Slide 4: Comparison ----------
-pres.addSection({ title: "Comparison" });
-{
-  const s = pres.addSlide({ masterName: "Content", sectionTitle: "Comparison" });
-  s.addText("Three methods on the same data", { placeholder: "title" });
-
-  s.addChart(pres.charts.BAR, [
-    { name: "Test (star labels)", labels: ["BERT fine-tuned", "Llama few-shot", "Llama + QLoRA"], values: [0.783, 0.783, 0.838] },
-    { name: "Exp 2 (AI labels)", labels: ["BERT fine-tuned", "Llama few-shot", "Llama + QLoRA"], values: [0.803, 0.879, 0.838] },
-  ], Object.assign({
-    objectName: "compare-chart", x: 0.4, y: 1.15, w: 4.9, h: 3.85, barDir: "col", barGapWidthPct: 60,
-    chartColors: [HEX.slate, HEX.amber], showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "0.000",
-    valAxisMinVal: 0.6, valAxisMaxVal: 0.95, valAxisMajorUnit: 0.1, valAxisLabelFormatCode: "0.0", valGridLine: { color: "E2E6EA", size: 0.5 }, catGridLine: { style: "none" },
-    showLegend: true, legendPos: "t", showTitle: true, title: "Macro-F1", titleFontSize: 12, titleColor: HEX.ink,
-  }, chartText));
-
-  const hdr = (t) => ({ text: t, options: { bold: true, color: HEX.paper, fill: { color: HEX.ink }, align: "center" } });
-  const cell = (t, best) => ({ text: t, options: { align: "center", bold: !!best,
-    color: best ? HEX.paper : HEX.ink, fill: { color: best ? HEX.teal : HEX.mist } } });
-  const lab = (t) => ({ text: t, options: { bold: true, color: HEX.ink, fill: { color: HEX.mist } } });
-  const rows = [
-    [hdr(""), hdr("BERT"), hdr("Few-shot"), hdr("QLoRA")],
-    [lab("Neutral F1"), cell("0.692"), cell("0.675"), cell("0.768", true)],
-    [lab("Training"), cell("17 min"), cell("none", true), cell("114 min")],
-    [lab("Inference / review"), cell("0.003 s", true), cell("1.13 s"), cell("0.056 s")],
-    [lab("Trainable params"), cell("110 M"), cell("0", true), cell("42 M")],
-  ];
-  s.addTable(rows, { objectName: "cost-table", x: 5.55, y: 1.2, w: 4.0, colW: [1.45, 0.85, 0.85, 0.85],
-    rowH: 0.45, fontSize: 11, fontFace: "Calibri", border: { type: "solid", pt: 2, color: HEX.paper }, valign: "middle" });
-  T(s, "Highlighted = best in row. Training/inference: BERT and few-shot on an L4 GPU, QLoRA on an A100.",
-    { x: 5.55, y: 3.55, w: 4.0, h: 0.45, fontSize: 10, italic: true, color: C.text2 });
-  T(s, [
-    { text: "QLoRA wins on star labels; ", options: { bold: true } },
-    { text: "prompting ties BERT with no training and leads on AI labels." },
-  ], { x: 5.55, y: 4.2, w: 4.0, h: 0.75, fontSize: 13, color: C.text1 });
-
-  s.addNotes("[~45 s · 3:25–4:10]\nNow all three methods together. On the star-labelled test set, QLoRA is best with 0.838. BERT and my prompting are tied at 0.783; a paired test on the same 5,000 reviews finds no difference. On the AI labels, prompting comes first at 0.879, probably because the fine-tuned models learned the star labels they were trained on. In the table, QLoRA handles Neutral best. On cost, prompting needs no training but it's the slowest, over a second per review, and BERT is by far the fastest. One note: QLoRA was timed on an A100, the others on an L4.");
-}
-
-// ---------- Slide 5: Conclusion ----------
-{
-  const s = pres.addSlide({ masterName: "Dark", sectionTitle: "Comparison" });
-  s.addText("Conclusion", { placeholder: "title" });
-  const cols = [
-    ["Llama + QLoRA", "0.838", "Most accurate on star labels and best on Neutral, at the cost of 114 min of A100 training", "6FC2D0"],
-    ["Fine-tuned BERT", "0.783", "Same accuracy as prompting and cheapest to run: ~380× faster per review", "C9D2DB"],
-    ["Few-shot Llama", "0.783", "No training; ties BERT and agrees best with AI labels (0.879), but slowest at inference", HEX.amber],
-  ];
-  cols.forEach(([h, n, d, col], i) => {
-    const x = 0.5 + i * 3.1;
-    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { objectName: `concl-${i + 1}`, x, y: 1.25, w: 2.8, h: 2.75, rectRadius: 0.08,
-      fill: { color: "323B48" }, line: { type: "none" } });
-    T(s, h, { x: x + 0.25, y: 1.4, w: 2.3, h: 0.4, fontSize: 16, bold: true, color: C.background1 });
-    T(s, n, { x: x + 0.25, y: 1.85, w: 2.3, h: 0.7, fontSize: 40, bold: true, color: col, fontFace: "Cambria" });
-    T(s, "test macro-F1", { x: x + 0.25, y: 2.55, w: 2.3, h: 0.25, fontSize: 10, color: C.accent5 });
-    T(s, d, { x: x + 0.25, y: 2.9, w: 2.3, h: 1.0, fontSize: 12, color: C.background2, valign: "top" });
-  });
-  T(s, [
-    { text: "Neutral (3-star) reviews are the hardest class for all three, ", options: { bold: true, color: HEX.amber } },
-    { text: "partly because star ratings and review text often disagree.", options: { color: HEX.paper } },
-  ], { x: 0.5, y: 4.3, w: 9, h: 0.6, fontSize: 14, valign: "middle" });
-
-  s.addNotes("[~30 s · 4:10–4:40]\nTo wrap up: if you have labelled data and a GPU, QLoRA gives the best accuracy. If you need to process a lot of reviews cheaply, BERT is the practical choice. And if you have no training data, a well-chosen few-shot prompt matches BERT out of the box and agrees best with the text-based AI labels. For all three, Neutral is the hardest class, partly because the stars themselves are noisy. Thank you.");
+  s.addNotes("[~35 s · 2:50–3:25]\nBack to the star labels: that's why I ran Experiment 2. I had Claude Haiku label 600 new reviews from the text only, without the stars. Against those AI labels, my few-shot model gets 0.879, compared to 0.788 against the stars for the same reviews. And Claude itself only agrees with the stars at 0.746. So two models reading the text disagree with the stars in the same way, which tells us the star rating is partly noise. One caution: that 0.879 is two language models agreeing with each other, not accuracy against the truth. That's my part; next, my teammates present their methods and the comparison.");
 }
 
 (async () => {
