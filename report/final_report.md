@@ -2,7 +2,7 @@
 
 Bhone Kyaw Si Hein, Quoc Cuong Dinh, Longqi Sun
 
-> **Draft status.** Sections 1, 2, 4 and the prompted-Llama parts are written from the proposal and the files in this repo. Anything marked **TODO** is waiting on results that do not exist yet (BERT). Dinh's own write-up (`Dinh_ReviewLens_Report_Section.docx`) should replace 3.2 and his parts of section 5 when merged.
+> **Draft status.** Sections 1, 2, 4 and the prompted-Llama parts are written from the proposal and the files in this repo. Anything marked **TODO** is waiting on Longqi's write-up of the BERT results (the numbers are in `longqi_bert/results/`). The prompted-Llama numbers are from the Nov 21 run of the notebook. Dinh's own write-up (`Dinh_ReviewLens_Report_Section.docx`) should replace 3.2 and his parts of section 5 when merged.
 
 ## 1. Introduction
 
@@ -59,17 +59,27 @@ Tokenization is done by each model's own tokenizer and is not a separate prepara
 
 The model is loaded in bfloat16 and decoded greedily with at most 8 new tokens.
 
-- **Zero-shot:** the review only (mean prompt length 266 tokens).
-- **Few-shot:** k labeled examples per class, drawn only from training reviews of at most 150 words, placed before the review as earlier user/assistant turns. k was chosen on 600 validation reviews (200 per class); k = 3 (nine examples, mean prompt length 1,798 tokens) was best.
+Prompt designs vary along two axes:
 
-| Validation setting | Accuracy | Macro-F1 |
+- **Examples:** none (zero-shot, mean prompt length 266 tokens), or k labeled examples per class (k = 1, 2, 3, 5, 7), drawn only from training reviews of at most 150 words and placed before the review as earlier user/assistant turns.
+- **Label definitions:** optionally, the system prompt adds a one-line definition of each label (Positive: mainly satisfied; Neutral: mixed or lukewarm, acceptable but with clear drawbacks; Negative: mainly dissatisfied).
+
+Eight designs were scored on the same 600 validation reviews (200 per class). The best zero-shot and best few-shot designs, plus plain zero-shot as a baseline, were then run once on the test set. The better of the two on validation is the final model.
+
+| Validation design | Accuracy | Macro-F1 |
 |---|---|---|
 | Zero-shot | 0.697 | 0.680 |
+| Zero-shot + definitions | 0.745 | 0.747 |
 | Few-shot, k = 1 per class | 0.763 | 0.761 |
 | Few-shot, k = 2 per class | 0.763 | 0.755 |
 | Few-shot, k = 3 per class | 0.780 | 0.777 |
+| Few-shot, k = 5 per class | 0.797 | 0.797 |
+| Few-shot, k = 7 per class | 0.768 | 0.760 |
+| **Few-shot, k = 5 per class + definitions** | **0.798** | **0.800** |
 
-**Label extraction.** The output is stripped of whitespace, quotes, punctuation and markdown, lower-cased, and matched exactly against the three labels; if that fails, the first whole-word, case-insensitive label in the output is used; otherwise the prediction is invalid. On the test set the fallback was needed for 518 of 5,000 zero-shot outputs (the model added an explanation after the label) and for none of the few-shot outputs. No output was invalid.
+The final design is **few-shot with k = 5 per class plus definitions** (15 examples, mean prompt length 2,874 tokens). Because every design is scored on the same reviews, we compared the final design with each other design in pairs: a 95% bootstrap confidence interval for the macro-F1 difference (2,000 resamples), and an exact McNemar test on accuracy. Only plain few-shot k = 5 cannot be separated from it (difference +0.003, CI −0.007 to +0.013, McNemar p = 1.0), so adding definitions was a tie-break, not a clear improvement. Every other design is significantly worse; k = 7 is 0.040 below the final design (CI +0.014 to +0.065). In a side analysis, four other random draws of the k = 3 examples gave validation macro-F1 from 0.749 to 0.779, so which examples are drawn matters about as much as how many.
+
+**Label extraction.** The output is stripped of whitespace, quotes, punctuation and markdown, lower-cased, and matched exactly against the three labels; if that fails, the first whole-word, case-insensitive label in the output is used; otherwise the prediction is invalid. On the test set the fallback was needed for 518 of 5,000 plain zero-shot outputs and for 4,556 of 5,000 zero-shot + definitions outputs: with definitions and no examples, the model almost always adds an explanation after the label. The label still comes first, so the fallback extracts it. The final few-shot design needed the fallback for only 4 outputs. One output (zero-shot + definitions) was invalid.
 
 ### 3.3 Llama 3.1 8B fine-tuned with QLoRA (Bhone Kyaw Si Hein)
 
@@ -101,7 +111,8 @@ Both Llama methods are scored on the extracted discrete labels.
 |---|---|---|---|---|---|
 | BERT (fine-tuned) | TODO | TODO | TODO | TODO | TODO |
 | Llama, zero-shot | 0.699 | 0.721 | 0.699 | 0.677 | 0.699 |
-| Llama, few-shot (k = 3) | 0.762 | 0.769 | 0.762 | 0.757 | 0.762 |
+| Llama, zero-shot + definitions | 0.756 | 0.767 | 0.756 | 0.756 | 0.756 |
+| Llama, few-shot (k = 5 + definitions) | 0.782 | 0.789 | 0.782 | 0.783 | 0.782 |
 | Llama + QLoRA | 0.837 | 0.841 | 0.837 | 0.838 | 0.837 |
 
 Per-class precision / recall / F1:
@@ -110,7 +121,8 @@ Per-class precision / recall / F1:
 |---|---|---|---|
 | BERT (fine-tuned) | TODO | TODO | TODO |
 | Llama, zero-shot | 0.592 / 0.959 / 0.732 | 0.641 / 0.324 / 0.430 | 0.931 / 0.813 / 0.868 |
-| Llama, few-shot (k = 3) | 0.689 / 0.900 / 0.780 | 0.700 / 0.539 / 0.609 | 0.917 / 0.848 / 0.881 |
+| Llama, zero-shot + definitions | 0.707 / 0.880 / 0.784 | 0.657 / 0.605 / 0.630 | 0.939 / 0.782 / 0.853 |
+| Llama, few-shot (k = 5 + definitions) | 0.737 / 0.846 / 0.788 | 0.688 / 0.664 / 0.675 | 0.943 / 0.836 / 0.886 |
 | Llama + QLoRA | 0.838 / 0.814 / 0.826 | 0.739 / 0.800 / 0.768 | 0.946 / 0.896 / 0.920 |
 
 ### 5.2 Experiment 2: 600 AI-labeled reviews
@@ -118,7 +130,7 @@ Per-class precision / recall / F1:
 | Method | Macro-F1 vs AI labels | Accuracy vs AI labels | Macro-F1 vs star labels |
 |---|---|---|---|
 | BERT (fine-tuned) | TODO | TODO | TODO |
-| Llama, few-shot (k = 3) | 0.874 | 0.882 | 0.766 |
+| Llama, few-shot (k = 5 + definitions) | 0.879 | 0.880 | 0.788 |
 | Llama + QLoRA | 0.838 | 0.840 | 0.842 |
 
 ### 5.3 Cost
@@ -126,19 +138,22 @@ Per-class precision / recall / F1:
 | Method | Training time | Inference (s / review) | GPU |
 |---|---|---|---|
 | BERT (fine-tuned) | TODO | TODO | TODO |
-| Llama, zero-shot | none | 0.160 | L4 |
-| Llama, few-shot (k = 3) | none | 0.708 | L4 |
+| Llama, zero-shot | none | 0.119 | L4 |
+| Llama, zero-shot + definitions | none | 0.142 | L4 |
+| Llama, few-shot (k = 5 + definitions) | none | 1.131 | L4 |
 | Llama + QLoRA | 114.1 min | 0.056 | A100 (80 GB) |
 
-Inference time is measured on 300 test reviews (100 per class) after a warm-up batch. Timings from different GPUs are not directly comparable.
+Inference time is measured on 300 test reviews (100 per class) after a warm-up batch. For prompted Llama, three repeated runs agreed within 3%; the table shows the latest run (zero-shot batch size 32, few-shot batch size 8, bfloat16). Timings from different GPUs are not directly comparable.
 
 ## 6. Discussion
 
-**Prompted Llama.** Neutral is the hardest class. Zero-shot, the model finds only 32% of Neutral reviews; of the 1,667 Neutral test reviews, 1,035 are predicted Negative. Nine few-shot examples raise Neutral recall to 54% and macro-F1 from 0.677 to 0.757, at about 4.4 times the inference time per review because the prompt is almost seven times longer.
+**Prompted Llama.** Neutral is the hardest class. Plain zero-shot finds only 32% of Neutral reviews; of the 1,667 Neutral test reviews, 1,035 (62%) are predicted Negative. Label definitions alone raise Neutral recall to 60% and macro-F1 from 0.677 to 0.756. Adding 15 examples (k = 5 per class) raises Neutral recall to 66% and macro-F1 to 0.783, significantly better than definitions alone (+0.028, 95% CI +0.019 to +0.037). The cost is about 9.5 times the inference time per review, because the prompt is almost eleven times longer. The final design still predicts 29% of Neutral reviews as Negative, and this is its largest error type (489 of 1,090 test errors). Validation and test agree well: macro-F1 0.800 on validation and 0.783 on test, so choosing among eight designs on 600 reviews did not overfit much.
 
-**Star labels versus AI labels.** The prompted model agrees much more with Claude's labels (macro-F1 0.874) than with the star labels of the same 600 reviews (0.766), and Claude itself agrees with the stars only at macro-F1 0.746. This suggests a large part of the "error" against star labels is label noise in the stars, especially for 3-star reviews whose text reads as negative, rather than model mistakes.
+**Prompted Llama versus BERT.** The final prompted design and fine-tuned BERT reach the same test macro-F1 (0.783 vs 0.783). A paired comparison on the 5,000 test reviews finds no difference: +0.0002, 95% CI −0.011 to +0.012; each model gets about 460 reviews right that the other gets wrong (McNemar p = 0.95). They get there differently. BERT is better on Neutral (F1 0.692 vs 0.675), and the prompted model is better on Negative and Positive. The prompted model needs no training, but BERT is about 380 times faster per review (0.003 vs 1.13 s, both on an L4).
 
-**Fine-tuned Llama (QLoRA).** Fine-tuning the same model on the 40,000 star-labeled training reviews raises test macro-F1 from 0.757 (few-shot) to 0.838. Most of the gain is on Neutral: recall rises from 54% to 80% and Neutral F1 from 0.609 to 0.768, so fine-tuning largely fixes the Neutral-predicted-as-Negative problem of the prompted model. Neutral is still the weakest class. On Experiment 2 the pattern reverses: the fine-tuned model agrees about equally with Claude's labels (macro-F1 0.838) and with the star labels (0.842), while the prompted model agrees far more with Claude (0.874 vs 0.766). This fits a model that has learned the star-label convention it was trained on, including where stars and text disagree. The price is 114 minutes of A100 training; inference uses the short zero-shot prompt, at 0.056 s per review.
+**Star labels versus AI labels.** The prompted model agrees much more with Claude's labels (macro-F1 0.879) than with the star labels of the same 600 reviews (0.788), and Claude itself agrees with the stars only at macro-F1 0.746 (Cohen's kappa 0.62). Both models read many 3-star reviews as Negative; Claude labels 260 of the 600 reviews Negative where the stars give 200. This suggests part of the "error" against star labels is label noise in the stars, especially for 3-star reviews whose text reads as negative. The 0.879 is agreement between two language models that share this tendency, not accuracy against a ground truth.
+
+**Fine-tuned Llama (QLoRA).** Fine-tuning the same model on the 40,000 star-labeled training reviews raises test macro-F1 from 0.783 (best prompt) to 0.838 (paired difference 0.055, 95% CI 0.045 to 0.065). Most of the gain is on Neutral: recall rises from 66% to 80% and Neutral F1 from 0.675 to 0.768, so fine-tuning largely fixes the Neutral-predicted-as-Negative problem of the prompted model. Neutral is still the weakest class. On Experiment 2 the pattern reverses: the fine-tuned model agrees about equally with Claude's labels (macro-F1 0.838) and with the star labels (0.842), while the prompted model agrees far more with Claude (0.879 vs 0.788). This fits a model that has learned the star-label convention it was trained on, including where stars and text disagree. The price is 114 minutes of A100 training; inference uses the short zero-shot prompt, at 0.056 s per review.
 
 **TODO (all):** once BERT results are in — which method wins on macro-F1, how BERT handles Neutral, and the accuracy-versus-cost trade-off across all three.
 
@@ -149,6 +164,6 @@ Inference time is measured on 300 test reviews (100 per class) after a warm-up b
 ## 8. Team contributions
 
 - **Longqi Sun:** fine-tuned BERT.
-- **Quoc Cuong Dinh:** prompted Llama 3.1 8B (zero-shot and few-shot); AI labeling of the 600 Experiment 2 reviews.
+- **Quoc Cuong Dinh:** prompted Llama 3.1 8B (eight prompt designs: zero-shot and few-shot, with and without label definitions); AI labeling of the 600 Experiment 2 reviews.
 - **Bhone Kyaw Si Hein:** Llama 3.1 8B fine-tuned with QLoRA.
 - **All members:** data filtering and cleaning, labeling, balanced sampling, the shared split, and this report.
