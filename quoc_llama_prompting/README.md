@@ -6,11 +6,11 @@ Prompting of `Llama-3.1-8B-Instruct` with no training. Eight prompt designs are 
 
 Final design: **few-shot, k = 5 examples per class + label definitions** (15 examples, mean prompt 2,874 tokens).
 
-| Setting | Val macro-F1 (n=600) | Test accuracy | Test macro-F1 | Test Neutral F1 | s / review (L4) |
-|---|---|---|---|---|---|
-| Zero-shot | 0.680 | 0.699 | 0.677 | 0.430 | 0.12 |
-| Zero-shot + definitions | 0.747 | 0.756 | 0.756 | 0.630 | 0.14 |
-| **Few-shot k = 5 + definitions** | **0.800** | **0.782** | **0.783** | **0.675** | **1.13** |
+| Setting | Val macro-F1 (n=600) | Test macro-F1 | Test Neutral F1 | s / review (L4) |
+|---|---|---|---|---|
+| Zero-shot | 0.680 | 0.677 | 0.430 | 0.12 |
+| Zero-shot + definitions | 0.747 | 0.756 | 0.630 | 0.14 |
+| **Few-shot k = 5 + definitions** | **0.800** | **0.783** | **0.675** | **1.13** |
 
 Experiment 2 (600 Claude-labeled reviews): macro-F1 **0.879** against the AI labels, 0.788 against the star labels of the same reviews.
 

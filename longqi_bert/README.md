@@ -37,14 +37,14 @@ macro-F1 was 0.7961 at the end of epoch 3.
 
 ## Results
 
-| Evaluation | Accuracy | Macro-F1 |
+| Evaluation | Macro-F1 | Neutral F1 |
 |---|---:|---:|
-| Test set, star labels | 0.7814 | 0.7830 |
-| Experiment 2, AI labels | 0.8033 | 0.8030 |
-| Experiment 2, star labels | 0.7867 | 0.7882 |
+| Test set, star labels | 0.7830 | 0.6922 |
+| Experiment 2, AI labels | 0.8030 | 0.6984 |
+| Experiment 2, star labels | 0.7882 | 0.6895 |
 
-The complete accuracy, precision, recall, F1, class support, and per-class
-metrics are in `results/results_summary.csv`.
+The complete macro-averaged and per-class precision, recall and F1, with class
+support, are in `results/results_summary.csv`.
 
 ## Folder layout
 

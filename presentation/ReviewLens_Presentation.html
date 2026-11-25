@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ReviewLens: fine-tune or prompt?</title>
+<title>ReviewLens: Sentiment Classification of E-Commerce Product Reviews</title>
 <!-- Fonts load from Google; offline the deck falls back to Helvetica/Arial and still fits -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Nunito:wght@400;700&display=swap">
@@ -59,14 +59,6 @@ img, video, canvas, svg { max-width: 100%; max-height: 100%; }
 small { display: block; font: 500 21px var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--mute); margin-bottom: 10px; }
 h3 { font: 800 38px/1.15 var(--font-display); }
 
-/* === COVER === */
-.cover { background: var(--paper); padding: 150px 110px; }
-.cover .block { position: absolute; right: 0; top: 0; width: 520px; height: 1080px; background: var(--red); }
-.cover .kicker { font: 500 24px var(--font-display); letter-spacing: .12em; text-transform: uppercase; border-top: 3px solid var(--ink); padding-top: 18px; width: 1180px; }
-.cover h1 { font: 800 190px/.95 var(--font-display); letter-spacing: -.03em; margin-top: 110px; }
-.cover .sub { font-size: 44px; margin-top: 50px; width: 1100px; }
-.cover .authors { position: absolute; left: 110px; bottom: 90px; font: 500 28px var(--font-display); }
-
 /* === COMPONENTS === */
 .cards { display: grid; gap: 40px; }
 .cards.three { grid-template-columns: repeat(3, 1fr); } .cards.two { grid-template-columns: repeat(2, 1fr); }
@@ -89,9 +81,6 @@ h3 { font: 800 38px/1.15 var(--font-display); }
 .flow > b { align-self: center; font-size: 48px; color: var(--mute); }
 .flow .strong { font: 800 34px var(--font-display); flex: 1.5; } .flow .strong small { margin: 14px 0 0; text-transform: none; letter-spacing: 0; font-size: 24px; }
 .flow .hot { background: var(--ink); color: #fff; font: 800 34px/1.3 var(--font-display); }
-.todo { margin-top: 56px; border: 3px dashed var(--red); background: var(--tint); padding: 34px 40px; font-size: 38px; }
-.todo b { display: block; font: 800 24px var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
-.todo ul { list-style: none; } .todo li + li { margin-top: 10px; }
 .split { display: grid; grid-template-columns: 1080px 1fr; gap: 80px; align-items: start; } .split.even { grid-template-columns: 1fr 1fr; }
 .points { list-style: none; } .points li { font-size: 40px; padding: 22px 0; border-top: 2px solid var(--grey); } .points li:first-child { border-top: 3px solid var(--ink); }
 .callout { background: var(--tint); border-left: 10px solid var(--red); padding: 24px 30px; font: 500 24px var(--font-display); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 40px; }
@@ -100,6 +89,22 @@ h3 { font: 800 38px/1.15 var(--font-display); }
 .prompt .dashed { background: var(--tint); border: 3px dashed var(--red); } .prompt .hot { background: var(--ink); color: #fff; font: 800 44px var(--font-display); } .prompt .hot small { color: var(--grey); }
 .model { background: var(--wash); padding: 44px 48px; } .model h3 { font-size: 46px; } .model > p { margin-top: 8px; }
 .adapter { background: var(--red); color: #fff; padding: 34px 38px; margin: 36px 0 30px; width: 76%; } .model .io { color: var(--mute); font-size: 32px; }
+
+/* === additions for the team-deck content === */
+.cards.compact .card { min-height: 0; } .cards.compact .card p { font-size: 34px; } .cards.gap { margin-top: 56px; }
+.chip.quote { font: 400 italic 32px/1.3 var(--font-body); } .chip.quote small { font-style: normal; color: var(--red); }
+.row { margin-top: 44px; } .banner { margin-top: 44px; }
+.funnel small { margin-bottom: 14px; } .funnel b { font-size: 76px; } .funnel span { font-size: 30px; display: block; }
+.flow.steps > div { min-height: 200px; font-size: 44px; } .flow.steps small:first-child { margin: 0 0 8px; text-transform: uppercase; letter-spacing: .1em; font-size: 21px; color: var(--red); }
+.prf h3 { font-size: 28px; margin-bottom: 10px; } .prf td, .prf th { font-size: 30px; padding: 12px 8px; text-align: center; border-bottom: 2px solid var(--grey); } .prf th:first-child { text-align: left; }
+.prf tr:first-child th { font: 500 20px var(--font-display); letter-spacing: .08em; text-transform: uppercase; border-bottom: 3px solid var(--ink); } .prf td.hot { background: var(--tint); color: var(--red); font-weight: 800; }
+.prf.setup td, .prf.setup th { text-align: left; font-size: 28px; padding: 13px 10px; } .prf.setup tr:first-child th { font: 800 28px var(--font-body); letter-spacing: 0; text-transform: none; border-bottom: 2px solid var(--grey); }
+.prf.setup tr.hot th, .prf.setup tr.hot td { background: var(--tint); color: var(--red); font-weight: 800; } .prf.setup + .aside { margin-top: 24px; }
+.prf + .callout { margin: 30px 0 18px; } svg .v { font: 800 30px var(--font-display); } svg .c { font: 500 28px var(--font-display); } .aside { font-size: 30px; color: var(--mute); }
+.hbars { display: flex; flex-direction: column; gap: 16px; } .hbars > div { display: flex; align-items: center; gap: 22px; }
+.hbars span { width: 420px; text-align: right; font-size: 30px; } .hbars > div > div { flex: 1; }
+.hbars i { display: block; font: 800 28px var(--font-display); color: #fff; text-align: right; padding: 10px 14px; }
+.title { min-height: 80px; }
 
 /* === BAR CHART (0–1 axis; plot height = 1.0) === */
 .plot { display: flex; align-items: flex-end; gap: 0; height: 520px; border-bottom: 3px solid var(--ink); padding-top: 60px; }
@@ -122,7 +127,7 @@ table { border-collapse: collapse; width: 100%; }
 .results th, .results td { padding: 30px 20px; font-size: 40px; text-align: center; border-bottom: 2px solid var(--grey); }
 .results th { font-family: var(--font-display); font-weight: 800; } .results th:first-child { text-align: left; }
 .results tr:first-child th { border-bottom: 4px solid var(--ink); font-size: 26px; letter-spacing: .08em; text-transform: uppercase; }
-.results td.hot { background: var(--tint); color: var(--red); font: 800 44px var(--font-display); } .results .pending td { color: var(--red); font-style: italic; }
+.results td.hot { background: var(--tint); color: var(--red); font: 800 44px var(--font-display); }
 .refs { padding-left: 50px; } .refs li { font-size: 30px; margin-bottom: 24px; max-width: 1560px; }
 
 /* === DECK CHROME (outside the stage) === */
@@ -140,235 +145,234 @@ body.editing [contenteditable]:hover { outline: 3px dashed var(--red); outline-o
 <button class="edit-toggle" id="editToggle" title="Edit mode (E)">Edit text</button>
 <div class="deck-viewport"><main class="deck-stage" id="deckStage">
 
-<section class="slide cover">
-  <div class="block"></div>
-  <p class="kicker reveal">ReviewLens · EDS 6352 Natural Language Processing · Fall 2026</p>
-  <h1 class="reveal">Fine-tune<br>or prompt?</h1>
-  <p class="sub reveal">Three ways to classify the sentiment of product reviews</p>
-  <p class="authors reveal">Bhone Kyaw Si Hein &nbsp;·&nbsp; Quoc Cuong Dinh &nbsp;·&nbsp; Longqi Sun</p>
-  <aside class="notes">Setup slide, no talking time. 13 minutes total: about one minute per slide.</aside>
-</section>
-
 <section class="slide ">
   <header class="chrome"><span><i></i>Introduction</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">Sellers need unhappy customers found fast: which model classifies review sentiment best?</h2>
+  <h2 class="title reveal">ReviewLens: Sentiment Classification of E-Commerce Product Reviews</h2>
   <div class="body">
-  <div class="cards three reveal">
-    <div class="card"><small>Longqi Sun</small><h3>Fine-tuned BERT</h3><p>110 M weights</p><p><b>all trained</b></p></div>
-    <div class="card"><small>Quoc Cuong Dinh</small><h3>Prompted Llama 3.1 8B</h3><p>8 B weights</p><p><b>none trained</b></p></div>
-    <div class="card hot"><small>Bhone Kyaw Si Hein</small><h3>Llama 3.1 8B + QLoRA</h3><p>8 B weights</p><p><b>0.5% trained</b></p></div>
-  </div>
-  <p class="banner reveal">Same 50,000 reviews, same test set, same metrics</p>
-  <p class="source">Models: BERT [2], Llama 3.1 [3], QLoRA [4]</p></div>
-  <aside class="notes">SPEAKER: Longqi (suggested). ~50 s. Sellers get thousands of reviews; finding the negative ones by hand is slow. We classify each review as Negative, Neutral or Positive from its text alone and compare three methods on exactly the same data. They differ in how much of the model is trained: all of it, none of it, or half a percent of it.</aside>
-</section>
-
-<section class="slide ">
-  <header class="chrome"><span><i></i>Introduction</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">A balanced 50,000-review sample is drawn from 20.8 million Amazon reviews</h2>
-  <div class="body">
-  <div class="funnel reveal">
-    <div><b>20.8 M</b><span>Cell Phones &amp; Accessories reviews</span></div>
-    <div><b>1.12 M</b><span>100–300 words after cleaning</span></div>
-    <div><b>1.11 M</b><span>duplicates removed</span></div>
-    <div class="hot"><b>50,000</b><span>balanced, one third per class</span></div>
+  <div class="cards three compact reveal">
+    <div class="card"><small>Longqi Sun</small><h3>Fine-tuned BERT</h3><p>bert-base-uncased + classification head</p></div>
+    <div class="card"><small>Quoc Cuong Dinh</small><h3>Prompted Llama 3.1 8B</h3><p>zero- / few-shot, no training</p></div>
+    <div class="card"><small>Bhone Kyaw Si Hein</small><h3>Llama 3.1 8B + QLoRA</h3><p>4-bit base, trained low-rank adapters</p></div>
   </div>
   <div class="row reveal">
-    <div class="chip"><small>1–2 stars</small>Negative</div>
-    <div class="chip"><small>3 stars</small>Neutral</div>
-    <div class="chip"><small>4–5 stars</small>Positive</div>
-    <div class="chip wide"><small>Stratified split, seed 42</small>40,000 train · 5,000 val · 5,000 test</div>
+    <div class="chip wide quote"><small>★★★☆☆ &nbsp; 3-star review from the test set</small>“Too heavy, bulky. Only works with a few Samsung phones. Biggest gripe is that the controls are up on the headset itself…”</div>
+    <div class="chip"><small>Label?</small>Negative<br>Neutral<br>Positive</div>
   </div>
-  <p class="source">Data: Amazon Reviews 2023, Hou et al. [1]</p></div>
-  <aside class="notes">SPEAKER: Longqi (suggested). ~55 s. Amazon Reviews 2023, Cell Phones and Accessories only. We remove HTML, links, mentions, hash signs and emojis, keep reviews of 100 to 300 words, and drop duplicates. Eligible reviews are heavily skewed to Positive (737 thousand Positive, 243 thousand Negative, 131 thousand Neutral), so we sample one third per class. Labels come from stars. The split is shared by all three methods.</aside>
+  <p class="banner light reveal"><b>Main metric: macro-F1</b>, so Neutral counts as much as the easy classes.</p>
+  <p class="source">One task, three methods, same data. Also reported: per-class precision, recall and F1.</p></div>
+  <aside class="notes">[~60 s · 0:00–1:00]<br>Hello everyone, I'm Quoc, and our project is ReviewLens. Every online seller has the same problem: thousands of reviews come in, and the ones that matter most, from unhappy customers, are buried in the pile. Our goal is to sort every review automatically into Negative, Neutral or Positive.<br>What makes this project interesting is that we solve the same task in three different ways, on exactly the same data. Longqi fine-tunes BERT, Bhone fine-tunes Llama with QLoRA, and I take the opposite route: the same Llama with no training at all, only prompting. So we can ask a practical question: how much does training actually buy you?<br>We judge everything by macro-F1, so the hard Neutral class counts as much as the easy ones. And keep this review in mind: it has three stars, but it reads like a complaint. We'll come back to that.</aside>
 </section>
 
 <section class="slide ">
   <header class="chrome"><span><i></i>Introduction</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">Macro-F1 is the main metric, measured against star labels and against AI labels</h2>
+  <h2 class="title reveal">Data: one shared, balanced split</h2>
   <div class="body">
-  <div class="cards two reveal">
-    <div class="card"><small>Experiment 1</small><h3>Test set</h3><p>5,000 held-out reviews</p><p>Gold label: <b>star rating</b></p></div>
-    <div class="card"><small>Experiment 2</small><h3>AI-labeled set</h3><p>600 extra reviews</p><p>Gold label: <b>Claude, stars hidden</b></p></div>
+  <div class="funnel reveal">
+    <div><small>Data source</small><b>20.8 M</b><span>Cell Phones &amp; Accessories reviews, Amazon Reviews 2023</span></div>
+    <div><small>Filtering</small><b>1.11 M</b><span>100–300 words, duplicates dropped; links, @, #, emojis removed</span></div>
+    <div><small>Balancing</small><b>50,000</b><span>balanced sample: 16,667 / 16,667 / 16,666</span></div>
+    <div class="hot"><small>Splitting</small><b>40k/5k/5k</b><span>stratified train / val / test, used by all three methods</span></div>
   </div>
-  <p class="banner light reveal">Accuracy · per-class precision, recall, F1 · macro and micro averages.<br><b>Macro-F1 weights the three classes equally.</b></p></div>
-  <aside class="notes">SPEAKER: Dinh (suggested). ~50 s. We report accuracy, per-class precision, recall and F1, and macro and micro averages. Macro-F1 is the headline because it weights the three classes equally. Experiment 1 is the held-out test set with star-based labels. Experiment 2 is 600 extra reviews, 200 per star class, labeled by Claude without seeing the stars; Claude's labels came out 260 Negative, 169 Neutral, 171 Positive.</aside>
-</section>
-
-<section class="slide ">
-  <header class="chrome"><span><i></i>Fine-tuned BERT</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">BERT is fine-tuned end to end with a 3-class classification head</h2>
-  <div class="body">
-  <div class="flow reveal">
-    <div>Review text</div><b>→</b>
-    <div class="strong">bert-base-uncased<small>110 M weights, all trained</small></div><b>→</b>
-    <div class="strong">Linear head<small>on [CLS]</small></div><b>→</b>
-    <div class="hot">Negative<br>Neutral<br>Positive</div>
+  <div class="row reveal">
+    <div class="chip"><small>1–2 ★</small>Negative</div>
+    <div class="chip"><small>3 ★</small>Neutral</div>
+    <div class="chip"><small>4–5 ★</small>Positive</div>
+    <div class="chip wide"><small>Experiment 2: AI-labelled reviews</small>600 extra reviews, labelled by Claude Haiku from the text only</div>
   </div>
-  <div class="todo reveal"><b>To add — Longqi</b>learning rate, epochs, batch size, max sequence length, GPU, training time</div>
-  <p class="source">BERT: Devlin et al. [2]</p></div>
-  <aside class="notes">SPEAKER: Longqi. ~60 s. TO ADD by Longqi: the hyperparameters actually used and how they were chosen on validation.</aside>
-</section>
-
-<section class="slide ">
-  <header class="chrome"><span><i></i>Fine-tuned BERT</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">BERT results: to add once the run is finished</h2>
-  <div class="body">
-  <div class="todo reveal"><b>To add — Longqi</b><ul><li>Test set: accuracy, macro-F1, per-class precision / recall / F1</li><li>600 AI-labeled reviews: the same metrics against AI labels and star labels</li><li>Confusion matrix in percentages, not counts</li></ul></div></div>
-  <aside class="notes">SPEAKER: Longqi. ~70 s. TO ADD by Longqi. Replace the title with the finding as a sentence, for example 'BERT reaches X macro-F1 with Neutral as its weakest class'.</aside>
+  <p class="banner light reveal">Neutral is the scarcest: 131k eligible vs 243k Negative and 737k Positive, hence the balanced sample. <b>Claude's labels: 260 Neg · 169 Neu · 171 Pos.</b></p>
+  <p class="source">Source: Amazon Reviews 2023, McAuley Lab (UCSD) · split seed 42</p></div>
+  <aside class="notes">[~60 s · 1:00–2:00]<br>All three methods share one dataset, so any difference in results comes from the method, not the data. We start from Amazon's Cell Phones and Accessories reviews, keep reviews long enough to carry a real opinion, and clean out the noise.<br>Labels come from the star rating, which is standard practice, but it creates a problem: Neutral reviews are by far the rarest. On the natural mix, a model could almost ignore Neutral and still look good. So we draw a balanced sample and fix one train, validation and test split that everyone uses.<br>There's one assumption here worth questioning: is the star rating really the truth? To test it, I added Experiment 2: a separate set of reviews labelled by Claude from the text alone, with the stars hidden. Scoring every method against both label sets lets us separate model error from label noise.</aside>
 </section>
 
 <section class="slide ">
   <header class="chrome"><span><i></i>Prompted Llama</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">Prompted Llama 3.1 8B classifies with no training, zero-shot or with nine examples</h2>
+  <h2 class="title reveal">Prompted Llama 3.1 8B, no training</h2>
   <div class="body">
-  <div class="split">
-    <div class="prompt reveal">
-      <div><small>System</small>You are a sentiment classifier … return one label</div>
-      <div class="dashed"><small>Few-shot only</small>3 labeled training reviews per class</div>
-      <div><small>User</small>Review: """ … """</div>
-      <div class="hot"><small>Llama answers</small>Neutral</div>
-    </div>
-    <ul class="points reveal"><li>Zero-shot prompt: <b>266</b> tokens</li><li>Few-shot prompt: <b>1,798</b> tokens</li><li>k = 3 per class, chosen on validation</li><li>Label read by exact match, then first label word</li></ul>
+  <div class="flow steps reveal"><div class="strong"><small>Step 1</small>Prompt<small>Instructions + definitions + examples + review</small></div><b>→</b><div class="strong"><small>Step 2</small>Generate<small>Llama-3.1-8B-Instruct, greedy decoding</small></div><b>→</b><div class="strong"><small>Step 3</small>Extract<small>Exact label, else first whole-word label match</small></div></div>
+  <div class="cards two compact gap reveal">
+    <div class="card"><small>266 tokens / prompt</small><h3>Zero-shot (baseline)</h3><p>Instructions only</p></div>
+    <div class="card hot"><small>2,874 tokens / prompt</small><h3>Few-shot k=5 + definitions</h3><p>15 examples from train + label definitions; best of 8 designs on 600 val reviews</p></div>
   </div>
-  <p class="source">Llama 3.1 8B Instruct [3]</p></div>
-  <aside class="notes">SPEAKER: Dinh. ~60 s. Same system and user instruction in both settings: return only one label. Few-shot adds three training reviews per class as earlier turns; k was chosen on 600 validation reviews. The output is mapped to a label by exact match, and if the model adds an explanation, by the first label word. That fallback was needed for 518 of 5,000 zero-shot outputs and none of the few-shot ones.</aside>
+  <p class="source">Evaluated on the shared 5,000-review balanced test set · main metric: macro-F1</p></div>
+  <aside class="notes">[~40 s · 2:00–2:40]<br>My method needs no training at all. Llama 3.1 8B Instruct reads one prompt: instructions, a short definition of each label, a few labelled examples, and then the review. It answers with greedy decoding, so every result is deterministic and reproducible, and a simple parser extracts the label.<br>The real design work is the prompt itself. I treated it like a hyperparameter: I compared eight designs on the validation set only and kept the test set untouched until the end. One trade-off to keep in mind is cost: the winning prompt is about ten times longer than zero-shot, so every prediction is slower and more expensive.</aside>
 </section>
 
 <section class="slide ">
   <header class="chrome"><span><i></i>Prompted Llama</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">Few-shot examples lift macro-F1 from 0.68 to 0.76, but Neutral remains the weak class</h2>
+  <h2 class="title reveal">The best prompt lifts test macro-F1: 0.68 → 0.78</h2>
   <div class="body">
   <div class="split">
     <div class="chart reveal"><div class="plot">
       <div class="group">
-        <div class="bars"><div class="bar grey" style="height:73.2%"><span>0.73</span></div><div class="bar ink" style="height:78.0%"><span>0.78</span></div></div>
+        <div class="bars"><div class="bar grey" style="height:73.2%"><span>0.73</span></div><div class="bar ink" style="height:78.8%"><span>0.79</span></div></div>
         <div class="cat">Negative</div>
       </div>
       <div class="group focus">
-        <div class="bars"><div class="bar grey" style="height:43.0%"><span>0.43</span></div><div class="bar ink" style="height:60.9%"><span>0.61</span></div></div>
+        <div class="bars"><div class="bar grey" style="height:43.0%"><span>0.43</span></div><div class="bar ink" style="height:67.5%"><span>0.68</span></div></div>
         <div class="cat">Neutral</div>
       </div>
       <div class="group">
-        <div class="bars"><div class="bar grey" style="height:86.8%"><span>0.87</span></div><div class="bar ink" style="height:88.1%"><span>0.88</span></div></div>
+        <div class="bars"><div class="bar grey" style="height:86.8%"><span>0.87</span></div><div class="bar ink" style="height:88.6%"><span>0.89</span></div></div>
         <div class="cat">Positive</div>
       </div>
       <div class="group">
-        <div class="bars"><div class="bar grey" style="height:67.7%"><span>0.68</span></div><div class="bar ink" style="height:75.7%"><span>0.76</span></div></div>
+        <div class="bars"><div class="bar grey" style="height:67.7%"><span>0.68</span></div><div class="bar ink" style="height:78.3%"><span>0.78</span></div></div>
         <div class="cat">Macro-F1</div>
-      </div></div><div class="legend"><span><i class="grey"></i>Zero-shot</span><span><i class="ink"></i>Few-shot (k = 3)</span></div></div>
-    <div>
-      <p class="callout reveal">Neutral F1<b>0.43 → 0.61</b></p>
-      <ul class="points reveal"><li>Neutral recall: 32% → 54%</li><li>Negative over-predicted: precision 0.69</li><li>4.4× slower per review</li></ul>
-    </div>
-  </div>
-  <p class="source">F1 on the 5,000-review test set, star labels</p></div>
-  <aside class="notes">SPEAKER: Dinh. ~75 s. Zero-shot, the model finds only 32% of Neutral reviews; most are called Negative. Nine examples raise Neutral recall to 54% and Neutral F1 from 0.43 to 0.61. Negative is still over-predicted: recall 0.90 but precision 0.69. The price is a prompt almost seven times longer, so each review takes about 4.4 times as long.</aside>
+      </div></div><div class="legend"><span><i class="grey"></i>Zero-shot</span><span><i class="ink"></i>Few-shot k=5 + definitions</span></div></div>
+    <div><div class="prf reveal"><h3>Final design: per-class scores (test set)</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr><tr><th>Negative</th><td class="">0.74</td><td class="">0.85</td><td class="">0.79</td></tr><tr><th>Neutral</th><td class="">0.69</td><td class="">0.66</td><td class="hot">0.68</td></tr><tr><th>Positive</th><td class="">0.94</td><td class="">0.84</td><td class="">0.89</td></tr></table></div><p class="callout reveal">Neutral reviews → Negative<b>62% → 29%</b></p><p class="aside reveal">Still the main error. Neutral recall 32% → 66%, F1 0.43 → 0.68.</p></div>
+  </div><p class="source">F1 per class on the test set (n = 5,000)</p></div>
+  <aside class="notes">[~45 s · 2:40–3:25]<br>That design work pays off: a well-chosen prompt adds about ten points of macro-F1, with zero training. What matters is where the gain comes from. Negative and Positive were already easy; almost all of the improvement is on Neutral. The examples show the model what a “middle” review looks like, which an instruction alone doesn't convey.<br>But the per-class scores show Neutral is still the weak point, and the error goes in one direction: Neutral reviews get pushed toward Negative, and rarely toward Positive. When I read those reviews, many are real complaints from customers who still gave three stars. So the question becomes: is the model wrong, or is the label?</aside>
 </section>
 
 <section class="slide ">
-  <header class="chrome"><span><i></i>Llama + QLoRA</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">QLoRA trains 0.5% of Llama's weights on top of a frozen 4-bit base</h2>
+  <header class="chrome"><span><i></i>Prompted Llama</span><span>ReviewLens</span></header>
+  <h2 class="title reveal">Choosing the prompt: 8 designs on validation</h2>
   <div class="body">
   <div class="split">
-    <div class="model reveal">
-      <h3>Llama 3.1 8B Instruct</h3><p>4-bit, frozen · 8.07 B weights</p>
-      <div class="adapter"><h3>LoRA adapters, rank 16</h3><p>41.9 M trainable weights (0.52%)</p></div>
-      <p class="io">Same zero-shot prompt in → one label out</p>
+    <div class="hbars reveal"><div><span>Zero-shot</span><div><i class="ink" style="width:51.4%">0.680</i></div></div><div><span>Zero-shot + definitions</span><div><i class="ink" style="width:70.6%">0.747</i></div></div><div><span>Few-shot k=1</span><div><i class="ink" style="width:74.6%">0.761</i></div></div><div><span>Few-shot k=2</span><div><i class="ink" style="width:72.9%">0.755</i></div></div><div><span>Few-shot k=3</span><div><i class="ink" style="width:79.1%">0.777</i></div></div><div><span>Few-shot k=5</span><div><i class="ink" style="width:84.9%">0.797</i></div></div><div><span>Few-shot k=7</span><div><i class="ink" style="width:74.3%">0.760</i></div></div><div><span>Few-shot k=5 + definitions</span><div><i class="red" style="width:85.7%">0.800</i></div></div></div>
+    <div>
+      <p class="callout reveal">Final vs plain k = 5<b>+0.003</b></p>
+      <ul class="points reveal"><li>95% CI −0.007 to +0.013: a tie, so the definitions are a tie-break</li><li>More isn't always better: k = 7 drops to 0.760</li><li>Validation 0.800 → test 0.783: barely overfit</li></ul>
     </div>
-    <ul class="points reveal"><li>40,000 reviews, 1 epoch</li><li>Learning rate 2e-4, batch 16</li><li>Loss on the label only</li><li><b>114 min</b> on one A100</li></ul>
   </div>
-  <p class="source">QLoRA: Dettmers et al. [4]; LoRA: Hu et al. [5]</p></div>
-  <aside class="notes">SPEAKER: JN. ~60 s. Same Llama 3.1 8B and exactly the same zero-shot prompt as Dinh, so the only difference is the fine-tuning. The base model is loaded in 4-bit and frozen; small low-rank adapter matrices are added to the attention and MLP projections and only those are trained: 42 million of 8 billion weights. The target is just the label, so the loss is computed on the label token only. One epoch over the 40,000 training reviews took 114 minutes on one A100.</aside>
+  <p class="source">Validation macro-F1 (600 reviews). Other random draws of the examples move F1 by up to 0.03.</p></div>
+  <aside class="notes">[~40 s · 3:25–4:05]<br>Before I answer that, a quick look at how I chose the prompt. Two lessons stand out. First, examples matter more than instructions: definitions help, but examples help more. Second, more isn't always better: going beyond five examples per class actually hurts, and which examples you pick matters almost as much as how many. That's a real weakness of prompting: results are sensitive to small choices.<br>The top two designs are a statistical tie, so I don't over-claim the value of the definitions. And the test score lands close to validation, so choosing among eight designs didn't overfit.</aside>
+</section>
+
+<section class="slide ">
+  <header class="chrome"><span><i></i>Prompted Llama</span><span>ReviewLens</span></header>
+  <h2 class="title reveal">Exp. 2: prompted model agrees with AI labels</h2>
+  <div class="body">
+  <div class="cards three big reveal">
+    <div class="card hot"><h3>0.879</h3><p><b>Few-shot Llama vs AI labels</b></p></div>
+    <div class="card"><h3>0.788</h3><p><b>Few-shot Llama vs star labels</b></p><p>the same 600 reviews</p></div>
+    <div class="card"><h3>0.746</h3><p><b>AI labels vs star labels</b></p></div>
+  </div>
+  <p class="banner light reveal"><b>Stars are a noisy label.</b> Both models read many 3-star reviews as Negative, so part of the test "error" is label noise. 0.879 is agreement between two LLMs, not a ground-truth score.</p>
+  <p class="source">Macro-F1 on 600 extra reviews labelled by Claude Haiku from the text only (stars hidden)</p></div>
+  <aside class="notes">[~45 s · 4:05–4:50]<br>Now, back to that question. In Experiment 2, my few-shot model agrees much more with Claude's text-based labels than with the star ratings, and Claude disagrees with the stars in the same way. Two different models, reading only the text, reach the same conclusion: a three-star rating often hides a negative review.<br>The takeaway is that star ratings are a noisy proxy for sentiment, so part of what looks like model error is really label noise. One honest caveat: agreement between two language models is not ground truth. But it suggests our test scores may understate what these models can do.<br>That's my part. Next, my teammates will show how much training changes the picture.</aside>
 </section>
 
 <section class="slide ">
   <header class="chrome"><span><i></i>Llama + QLoRA</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">QLoRA reaches 0.84 macro-F1 and raises Neutral F1 from 0.61 to 0.77</h2>
+  <h2 class="title reveal">Llama 3.1 8B + QLoRA, 0.5% of weights trained</h2>
+  <div class="body">
+  <div class="flow steps reveal"><div class="strong"><small>Step 1</small>Freeze<small>Llama-3.1-8B-Instruct in 4-bit; 8.07 B weights, not trained</small></div><b>→</b><div class="strong"><small>Step 2</small>Adapt<small>LoRA adapters, rank 16; 41.9 M trainable weights (0.52%)</small></div><b>→</b><div class="strong"><small>Step 3</small>Train<small>Target is the label only; 1 epoch over 40,000 reviews</small></div></div>
+  <div class="cards two compact gap reveal">
+    <div class="card"><small>266 tokens / prompt</small><h3>Same prompt as zero-shot</h3><p>No definitions, no examples: the only change is the fine-tuning</p></div>
+    <div class="card hot"><small>114 min on one A100 GPU</small><h3>Training</h3><p>Learning rate 2e-4, batch size 16; same label-extraction rule as prompting</p></div>
+  </div>
+  <p class="source">Evaluated on the shared 5,000-review balanced test set · main metric: macro-F1</p></div>
+  <aside class="notes">SPEAKER: JN. ~60 s.<br>Same Llama 3.1 8B and exactly the same zero-shot prompt as Dinh's baseline, so the only difference is the fine-tuning. The base model is loaded in 4-bit and frozen; small low-rank adapter matrices are added to the attention and MLP projections and only those are trained: 42 million of 8 billion weights. The target is just the label, so the loss is computed on the label only. One epoch over the 40,000 training reviews took 114 minutes on one A100.</aside>
+</section>
+
+<section class="slide ">
+  <header class="chrome"><span><i></i>Llama + QLoRA</span><span>ReviewLens</span></header>
+  <h2 class="title reveal">Training: 114 minutes on one A100 GPU</h2>
+  <div class="body">
+  <div class="split">
+    <div class="chart reveal"><svg viewBox="0 0 1080 560" width="1080" height="560"><line x1="60" y1="490" x2="1020" y2="490" stroke="#111" stroke-width="3"/><polyline fill="none" stroke="#b0b0b0" stroke-width="6" points="110,109.82274574041372 325,225.227628350258 540,283.29767560958857 755,332.0508671402932 970,377.2085965573788"/><circle cx="110" cy="109.82274574041372" r="9" fill="#b0b0b0"/><text x="110" y="87.82274574041372" text-anchor="middle" fill="#b0b0b0" class="v">0.29</text><circle cx="325" cy="225.227628350258" r="9" fill="#b0b0b0"/><text x="325" y="203.227628350258" text-anchor="middle" fill="#b0b0b0" class="v">0.25</text><circle cx="540" cy="283.29767560958857" r="9" fill="#b0b0b0"/><text x="540" y="261.29767560958857" text-anchor="middle" fill="#b0b0b0" class="v">0.22</text><circle cx="755" cy="332.0508671402932" r="9" fill="#b0b0b0"/><text x="755" y="310.0508671402932" text-anchor="middle" fill="#b0b0b0" class="v">0.20</text><circle cx="970" cy="377.2085965573788" r="9" fill="#b0b0b0"/><text x="970" y="355.2085965573788" text-anchor="middle" fill="#b0b0b0" class="v">0.19</text><polyline fill="none" stroke="#ff3300" stroke-width="6" points="110,236.85718409717083 325,251.5832743421197 540,331.5920567885041 755,340.47386039048433 970,356.6635138168931"/><circle cx="110" cy="236.85718409717083" r="9" fill="#ff3300"/><text x="110" y="280.85718409717083" text-anchor="middle" fill="#ff3300" class="v">0.24</text><circle cx="325" cy="251.5832743421197" r="9" fill="#ff3300"/><text x="325" y="295.5832743421197" text-anchor="middle" fill="#ff3300" class="v">0.24</text><circle cx="540" cy="331.5920567885041" r="9" fill="#ff3300"/><text x="540" y="375.5920567885041" text-anchor="middle" fill="#ff3300" class="v">0.20</text><circle cx="755" cy="340.47386039048433" r="9" fill="#ff3300"/><text x="755" y="384.47386039048433" text-anchor="middle" fill="#ff3300" class="v">0.20</text><circle cx="970" cy="356.6635138168931" r="9" fill="#ff3300"/><text x="970" y="400.6635138168931" text-anchor="middle" fill="#ff3300" class="v">0.19</text><text x="110" y="532" text-anchor="middle" class="c">step 500</text><text x="325" y="532" text-anchor="middle" class="c">step 1,000</text><text x="540" y="532" text-anchor="middle" class="c">step 1,500</text><text x="755" y="532" text-anchor="middle" class="c">step 2,000</text><text x="970" y="532" text-anchor="middle" class="c">step 2,500</text></svg><div class="legend"><span><i class="grey"></i>Training loss (500-step mean)</span><span><i class="red"></i>Validation loss</span></div></div>
+    <div>
+      <div class="prf setup reveal"><h3>Training setup and cost</h3><table><tr class=""><th>Machine</th><td>Google Colab Pro</td></tr><tr class="hot"><th>GPU</th><td>NVIDIA A100, 80 GB</td></tr><tr class="hot"><th>Training time</th><td>114 min (1 epoch, 2,500 steps)</td></tr><tr class=""><th>Trainable weights</th><td>41.9 M of 8.07 B (0.52%)</td></tr><tr class=""><th>Inference time</th><td>0.056 s per review</td></tr><tr class=""><th>Validation macro-F1</th><td>0.839 (600 reviews)</td></tr></table></div>
+      <p class="aside reveal"><b>Validation loss 0.24 → 0.19:</b> no sign of overfitting. Test set used once, after training.</p>
+    </div>
+  </div>
+  <p class="source">Loss on the label, by training step</p></div>
+  <aside class="notes">SPEAKER: JN. ~45 s.<br>I trained on Google Colab Pro with one NVIDIA A100 GPU with 80 GB of memory. One epoch over the 40,000 training reviews is 2,500 steps and took 114 minutes in a single uninterrupted run. Inference then takes 0.056 seconds per review on the same GPU. Training loss and validation loss fall together and the validation loss is still going down at the end (0.241 at step 500, 0.194 at step 2,500), so there is no sign of overfitting. Before touching the test set I checked the model on the same 600 validation reviews Dinh used to choose his prompt: macro-F1 0.839. The settings were fixed in advance; nothing was tuned on the test set.</aside>
+</section>
+
+<section class="slide ">
+  <header class="chrome"><span><i></i>Llama + QLoRA</span><span>ReviewLens</span></header>
+  <h2 class="title reveal">QLoRA lifts test macro-F1: 0.78 → 0.84</h2>
   <div class="body">
   <div class="split">
     <div class="chart reveal"><div class="plot">
       <div class="group">
-        <div class="bars"><div class="bar ink" style="height:78.0%"><span>0.78</span></div><div class="bar red" style="height:82.6%"><span>0.83</span></div></div>
+        <div class="bars"><div class="bar ink" style="height:78.8%"><span>0.79</span></div><div class="bar red" style="height:82.6%"><span>0.83</span></div></div>
         <div class="cat">Negative</div>
       </div>
       <div class="group focus">
-        <div class="bars"><div class="bar ink" style="height:60.9%"><span>0.61</span></div><div class="bar red" style="height:76.8%"><span>0.77</span></div></div>
+        <div class="bars"><div class="bar ink" style="height:67.5%"><span>0.68</span></div><div class="bar red" style="height:76.8%"><span>0.77</span></div></div>
         <div class="cat">Neutral</div>
       </div>
       <div class="group">
-        <div class="bars"><div class="bar ink" style="height:88.1%"><span>0.88</span></div><div class="bar red" style="height:92.0%"><span>0.92</span></div></div>
+        <div class="bars"><div class="bar ink" style="height:88.6%"><span>0.89</span></div><div class="bar red" style="height:92.0%"><span>0.92</span></div></div>
         <div class="cat">Positive</div>
       </div>
       <div class="group">
-        <div class="bars"><div class="bar ink" style="height:75.7%"><span>0.76</span></div><div class="bar red" style="height:83.8%"><span>0.84</span></div></div>
+        <div class="bars"><div class="bar ink" style="height:78.3%"><span>0.78</span></div><div class="bar red" style="height:83.8%"><span>0.84</span></div></div>
         <div class="cat">Macro-F1</div>
-      </div></div><div class="legend"><span><i class="ink"></i>Few-shot (k = 3)</span><span><i class="red"></i>QLoRA</span></div></div>
-    <div>
-      <p class="callout reveal">Neutral F1<b>0.61 → 0.77</b></p>
-      <ul class="points reveal"><li>Same prompt as zero-shot: +0.16 macro-F1</li><li>Better on all three classes</li><li>5,000 outputs, none invalid</li></ul>
-    </div>
-  </div>
-  <p class="source">F1 on the 5,000-review test set, star labels</p></div>
-  <aside class="notes">SPEAKER: JN. ~75 s. Against few-shot prompting, QLoRA is better on every class. The largest gain is Neutral, 0.61 to 0.77. Because the prompt is the same as zero-shot, the fair comparison for the effect of fine-tuning is zero-shot 0.68 to QLoRA 0.84. Every one of the 5,000 outputs was a bare label: no fallback extraction and no invalid outputs. Validation macro-F1 on the 600 validation reviews was 0.84, matching the test score.</aside>
+      </div></div><div class="legend"><span><i class="ink"></i>Best prompt (k=5 + definitions)</span><span><i class="red"></i>QLoRA</span></div></div>
+    <div><div class="prf reveal"><h3>QLoRA: per-class scores (test set)</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr><tr><th>Negative</th><td class="">0.84</td><td class="">0.81</td><td class="">0.83</td></tr><tr><th>Neutral</th><td class="">0.74</td><td class="hot">0.80</td><td class="hot">0.77</td></tr><tr><th>Positive</th><td class="">0.95</td><td class="">0.90</td><td class="">0.92</td></tr></table></div><p class="callout reveal">Neutral F1<b>0.68 → 0.77</b></p><p class="aside reveal">Neutral recall 66% → 80%. Better on all three classes; all 5,000 outputs are a bare label.</p></div>
+  </div><p class="source">F1 per class on the test set (n = 5,000)</p></div>
+  <aside class="notes">SPEAKER: JN. ~60 s.<br>Against the best prompt, QLoRA is better on every class. The largest gain is Neutral, F1 0.68 to 0.77: Neutral recall rises from 66% to 80%. Negative recall drops a little, 85% to 81%, but Negative precision rises from 0.74 to 0.84: the model stops calling Neutral reviews Negative. On macro-F1 the gain over the best prompt is 0.055 (95% bootstrap interval 0.045 to 0.065). Because QLoRA uses the zero-shot prompt, the direct effect of fine-tuning is zero-shot 0.68 to QLoRA 0.84. Every one of the 5,000 outputs was a bare label.</aside>
 </section>
 
 <section class="slide ">
-  <header class="chrome"><span><i></i>Comparison</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">Fine-tuning cuts Neutral-read-as-Negative errors from 39% to 15%, at a cost in Negative recall</h2>
+  <header class="chrome"><span><i></i>Llama + QLoRA</span><span>ReviewLens</span></header>
+  <h2 class="title reveal">Exp. 2: QLoRA on the AI-labelled reviews</h2>
   <div class="body">
-  <div class="split even"><div class="matrix reveal"><h3>Few-shot prompting</h3><table><tr><th></th><th>Neg.</th><th>Neu.</th><th>Pos.</th></tr><tr><th>Negative</th><td class="" style="background:rgba(17,17,17,0.81);color:#fff">90%</td><td class="" style="background:rgba(17,17,17,0.08);color:#111">9%</td><td class="" style="background:rgba(17,17,17,0.01);color:#111">1%</td></tr><tr><th>Neutral</th><td class="hit" style="background:rgba(17,17,17,0.35);color:#111">39%</td><td class="" style="background:rgba(17,17,17,0.49);color:#fff">54%</td><td class="" style="background:rgba(17,17,17,0.06);color:#111">7%</td></tr><tr><th>Positive</th><td class="" style="background:rgba(17,17,17,0.01);color:#111">1%</td><td class="" style="background:rgba(17,17,17,0.13);color:#111">14%</td><td class="" style="background:rgba(17,17,17,0.77);color:#fff">85%</td></tr></table></div><div class="matrix reveal"><h3>QLoRA</h3><table><tr><th></th><th>Neg.</th><th>Neu.</th><th>Pos.</th></tr><tr><th>Negative</th><td class="" style="background:rgba(17,17,17,0.73);color:#fff">81%</td><td class="" style="background:rgba(17,17,17,0.16);color:#111">18%</td><td class="" style="background:rgba(17,17,17,0.00);color:#111">0%</td></tr><tr><th>Neutral</th><td class="hit" style="background:rgba(17,17,17,0.14);color:#111">15%</td><td class="" style="background:rgba(17,17,17,0.72);color:#fff">80%</td><td class="" style="background:rgba(17,17,17,0.05);color:#111">5%</td></tr><tr><th>Positive</th><td class="" style="background:rgba(17,17,17,0.01);color:#111">1%</td><td class="" style="background:rgba(17,17,17,0.09);color:#111">10%</td><td class="" style="background:rgba(17,17,17,0.81);color:#fff">90%</td></tr></table></div></div>
-  <p class="banner light reveal">Neutral recall 54% → 80% &nbsp;·&nbsp; Negative recall 90% → 81%</p>
-  <p class="source">Test set, row percentages. Rows: star label. Columns: prediction.</p></div>
-  <aside class="notes">SPEAKER: JN. ~60 s. Rows are the star label, columns the prediction, each row sums to 100%. With few-shot prompting 39% of Neutral reviews are predicted Negative; after fine-tuning that is 15%. The errors do not vanish, they move: Negative reviews predicted Neutral rise from 9% to 18%, so Negative recall falls from 90% to 81%. BERT's matrix is to be added by Longqi.</aside>
+  <div class="cards three big reveal">
+    <div class="card hot"><h3>0.838</h3><p><b>QLoRA vs AI labels</b></p></div>
+    <div class="card"><h3>0.842</h3><p><b>QLoRA vs star labels</b></p><p>the same 600 reviews</p></div>
+    <div class="card"><h3>0.879</h3><p><b>Best prompt vs AI labels</b></p></div>
+  </div>
+  <p class="banner light reveal"><b>QLoRA agrees equally with both label sets.</b> Against Claude's labels its Negative precision is 0.95 but recall only 0.79: 3-star reviews that Claude reads as Negative, it calls Neutral, as the stars do.</p>
+  <p class="source">Macro-F1 on the 600 reviews labelled by Claude Haiku from the text only (stars hidden)</p></div>
+  <aside class="notes">SPEAKER: JN. ~45 s.<br>I also ran the fine-tuned model on the 600 reviews that Claude labelled from the text alone. Against Claude's labels QLoRA scores 0.838 macro-F1; against the star labels of the same reviews, 0.842. So unlike the prompted model, it agrees about equally with both. Against Claude's labels its Negative precision is 0.95 but its Negative recall only 0.79: reviews that Claude reads as Negative but that carry three stars, QLoRA calls Neutral, which is the star convention it was trained on.</aside>
 </section>
 
 <section class="slide ">
   <header class="chrome"><span><i></i>Comparison</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">On the test set QLoRA leads both prompting settings by at least 8 points of macro-F1</h2>
+  <h2 class="title reveal">Three methods on the same test set</h2>
   <div class="body">
   <table class="results reveal">
-    <tr><th>Method</th><th>Accuracy</th><th>Macro-F1</th><th>Neutral F1</th><th>Training</th><th>s / review</th></tr>
-    <tr class="pending"><th>Fine-tuned BERT</th><td>to add</td><td>to add</td><td>to add</td><td>to add</td><td>to add</td></tr>
-    <tr><th>Llama, zero-shot</th><td class="">0.699</td><td class="">0.677</td><td class="">0.430</td><td class="">none</td><td class="">0.160 (L4)</td></tr>
-    <tr><th>Llama, few-shot</th><td class="">0.762</td><td class="">0.757</td><td class="">0.609</td><td class="">none</td><td class="hot">0.708 (L4)</td></tr>
-    <tr><th>Llama + QLoRA</th><td class="">0.837</td><td class="hot">0.838</td><td class="hot">0.768</td><td class="">114 min</td><td class="">0.056 (A100)</td></tr>
+    <tr><th>Method</th><th>Macro-F1</th><th>Neutral F1</th><th>Training</th><th>s / review</th></tr>
+    <tr><th>Fine-tuned BERT</th><td class="">0.783</td><td class="">0.692</td><td class="">17 min</td><td class="hot">0.003 (L4)</td></tr>
+    <tr><th>Llama, zero-shot</th><td class="">0.677</td><td class="">0.430</td><td class="">none</td><td class="">0.119 (L4)</td></tr>
+    <tr><th>Llama, best prompt</th><td class="">0.783</td><td class="">0.675</td><td class="">none</td><td class="">1.131 (L4)</td></tr>
+    <tr><th>Llama + QLoRA</th><td class="hot">0.838</td><td class="hot">0.768</td><td class="">114 min</td><td class="">0.056 (A100)</td></tr>
   </table>
-  <p class="source">Timings were measured on different GPUs and are not directly comparable.</p></div>
-  <aside class="notes">SPEAKER: JN (suggested). ~60 s. Highlighted cells are the ones to talk about. QLoRA has the best macro-F1 and the best Neutral F1 of the Llama methods. It costs 114 minutes of training once; prompting costs nothing to train but few-shot is slow per review because of the long prompt. Timings come from different GPUs, so compare them only roughly. BERT row to be filled by Longqi.</aside>
+  <p class="banner light reveal"><b>QLoRA is best; BERT and the best prompt tie.</b> QLoRA leads both by 0.055 macro-F1.</p>
+  <p class="source">95% CI of the lead: 0.045 to 0.065. QLoRA was timed on a different GPU, so its speed is not directly comparable.</p></div>
+  <aside class="notes">SPEAKER: JN. ~60 s.<br>Highlighted cells are the ones to talk about. QLoRA has the best macro-F1 and the best Neutral F1. BERT and the best prompt reach the same macro-F1: a paired comparison on the 5,000 test reviews finds no difference (95% interval −0.011 to +0.012). They differ in cost: BERT trains in 17 minutes and is about 380 times faster per review than the long few-shot prompt, both on an L4. QLoRA costs 114 minutes of training once. QLoRA was timed on an A100, so compare its speed only roughly.</aside>
 </section>
 
 <section class="slide ">
   <header class="chrome"><span><i></i>Comparison</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">Against AI labels the ranking flips: prompted Llama agrees with Claude more than QLoRA does</h2>
+  <h2 class="title reveal">Exp. 2: fine-tuned models follow the star labels</h2>
   <div class="body">
   <div class="split">
     <div class="chart reveal"><div class="plot">
       <div class="group focus">
-        <div class="bars"><div class="bar ink" style="height:87.4%"><span>0.87</span></div><div class="bar red" style="height:83.8%"><span>0.84</span></div></div>
+        <div class="bars"><div class="bar grey" style="height:80.3%"><span>0.80</span></div><div class="bar ink" style="height:87.9%"><span>0.88</span></div><div class="bar red" style="height:83.8%"><span>0.84</span></div></div>
         <div class="cat">vs AI labels</div>
       </div>
       <div class="group">
-        <div class="bars"><div class="bar ink" style="height:76.6%"><span>0.77</span></div><div class="bar red" style="height:84.2%"><span>0.84</span></div></div>
-        <div class="cat">vs star labels</div>
-      </div></div><div class="legend"><span><i class="ink"></i>Few-shot (k = 3)</span><span><i class="red"></i>QLoRA</span></div></div>
-    <ul class="points reveal"><li>QLoRA learned the star convention: <b>0.84</b> on both</li><li>Claude agrees with stars at only <b>0.75</b></li><li>3-star reviews often read as negative</li></ul>
+        <div class="bars"><div class="bar grey" style="height:78.8%"><span>0.79</span></div><div class="bar ink" style="height:78.8%"><span>0.79</span></div><div class="bar red" style="height:84.2%"><span>0.84</span></div></div>
+        <div class="cat">vs star labels (same 600)</div>
+      </div></div><div class="legend"><span><i class="grey"></i>Fine-tuned BERT</span><span><i class="ink"></i>Best prompt</span><span><i class="red"></i>QLoRA</span></div></div>
+    <div>
+      <p class="callout reveal">The ranking flips<b>0.88 vs 0.84</b></p>
+      <ul class="points reveal"><li>Against Claude's labels the prompted model is first (0.88)</li><li>Against the stars of the same reviews, QLoRA is first (0.84)</li><li>Training on stars teaches the star convention</li></ul>
+    </div>
   </div>
-  <p class="source">Macro-F1 on the 600 Experiment 2 reviews, labeled by Claude without star ratings</p></div>
-  <aside class="notes">SPEAKER: Dinh (suggested). ~70 s. Same 600 reviews scored two ways. Against Claude's labels, few-shot prompting scores 0.87 and QLoRA 0.84. Against the star labels of the same reviews, QLoRA scores 0.84 and prompting 0.77. QLoRA was trained on star labels, so it learned the star convention; the prompted model judges the text much as Claude does. Claude itself agrees with the stars at only 0.75 macro-F1, mostly because 3-star reviews often read as negative. BERT to be added by Longqi.</aside>
+  <p class="source">Macro-F1 on the 600 Experiment 2 reviews</p></div>
+  <aside class="notes">SPEAKER: JN. ~60 s.<br>Same 600 reviews scored two ways. Against Claude's labels the prompted model scores 0.88, QLoRA 0.84 and BERT 0.80. Against the star labels of the same reviews, QLoRA scores 0.84 and the other two 0.79. The fine-tuned models were trained on star labels, so they learned the star convention; the prompted model judges the text much as Claude does. Claude itself agrees with the stars at only 0.75 macro-F1, mostly because 3-star reviews often read as negative. So part of the error against star labels is label noise, and the 0.88 is agreement between two language models, not a score against ground truth.</aside>
 </section>
 
 <section class="slide ">
   <header class="chrome"><span><i></i>Conclusions</span><span>ReviewLens</span></header>
-  <h2 class="title reveal">Fine-tuning wins on star labels, and what counts as Neutral decides the rest</h2>
+  <h2 class="title reveal">Conclusions: how much does training buy you?</h2>
   <div class="body">
   <div class="cards three big reveal">
-    <div class="card hot"><h3>0.84</h3><p><b>QLoRA macro-F1 on the test set</b></p><p>vs 0.76 few-shot and 0.68 zero-shot</p></div>
-    <div class="card"><h3>Neutral</h3><p><b>is the hardest class everywhere</b></p><p>fine-tuning moves the errors, it does not remove them</p></div>
-    <div class="card"><h3>0.75</h3><p><b>Claude vs star labels</b></p><p>3-star reviews are noisy gold labels</p></div>
+    <div class="card hot"><h3>0.838</h3><p><b>Llama + QLoRA</b></p><p>0.5% of weights trained</p></div>
+    <div class="card"><h3>0.783</h3><p><b>Fine-tuned BERT</b></p><p>about 380× faster than the prompt</p></div>
+    <div class="card"><h3>0.783</h3><p><b>Best prompt</b></p><p>no training at all</p></div>
   </div>
-  <div class="todo reveal"><b>To add — Longqi</b>where BERT lands against the two Llama methods</div></div>
-  <aside class="notes">SPEAKER: all. ~45 s, then leave this slide up for Q&A. One: fine-tuning half a percent of Llama's weights beats prompting the same model by 8 to 16 points of macro-F1 on the test set. Two: Neutral is the hardest class in every setting; fine-tuning moves the Neutral/Negative boundary rather than removing the confusion. Three: the label source matters; star labels are noisy for 3-star reviews. BERT conclusion to be added by Longqi.</aside>
+  <p class="banner light reveal"><b>Neutral is the hardest class for every method</b> (F1 0.68 to 0.77), mostly confused with Negative. Part of that is label noise: Claude agrees with the star labels at only 0.75 macro-F1.</p>
+  <p class="source">Test macro-F1</p></div>
+  <aside class="notes">SPEAKER: JN. ~45 s, then leave this slide up for Q&A.<br>Three takeaways. One: fine-tuning half a percent of Llama's weights gives the best result, 0.84 macro-F1, against 0.78 for both fine-tuned BERT and the best prompt. Two: Neutral is the hardest class for every method, and it is mostly confused with Negative. Three: the label source matters; star labels are noisy for 3-star reviews, and each model agrees most with the labels it resembles. For a seller, BERT is the cheap option: the same macro-F1 as the best prompt at a fraction of the cost per review.</aside>
 </section>
 
 <section class="slide ">
@@ -392,7 +396,7 @@ class SlidePresentation {
   constructor() {
     this.slides = [...document.querySelectorAll('.slide')];
     this.stage = document.getElementById('deckStage');
-    this.slides.forEach((s, i) => { if (i) s.dataset.n = i + 1; });
+    this.slides.forEach((s, i) => { s.dataset.n = i + 1; });
     const scale = () => {
       const f = Math.min(innerWidth / 1920, innerHeight / 1080);
       this.stage.style.transform = 'translate(' + (innerWidth - 1920 * f) / 2 + 'px,' + (innerHeight - 1080 * f) / 2 + 'px) scale(' + f + ')';
@@ -431,7 +435,7 @@ const editor = {
     document.body.classList.toggle('editing', this.isActive);
     editToggle.classList.toggle('active', this.isActive);
     editToggle.textContent = this.isActive ? 'Editing: Ctrl+S saves a copy, E exits' : 'Edit text';
-    document.querySelectorAll('.slide h1,.slide h2,.slide h3,.slide p,.slide li,.slide td,.slide th,.slide small,.slide span,.todo').forEach((el) => {
+    document.querySelectorAll('.slide h1,.slide h2,.slide h3,.slide p,.slide li,.slide td,.slide th,.slide small,.slide span').forEach((el) => {
       if (this.isActive) el.setAttribute('contenteditable', 'true'); else el.removeAttribute('contenteditable');
     });
   },

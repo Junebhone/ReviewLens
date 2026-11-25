@@ -109,7 +109,7 @@ pres.addSection({ title: "Introduction" });
   card(s, "metric", 0.5, 4.1, 9, 0.75);
   T(s, [
     { text: "Main metric: macro-F1 ", options: { bold: true, color: HEX.ink } },
-    { text: "(the mean of the three per-class F1 scores, so Neutral counts as much as the easy classes). Also reported: accuracy, per-class precision / recall / F1, confusion matrices.", options: { color: HEX.ink } },
+    { text: "(the mean of the three per-class F1 scores, so Neutral counts as much as the easy classes). Also reported: per-class precision / recall / F1, confusion matrices.", options: { color: HEX.ink } },
   ], { x: 0.75, y: 4.15, w: 8.5, h: 0.65, fontSize: 12, valign: "middle" });
 
   s.addNotes("[~60 s · 0:00–1:00]\nHello everyone, I'm Quoc, and our project is ReviewLens. Every online seller has the same problem: thousands of reviews come in, and the ones that matter most, from unhappy customers, are buried in the pile. Our goal is to sort every review automatically into Negative, Neutral or Positive.\nWhat makes this project interesting is that we solve the same task in three different ways, on exactly the same data. Longqi fine-tunes BERT, Bhone fine-tunes Llama with QLoRA, and I take the opposite route: the same Llama with no training at all, only prompting. So we can ask a practical question: how much does training actually buy you?\nWe judge everything by macro-F1, so the hard Neutral class counts as much as the easy ones. And keep this review in mind: it has three stars, but it reads like a complaint. We'll come back to that.");
@@ -315,7 +315,7 @@ pres.addSection({ title: "Prompted Llama" });
   card(s, "insight", 0.5, 4.0, 9, 0.95);
   T(s, [
     { text: "Stars are a noisy label. ", options: { bold: true, color: HEX.ink } },
-    { text: "Both models read many 3-star reviews as Negative, so part of the test \"error\" is label noise. 0.879 is agreement between two LLMs, not accuracy.", options: { color: HEX.ink } },
+    { text: "Both models read many 3-star reviews as Negative, so part of the test \"error\" is label noise. 0.879 is agreement between two LLMs, not a ground-truth score.", options: { color: HEX.ink } },
   ], { x: 0.75, y: 4.1, w: 8.5, h: 0.75, fontSize: 13, valign: "middle" });
 
   s.addNotes("[~45 s · 4:05–4:50]\nNow, back to that question. In Experiment 2, my few-shot model agrees much more with Claude's text-based labels than with the star ratings, and Claude disagrees with the stars in the same way. Two different models, reading only the text, reach the same conclusion: a three-star rating often hides a negative review.\nThe takeaway is that star ratings are a noisy proxy for sentiment, so part of what looks like model error is really label noise. One honest caveat: agreement between two language models is not ground truth. But it suggests our test scores may understate what these models can do.\nThat's my part. Next, my teammates will show how much training changes the picture.");

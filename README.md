@@ -14,6 +14,7 @@ Three-class sentiment classification (Negative / Neutral / Positive) of Amazon C
 ReviewLens/
 ├── docs/                  project proposal, final project guidelines
 │   └── slides/            Dinh's presentation slides (.pptx) and their build script
+├── presentation/          team deck: all three methods, comparison and conclusions (.pptx and .html)
 ├── data_prep/             shared: cleaning, labeling, balanced sampling, split (all members)
 ├── shared_data/           shared: the split everyone trains and evaluates on
 ├── longqi_bert/           Longqi — fine-tuned BERT
@@ -37,7 +38,8 @@ The method folders and `shared_data/` use the same names as the team's `ReviewLe
 
 - `shared_data/` — `train.csv` 40,000 / `val.csv` 5,000 / `test.csv` 5,000, plus `ai_labeled_600.csv` for Experiment 2. Everyone evaluates on these exact files.
 - `data_prep/prepare_data.py check shared_data` verifies those files follow every preparation rule in the proposal.
-- `report/final_report.md` — the report, with TODOs where BERT results are still missing.
+- `report/final_report.md` — the report draft, with all three methods, the comparison and the conclusion.
+- `presentation/` — the team deck as PowerPoint and as a single web page, in speaking order: Dinh (slides 1–6: introduction, data, prompted Llama), then JN (QLoRA, comparison, conclusions). Slides 1–6 are Dinh's own slides. Longqi's BERT slides are still to be added after slide 6. Both are generated from the result files: `node build_web.js` and `node build_deck.js` (see the first lines of each script).
 - `docs/slides/Dinh_ReviewLens_Slides.pptx` — Dinh's presentation section: introduction, data, prompted Llama results and Experiment 2. The comparison and conclusion are presented by the other members. To rebuild it after editing `build_slides.js`, run `npm install && npm run build` in `docs/slides/` (needs Node).
 
 ## Running the QLoRA notebook

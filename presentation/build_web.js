@@ -1,37 +1,17 @@
-// Builds ReviewLens_Presentation.html (single self-contained file) from the result CSVs in this repo.
-// Run:  node build_web.js      (no dependencies)
-// Same slides and numbers as build_deck.js; structure follows the frontend-slides skill (fixed 1920x1080 stage).
+// Builds ReviewLens_Presentation.html (single self-contained file, no dependencies).  Run:  node build_web.js
+// Same slides and wording as build_deck.js (the team deck built on Dinh's slides), in the Swiss Modern web style
+// (frontend-slides skill: fixed 1920x1080 stage, white / black / one red accent).
+// Slides 1–6 are Dinh's; their speaker notes are read from docs/slides/build_slides.js. Slides 7–13 are JN's.
+// Longqi's BERT slides are not in yet: they go after slide 6.
 // Rebuilding overwrites the .html, so text edited in the browser and saved over it is lost.
 const fs = require("fs");
 const path = require("path");
-const ROOT = path.join(__dirname, "..");
 const OUT = path.join(__dirname, "ReviewLens_Presentation.html");
-
-// ---------- data, read from the committed result files ----------
-function csv(rel) {
-  const [head, ...rows] = fs.readFileSync(path.join(ROOT, rel), "utf8").trim().split("\n").map((l) => l.split(","));
-  return rows.map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])));
-}
-const byName = (rows) => Object.fromEntries(rows.map((r) => [r.setting, r]));
-const Q = byName(csv("quoc_llama_prompting/results/results_summary.csv"));
-const J = byName(csv("jn_llama_qlora/results/results_summary.csv"));
-const zero = Q["Test — zero-shot"], few = Q["Test — few-shot (k=3/class)"], qlora = J["QLoRA — test"];
-const fewAI = Q["Exp2 — few_shot vs AI labels"], fewStar = Q["Exp2 — few_shot vs star labels (same 600)"];
-const qAI = J["QLoRA — Exp2 vs AI labels"], qStar = J["QLoRA — Exp2 vs star labels (same 600)"];
-for (const r of [zero, few, qlora, fewAI, fewStar, qAI, qStar]) if (!r) throw new Error("a results row is missing");
-const f2 = (x) => Number(x).toFixed(2), f3 = (x) => Number(x).toFixed(3), pct = (x) => Math.round(100 * x);
-const LABELS = ["Negative", "Neutral", "Positive"];
-const f1s = (r) => [...LABELS.map((l) => Number(r[l + "_f1"])), Number(r.macro_f1)];
-function cmPct(rel) { // confusion matrix as row percentages (course guideline: percentages, not counts)
-  return csv(rel).map((r) => {
-    const v = LABELS.map((l) => Number(r[l])), tot = v.reduce((a, b) => a + b, 0);
-    return v.map((x) => Math.round((100 * x) / tot));
-  });
-}
-const cmFew = cmPct("quoc_llama_prompting/results/cm_test_few_shot.csv");
-const cmQ = cmPct("jn_llama_qlora/results/cm_test.csv");
-const cost = csv("jn_llama_qlora/results/inference_cost.csv")[0];
-const qcost = csv("quoc_llama_prompting/results/inference_cost.csv");
+const D = require("./deck_data.js");
+const { f2, f3, LABELS, NOTES } = D;
+const dinhNotes = [...fs.readFileSync(path.join(__dirname, "../docs/slides/build_slides.js"), "utf8")
+  .matchAll(/s\.addNotes\("((?:[^"\\]|\\.)*)"\)/g)].map((m) => JSON.parse(`"${m[1]}"`));
+if (dinhNotes.length !== 6) throw new Error("expected 6 speaker notes in Dinh's build_slides.js");
 
 // ---------- html helpers ----------
 const slides = [];
@@ -41,11 +21,10 @@ function slide(section, title, body, notes, cls = "") {
   <header class="chrome"><span><i></i>${section}</span><span>ReviewLens</span></header>
   <h2 class="title reveal">${title}</h2>
   <div class="body">${body}</div>
-  <aside class="notes">${notes}</aside>
+  <aside class="notes">${notes.replace(/\n/g, "<br>")}</aside>
 </section>`);
 }
 const src = (t) => `<p class="source">${t}</p>`;
-const todo = (t) => `<div class="todo reveal"><b>To add — Longqi</b>${t}</div>`;
 const bullets = (items) => `<ul class="points reveal">${items.map((t) => `<li>${t}</li>`).join("")}</ul>`;
 // grouped bars on a 0–1 axis; `focus` is the index of the category to spotlight
 function chart(cats, series, focus) {
@@ -57,153 +36,160 @@ function chart(cats, series, focus) {
   const legend = series.map((s) => `<span><i class="${s.cls}"></i>${s.name}</span>`).join("");
   return `<div class="chart reveal"><div class="plot">${groups}</div><div class="legend">${legend}</div></div>`;
 }
-function matrix(name, cm) {
-  const rows = cm.map((r, i) => `<tr><th>${LABELS[i]}</th>${r.map((p, j) =>
-    `<td class="${i === 1 && j === 0 ? "hit" : ""}" style="background:rgba(17,17,17,${(p / 100 * 0.9).toFixed(2)});color:${p > 45 ? "#fff" : "#111"}">${p}%</td>`).join("")}</tr>`).join("");
-  return `<div class="matrix reveal"><h3>${name}</h3><table><tr><th></th><th>Neg.</th><th>Neu.</th><th>Pos.</th></tr>${rows}</table></div>`;
+const CATS = [...LABELS, "Macro-F1"];
+const flow = (steps) => `<div class="flow steps reveal">${steps.map(([h, d], i) => `${i ? "<b>→</b>" : ""}<div class="strong"><small>Step ${i + 1}</small>${h}<small>${d}</small></div>`).join("")}</div>`;
+// per-class precision / recall / F1 of one results row, Neutral F1 (the hard class) picked out
+const prf = (name, r, hotCols = ["f1"]) => `<div class="prf reveal"><h3>${name}</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr>${LABELS.map((l) =>
+  `<tr><th>${l}</th>${["precision", "recall", "f1"].map((m) => `<td class="${l === "Neutral" && hotCols.includes(m) ? "hot" : ""}">${f2(r[`${l}_${m}`])}</td>`).join("")}</tr>`).join("")}</table></div>`;
+// left: F1 chart of two settings; right: per-class scores and a callout
+const result = (series, name, r, label, big, note, hotCols) => `
+  <div class="split">
+    ${chart(CATS, series, 1)}
+    <div>${prf(name, r, hotCols)}<p class="callout reveal">${label}<b>${big}</b></p><p class="aside reveal">${note}</p></div>
+  </div>`;
+// training and validation loss by step, as an inline SVG line chart
+function lossChart(curve) {
+  const W = 1080, H = 560, x = (i) => 110 + (i * (W - 220)) / (curve.length - 1), y = (v) => 60 + ((0.31 - v) / 0.16) * (H - 150);
+  const line = (k, col) => `<polyline fill="none" stroke="${col}" stroke-width="6" points="${curve.map((p, i) => `${x(i)},${y(p[k])}`).join(" ")}"/>` +
+    curve.map((p, i) => `<circle cx="${x(i)}" cy="${y(p[k])}" r="9" fill="${col}"/><text x="${x(i)}" y="${y(p[k]) + (k === "val" ? 44 : -22)}" text-anchor="middle" fill="${col}" class="v">${f2(p[k])}</text>`).join("");
+  return `<div class="chart reveal"><svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><line x1="60" y1="${H - 70}" x2="${W - 60}" y2="${H - 70}" stroke="#111" stroke-width="3"/>` +
+    line("train", "#b0b0b0") + line("val", "#ff3300") + curve.map((p, i) => `<text x="${x(i)}" y="${H - 28}" text-anchor="middle" class="c">step ${p.step.toLocaleString("en-US")}</text>`).join("") +
+    `</svg><div class="legend"><span><i class="grey"></i>Training loss (500-step mean)</span><span><i class="red"></i>Validation loss</span></div></div>`;
 }
 
-// ================= slides =================
-slides.push(`
-<section class="slide cover">
-  <div class="block"></div>
-  <p class="kicker reveal">ReviewLens · EDS 6352 Natural Language Processing · Fall 2026</p>
-  <h1 class="reveal">Fine-tune<br>or prompt?</h1>
-  <p class="sub reveal">Three ways to classify the sentiment of product reviews</p>
-  <p class="authors reveal">Bhone Kyaw Si Hein &nbsp;·&nbsp; Quoc Cuong Dinh &nbsp;·&nbsp; Longqi Sun</p>
-  <aside class="notes">Setup slide, no talking time. 13 minutes total: about one minute per slide.</aside>
-</section>`);
-
-slide("Introduction", "Sellers need unhappy customers found fast: which model classifies review sentiment best?", `
-  <div class="cards three reveal">
-    <div class="card"><small>Longqi Sun</small><h3>Fine-tuned BERT</h3><p>110 M weights</p><p><b>all trained</b></p></div>
-    <div class="card"><small>Quoc Cuong Dinh</small><h3>Prompted Llama 3.1 8B</h3><p>8 B weights</p><p><b>none trained</b></p></div>
-    <div class="card hot"><small>Bhone Kyaw Si Hein</small><h3>Llama 3.1 8B + QLoRA</h3><p>8 B weights</p><p><b>0.5% trained</b></p></div>
-  </div>
-  <p class="banner reveal">Same 50,000 reviews, same test set, same metrics</p>
-  ${src("Models: BERT [2], Llama 3.1 [3], QLoRA [4]")}`,
-  "SPEAKER: Longqi (suggested). ~50 s. Sellers get thousands of reviews; finding the negative ones by hand is slow. We classify each review as Negative, Neutral or Positive from its text alone and compare three methods on exactly the same data. They differ in how much of the model is trained: all of it, none of it, or half a percent of it.");
-
-slide("Introduction", "A balanced 50,000-review sample is drawn from 20.8 million Amazon reviews", `
-  <div class="funnel reveal">
-    <div><b>20.8 M</b><span>Cell Phones &amp; Accessories reviews</span></div>
-    <div><b>1.12 M</b><span>100–300 words after cleaning</span></div>
-    <div><b>1.11 M</b><span>duplicates removed</span></div>
-    <div class="hot"><b>50,000</b><span>balanced, one third per class</span></div>
+// ================= slides 1–6: Dinh (content as in docs/slides/build_slides.js) =================
+slide("Introduction", "ReviewLens: Sentiment Classification of E-Commerce Product Reviews", `
+  <div class="cards three compact reveal">
+    <div class="card"><small>Longqi Sun</small><h3>Fine-tuned BERT</h3><p>bert-base-uncased + classification head</p></div>
+    <div class="card"><small>Quoc Cuong Dinh</small><h3>Prompted Llama 3.1 8B</h3><p>zero- / few-shot, no training</p></div>
+    <div class="card"><small>Bhone Kyaw Si Hein</small><h3>Llama 3.1 8B + QLoRA</h3><p>4-bit base, trained low-rank adapters</p></div>
   </div>
   <div class="row reveal">
-    <div class="chip"><small>1–2 stars</small>Negative</div>
-    <div class="chip"><small>3 stars</small>Neutral</div>
-    <div class="chip"><small>4–5 stars</small>Positive</div>
-    <div class="chip wide"><small>Stratified split, seed 42</small>40,000 train · 5,000 val · 5,000 test</div>
+    <div class="chip wide quote"><small>★★★☆☆ &nbsp; 3-star review from the test set</small>“Too heavy, bulky. Only works with a few Samsung phones. Biggest gripe is that the controls are up on the headset itself…”</div>
+    <div class="chip"><small>Label?</small>Negative<br>Neutral<br>Positive</div>
   </div>
-  ${src("Data: Amazon Reviews 2023, Hou et al. [1]")}`,
-  "SPEAKER: Longqi (suggested). ~55 s. Amazon Reviews 2023, Cell Phones and Accessories only. We remove HTML, links, mentions, hash signs and emojis, keep reviews of 100 to 300 words, and drop duplicates. Eligible reviews are heavily skewed to Positive (737 thousand Positive, 243 thousand Negative, 131 thousand Neutral), so we sample one third per class. Labels come from stars. The split is shared by all three methods.");
+  <p class="banner light reveal"><b>Main metric: macro-F1</b>, so Neutral counts as much as the easy classes.</p>
+  ${src("One task, three methods, same data. Also reported: per-class precision, recall and F1.")}`, dinhNotes[0]);
 
-slide("Introduction", "Macro-F1 is the main metric, measured against star labels and against AI labels", `
-  <div class="cards two reveal">
-    <div class="card"><small>Experiment 1</small><h3>Test set</h3><p>5,000 held-out reviews</p><p>Gold label: <b>star rating</b></p></div>
-    <div class="card"><small>Experiment 2</small><h3>AI-labeled set</h3><p>600 extra reviews</p><p>Gold label: <b>Claude, stars hidden</b></p></div>
+slide("Introduction", "Data: one shared, balanced split", `
+  <div class="funnel reveal">
+    <div><small>Data source</small><b>20.8 M</b><span>Cell Phones &amp; Accessories reviews, Amazon Reviews 2023</span></div>
+    <div><small>Filtering</small><b>1.11 M</b><span>100–300 words, duplicates dropped; links, @, #, emojis removed</span></div>
+    <div><small>Balancing</small><b>50,000</b><span>balanced sample: 16,667 / 16,667 / 16,666</span></div>
+    <div class="hot"><small>Splitting</small><b>40k/5k/5k</b><span>stratified train / val / test, used by all three methods</span></div>
   </div>
-  <p class="banner light reveal">Accuracy · per-class precision, recall, F1 · macro and micro averages.<br><b>Macro-F1 weights the three classes equally.</b></p>`,
-  "SPEAKER: Dinh (suggested). ~50 s. We report accuracy, per-class precision, recall and F1, and macro and micro averages. Macro-F1 is the headline because it weights the three classes equally. Experiment 1 is the held-out test set with star-based labels. Experiment 2 is 600 extra reviews, 200 per star class, labeled by Claude without seeing the stars; Claude's labels came out 260 Negative, 169 Neutral, 171 Positive.");
-
-slide("Fine-tuned BERT", "BERT is fine-tuned end to end with a 3-class classification head", `
-  <div class="flow reveal">
-    <div>Review text</div><b>→</b>
-    <div class="strong">bert-base-uncased<small>110 M weights, all trained</small></div><b>→</b>
-    <div class="strong">Linear head<small>on [CLS]</small></div><b>→</b>
-    <div class="hot">Negative<br>Neutral<br>Positive</div>
+  <div class="row reveal">
+    <div class="chip"><small>1–2 ★</small>Negative</div>
+    <div class="chip"><small>3 ★</small>Neutral</div>
+    <div class="chip"><small>4–5 ★</small>Positive</div>
+    <div class="chip wide"><small>Experiment 2: AI-labelled reviews</small>600 extra reviews, labelled by Claude Haiku from the text only</div>
   </div>
-  ${todo("learning rate, epochs, batch size, max sequence length, GPU, training time")}
-  ${src("BERT: Devlin et al. [2]")}`,
-  "SPEAKER: Longqi. ~60 s. TO ADD by Longqi: the hyperparameters actually used and how they were chosen on validation.");
+  <p class="banner light reveal">Neutral is the scarcest: 131k eligible vs 243k Negative and 737k Positive, hence the balanced sample. <b>Claude's labels: 260 Neg · 169 Neu · 171 Pos.</b></p>
+  ${src("Source: Amazon Reviews 2023, McAuley Lab (UCSD) · split seed 42")}`, dinhNotes[1]);
 
-slide("Fine-tuned BERT", "BERT results: to add once the run is finished", `
-  ${todo("<ul><li>Test set: accuracy, macro-F1, per-class precision / recall / F1</li><li>600 AI-labeled reviews: the same metrics against AI labels and star labels</li><li>Confusion matrix in percentages, not counts</li></ul>")}`,
-  "SPEAKER: Longqi. ~70 s. TO ADD by Longqi. Replace the title with the finding as a sentence, for example 'BERT reaches X macro-F1 with Neutral as its weakest class'.");
+slide("Prompted Llama", "Prompted Llama 3.1 8B, no training", `
+  ${flow([["Prompt", "Instructions + definitions + examples + review"], ["Generate", "Llama-3.1-8B-Instruct, greedy decoding"], ["Extract", "Exact label, else first whole-word label match"]])}
+  <div class="cards two compact gap reveal">
+    <div class="card"><small>${D.tok(D.zc)} tokens / prompt</small><h3>Zero-shot (baseline)</h3><p>Instructions only</p></div>
+    <div class="card hot"><small>${D.tok(D.fc)} tokens / prompt</small><h3>Few-shot k=5 + definitions</h3><p>15 examples from train + label definitions; best of 8 designs on 600 val reviews</p></div>
+  </div>
+  ${src("Evaluated on the shared 5,000-review balanced test set · main metric: macro-F1")}`, dinhNotes[2]);
 
-slide("Prompted Llama", "Prompted Llama 3.1 8B classifies with no training, zero-shot or with nine examples", `
+slide("Prompted Llama", `The best prompt lifts test macro-F1: ${f2(D.zero.macro_f1)} → ${f2(D.few.macro_f1)}`,
+  result([{ name: "Zero-shot", cls: "grey", values: D.f1s(D.zero) }, { name: "Few-shot k=5 + definitions", cls: "ink", values: D.f1s(D.few) }],
+    "Final design: per-class scores (test set)", D.few, "Neutral reviews → Negative", `62% → ${D.cmFew[1][0]}%`,
+    `Still the main error. Neutral recall ${D.pct(D.zero.Neutral_recall)}% → ${D.pct(D.few.Neutral_recall)}%, F1 ${f2(D.zero.Neutral_f1)} → ${f2(D.few.Neutral_f1)}.`) +
+  src("F1 per class on the test set (n = 5,000)"), dinhNotes[3].replace("the confusion matrix shows", "the per-class scores show"));
+
+{
+  // validation macro-F1 of the eight designs (quoc_llama_prompting/results/validation_selection.csv); axis 0.5–0.85 as in Dinh's chart
+  const designs = [["Zero-shot", 0.680], ["Zero-shot + definitions", 0.747], ["Few-shot k=1", 0.761], ["Few-shot k=2", 0.755], ["Few-shot k=3", 0.777],
+    ["Few-shot k=5", 0.797], ["Few-shot k=7", 0.760], ["Few-shot k=5 + definitions", 0.800]];
+  const best = Math.max(...designs.map((d) => d[1]));
+  slide("Prompted Llama", "Choosing the prompt: 8 designs on validation", `
   <div class="split">
-    <div class="prompt reveal">
-      <div><small>System</small>You are a sentiment classifier … return one label</div>
-      <div class="dashed"><small>Few-shot only</small>3 labeled training reviews per class</div>
-      <div><small>User</small>Review: """ … """</div>
-      <div class="hot"><small>Llama answers</small>Neutral</div>
-    </div>
-    ${bullets([`Zero-shot prompt: <b>${Math.round(qcost[0].prompt_tokens_mean)}</b> tokens`, `Few-shot prompt: <b>${Math.round(qcost[1].prompt_tokens_mean).toLocaleString("en-US")}</b> tokens`, "k = 3 per class, chosen on validation", "Label read by exact match, then first label word"])}
-  </div>
-  ${src("Llama 3.1 8B Instruct [3]")}`,
-  "SPEAKER: Dinh. ~60 s. Same system and user instruction in both settings: return only one label. Few-shot adds three training reviews per class as earlier turns; k was chosen on 600 validation reviews. The output is mapped to a label by exact match, and if the model adds an explanation, by the first label word. That fallback was needed for 518 of 5,000 zero-shot outputs and none of the few-shot ones.");
-
-slide("Prompted Llama", `Few-shot examples lift macro-F1 from ${f2(zero.macro_f1)} to ${f2(few.macro_f1)}, but Neutral remains the weak class`, `
-  <div class="split">
-    ${chart([...LABELS, "Macro-F1"], [{ name: "Zero-shot", cls: "grey", values: f1s(zero) }, { name: "Few-shot (k = 3)", cls: "ink", values: f1s(few) }], 1)}
+    <div class="hbars reveal">${designs.map(([name, v]) => `<div><span>${name}</span><div><i class="${v === best ? "red" : "ink"}" style="width:${(100 * (v - 0.5) / 0.35).toFixed(1)}%">${f3(v)}</i></div></div>`).join("")}</div>
     <div>
-      <p class="callout reveal">Neutral F1<b>${f2(zero.Neutral_f1)} → ${f2(few.Neutral_f1)}</b></p>
-      ${bullets([`Neutral recall: ${pct(zero.Neutral_recall)}% → ${pct(few.Neutral_recall)}%`, `Negative over-predicted: precision ${f2(few.Negative_precision)}`, `${(qcost[1].sec_per_review / qcost[0].sec_per_review).toFixed(1)}× slower per review`])}
+      <p class="callout reveal">Final vs plain k = 5<b>+0.003</b></p>
+      ${bullets(["95% CI −0.007 to +0.013: a tie, so the definitions are a tie-break", "More isn't always better: k = 7 drops to 0.760", "Validation 0.800 → test 0.783: barely overfit"])}
     </div>
   </div>
-  ${src("F1 on the 5,000-review test set, star labels")}`,
-  "SPEAKER: Dinh. ~75 s. Zero-shot, the model finds only 32% of Neutral reviews; most are called Negative. Nine examples raise Neutral recall to 54% and Neutral F1 from 0.43 to 0.61. Negative is still over-predicted: recall 0.90 but precision 0.69. The price is a prompt almost seven times longer, so each review takes about 4.4 times as long.");
+  ${src("Validation macro-F1 (600 reviews). Other random draws of the examples move F1 by up to 0.03.")}`, dinhNotes[4]);
+}
 
-slide("Llama + QLoRA", "QLoRA trains 0.5% of Llama's weights on top of a frozen 4-bit base", `
-  <div class="split">
-    <div class="model reveal">
-      <h3>Llama 3.1 8B Instruct</h3><p>4-bit, frozen · 8.07 B weights</p>
-      <div class="adapter"><h3>LoRA adapters, rank 16</h3><p>41.9 M trainable weights (0.52%)</p></div>
-      <p class="io">Same zero-shot prompt in → one label out</p>
-    </div>
-    ${bullets(["40,000 reviews, 1 epoch", "Learning rate 2e-4, batch 16", "Loss on the label only", `<b>${Math.round(cost.training_minutes)} min</b> on one A100`])}
-  </div>
-  ${src("QLoRA: Dettmers et al. [4]; LoRA: Hu et al. [5]")}`,
-  "SPEAKER: JN. ~60 s. Same Llama 3.1 8B and exactly the same zero-shot prompt as Dinh, so the only difference is the fine-tuning. The base model is loaded in 4-bit and frozen; small low-rank adapter matrices are added to the attention and MLP projections and only those are trained: 42 million of 8 billion weights. The target is just the label, so the loss is computed on the label token only. One epoch over the 40,000 training reviews took 114 minutes on one A100.");
-
-slide("Llama + QLoRA", `QLoRA reaches ${f2(qlora.macro_f1)} macro-F1 and raises Neutral F1 from ${f2(few.Neutral_f1)} to ${f2(qlora.Neutral_f1)}`, `
-  <div class="split">
-    ${chart([...LABELS, "Macro-F1"], [{ name: "Few-shot (k = 3)", cls: "ink", values: f1s(few) }, { name: "QLoRA", cls: "red", values: f1s(qlora) }], 1)}
-    <div>
-      <p class="callout reveal">Neutral F1<b>${f2(few.Neutral_f1)} → ${f2(qlora.Neutral_f1)}</b></p>
-      ${bullets([`Same prompt as zero-shot: +${f2(qlora.macro_f1 - zero.macro_f1)} macro-F1`, "Better on all three classes", "5,000 outputs, none invalid"])}
-    </div>
-  </div>
-  ${src("F1 on the 5,000-review test set, star labels")}`,
-  "SPEAKER: JN. ~75 s. Against few-shot prompting, QLoRA is better on every class. The largest gain is Neutral, 0.61 to 0.77. Because the prompt is the same as zero-shot, the fair comparison for the effect of fine-tuning is zero-shot 0.68 to QLoRA 0.84. Every one of the 5,000 outputs was a bare label: no fallback extraction and no invalid outputs. Validation macro-F1 on the 600 validation reviews was 0.84, matching the test score.");
-
-slide("Comparison", `Fine-tuning cuts Neutral-read-as-Negative errors from ${cmFew[1][0]}% to ${cmQ[1][0]}%, at a cost in Negative recall`, `
-  <div class="split even">${matrix("Few-shot prompting", cmFew)}${matrix("QLoRA", cmQ)}</div>
-  <p class="banner light reveal">Neutral recall ${cmFew[1][1]}% → ${cmQ[1][1]}% &nbsp;·&nbsp; Negative recall ${cmFew[0][0]}% → ${cmQ[0][0]}%</p>
-  ${src("Test set, row percentages. Rows: star label. Columns: prediction.")}`,
-  `SPEAKER: JN. ~60 s. Rows are the star label, columns the prediction, each row sums to 100%. With few-shot prompting ${cmFew[1][0]}% of Neutral reviews are predicted Negative; after fine-tuning that is ${cmQ[1][0]}%. The errors do not vanish, they move: Negative reviews predicted Neutral rise from ${cmFew[0][1]}% to ${cmQ[0][1]}%, so Negative recall falls from ${cmFew[0][0]}% to ${cmQ[0][0]}%. BERT's matrix is to be added by Longqi.`);
-
-const trow = (name, r, train, sec, hot = []) => `<tr><th>${name}</th>${[f3(r.accuracy), f3(r.macro_f1), f3(r.Neutral_f1), train, sec].map((v, i) => `<td class="${hot.includes(i) ? "hot" : ""}">${v}</td>`).join("")}</tr>`;
-slide("Comparison", `On the test set QLoRA leads both prompting settings by at least ${Math.floor(100 * (qlora.macro_f1 - few.macro_f1))} points of macro-F1`, `
-  <table class="results reveal">
-    <tr><th>Method</th><th>Accuracy</th><th>Macro-F1</th><th>Neutral F1</th><th>Training</th><th>s / review</th></tr>
-    <tr class="pending"><th>Fine-tuned BERT</th><td>to add</td><td>to add</td><td>to add</td><td>to add</td><td>to add</td></tr>
-    ${trow("Llama, zero-shot", zero, "none", f3(qcost[0].sec_per_review) + " (L4)")}
-    ${trow("Llama, few-shot", few, "none", f3(qcost[1].sec_per_review) + " (L4)", [4])}
-    ${trow("Llama + QLoRA", qlora, Math.round(cost.training_minutes) + " min", f3(cost.sec_per_review) + " (A100)", [1, 2])}
-  </table>
-  ${src("Timings were measured on different GPUs and are not directly comparable.")}`,
-  "SPEAKER: JN (suggested). ~60 s. Highlighted cells are the ones to talk about. QLoRA has the best macro-F1 and the best Neutral F1 of the Llama methods. It costs 114 minutes of training once; prompting costs nothing to train but few-shot is slow per review because of the long prompt. Timings come from different GPUs, so compare them only roughly. BERT row to be filled by Longqi.");
-
-slide("Comparison", "Against AI labels the ranking flips: prompted Llama agrees with Claude more than QLoRA does", `
-  <div class="split">
-    ${chart(["vs AI labels", "vs star labels"], [{ name: "Few-shot (k = 3)", cls: "ink", values: [+fewAI.macro_f1, +fewStar.macro_f1] }, { name: "QLoRA", cls: "red", values: [+qAI.macro_f1, +qStar.macro_f1] }], 0)}
-    ${bullets([`QLoRA learned the star convention: <b>${f2(qAI.macro_f1)}</b> on both`, "Claude agrees with stars at only <b>0.75</b>", "3-star reviews often read as negative"])}
-  </div>
-  ${src("Macro-F1 on the 600 Experiment 2 reviews, labeled by Claude without star ratings")}`,
-  "SPEAKER: Dinh (suggested). ~70 s. Same 600 reviews scored two ways. Against Claude's labels, few-shot prompting scores 0.87 and QLoRA 0.84. Against the star labels of the same reviews, QLoRA scores 0.84 and prompting 0.77. QLoRA was trained on star labels, so it learned the star convention; the prompted model judges the text much as Claude does. Claude itself agrees with the stars at only 0.75 macro-F1, mostly because 3-star reviews often read as negative. BERT to be added by Longqi.");
-
-slide("Conclusions", "Fine-tuning wins on star labels, and what counts as Neutral decides the rest", `
+slide("Prompted Llama", "Exp. 2: prompted model agrees with AI labels", `
   <div class="cards three big reveal">
-    <div class="card hot"><h3>${f2(qlora.macro_f1)}</h3><p><b>QLoRA macro-F1 on the test set</b></p><p>vs ${f2(few.macro_f1)} few-shot and ${f2(zero.macro_f1)} zero-shot</p></div>
-    <div class="card"><h3>Neutral</h3><p><b>is the hardest class everywhere</b></p><p>fine-tuning moves the errors, it does not remove them</p></div>
-    <div class="card"><h3>0.75</h3><p><b>Claude vs star labels</b></p><p>3-star reviews are noisy gold labels</p></div>
+    <div class="card hot"><h3>${f3(D.fewAI.macro_f1)}</h3><p><b>Few-shot Llama vs AI labels</b></p></div>
+    <div class="card"><h3>${f3(D.fewStar.macro_f1)}</h3><p><b>Few-shot Llama vs star labels</b></p><p>the same 600 reviews</p></div>
+    <div class="card"><h3>0.746</h3><p><b>AI labels vs star labels</b></p></div>
   </div>
-  ${todo("where BERT lands against the two Llama methods")}`,
-  "SPEAKER: all. ~45 s, then leave this slide up for Q&A. One: fine-tuning half a percent of Llama's weights beats prompting the same model by 8 to 16 points of macro-F1 on the test set. Two: Neutral is the hardest class in every setting; fine-tuning moves the Neutral/Negative boundary rather than removing the confusion. Three: the label source matters; star labels are noisy for 3-star reviews. BERT conclusion to be added by Longqi.");
+  <p class="banner light reveal"><b>Stars are a noisy label.</b> Both models read many 3-star reviews as Negative, so part of the test "error" is label noise. 0.879 is agreement between two LLMs, not a ground-truth score.</p>
+  ${src("Macro-F1 on 600 extra reviews labelled by Claude Haiku from the text only (stars hidden)")}`, dinhNotes[5]);
+
+// ================= slides 7–11: JN =================
+slide("Llama + QLoRA", "Llama 3.1 8B + QLoRA, 0.5% of weights trained", `
+  ${flow([["Freeze", "Llama-3.1-8B-Instruct in 4-bit; 8.07 B weights, not trained"], ["Adapt", "LoRA adapters, rank 16; 41.9 M trainable weights (0.52%)"], ["Train", "Target is the label only; 1 epoch over 40,000 reviews"]])}
+  <div class="cards two compact gap reveal">
+    <div class="card"><small>${D.tok(D.zc)} tokens / prompt</small><h3>Same prompt as zero-shot</h3><p>No definitions, no examples: the only change is the fine-tuning</p></div>
+    <div class="card hot"><small>${Math.round(D.cost.training_minutes)} min on one A100 GPU</small><h3>Training</h3><p>Learning rate 2e-4, batch size 16; same label-extraction rule as prompting</p></div>
+  </div>
+  ${src("Evaluated on the shared 5,000-review balanced test set · main metric: macro-F1")}`, NOTES.qloraMethod);
+
+slide("Llama + QLoRA", `Training: ${Math.round(D.cost.training_minutes)} minutes on one A100 GPU`, `
+  <div class="split">
+    ${lossChart(D.lossCurve)}
+    <div>
+      <div class="prf setup reveal"><h3>Training setup and cost</h3><table>${D.setup.map(([k, v, hot]) => `<tr class="${hot ? "hot" : ""}"><th>${k}</th><td>${v}</td></tr>`).join("")}</table></div>
+      <p class="aside reveal"><b>Validation loss ${f2(D.lossCurve[0].val)} → ${f2(D.lossCurve[D.lossCurve.length - 1].val)}:</b> no sign of overfitting. Test set used once, after training.</p>
+    </div>
+  </div>
+  ${src("Loss on the label, by training step")}`, NOTES.qloraTrain);
+
+slide("Llama + QLoRA", `QLoRA lifts test macro-F1: ${f2(D.few.macro_f1)} → ${f2(D.qlora.macro_f1)}`,
+  result([{ name: "Best prompt (k=5 + definitions)", cls: "ink", values: D.f1s(D.few) }, { name: "QLoRA", cls: "red", values: D.f1s(D.qlora) }],
+    "QLoRA: per-class scores (test set)", D.qlora, "Neutral F1", `${f2(D.few.Neutral_f1)} → ${f2(D.qlora.Neutral_f1)}`,
+    `Neutral recall ${D.pct(D.few.Neutral_recall)}% → ${D.pct(D.qlora.Neutral_recall)}%. Better on all three classes; all 5,000 outputs are a bare label.`, ["recall", "f1"]) +
+  src("F1 per class on the test set (n = 5,000)"), NOTES.qloraRes);
+
+slide("Llama + QLoRA", "Exp. 2: QLoRA on the AI-labelled reviews", `
+  <div class="cards three big reveal">
+    <div class="card hot"><h3>${f3(D.qAI.macro_f1)}</h3><p><b>QLoRA vs AI labels</b></p></div>
+    <div class="card"><h3>${f3(D.qStar.macro_f1)}</h3><p><b>QLoRA vs star labels</b></p><p>the same 600 reviews</p></div>
+    <div class="card"><h3>${f3(D.fewAI.macro_f1)}</h3><p><b>Best prompt vs AI labels</b></p></div>
+  </div>
+  <p class="banner light reveal"><b>QLoRA agrees equally with both label sets.</b> Against Claude's labels its Negative precision is ${f2(D.qAI.Negative_precision)} but recall only ${f2(D.qAI.Negative_recall)}: 3-star reviews that Claude reads as Negative, it calls Neutral, as the stars do.</p>
+  ${src("Macro-F1 on the 600 reviews labelled by Claude Haiku from the text only (stars hidden)")}`, NOTES.qloraExp2);
+
+const trow = (name, r, train, sec, hot = []) => `<tr><th>${name}</th>${[f3(r.macro_f1), f3(r.Neutral_f1), train, sec].map((v, i) => `<td class="${hot.includes(i) ? "hot" : ""}">${v}</td>`).join("")}</tr>`;
+slide("Comparison", "Three methods on the same test set", `
+  <table class="results reveal">
+    <tr><th>Method</th><th>Macro-F1</th><th>Neutral F1</th><th>Training</th><th>s / review</th></tr>
+    ${trow("Fine-tuned BERT", D.bert, Math.round(D.bcost.training_minutes) + " min", f3(D.bcost.sec_per_review) + " (L4)", [3])}
+    ${trow("Llama, zero-shot", D.zero, "none", f3(D.zc.sec_per_review) + " (L4)")}
+    ${trow("Llama, best prompt", D.few, "none", f3(D.fc.sec_per_review) + " (L4)")}
+    ${trow("Llama + QLoRA", D.qlora, Math.round(D.cost.training_minutes) + " min", f3(D.cost.sec_per_review) + " (A100)", [0, 1])}
+  </table>
+  <p class="banner light reveal"><b>QLoRA is best; BERT and the best prompt tie.</b> QLoRA leads both by 0.055 macro-F1.</p>
+  ${src("95% CI of the lead: 0.045 to 0.065. QLoRA was timed on a different GPU, so its speed is not directly comparable.")}`, NOTES.table);
+
+slide("Comparison", "Exp. 2: fine-tuned models follow the star labels", `
+  <div class="split">
+    ${chart(["vs AI labels", "vs star labels (same 600)"], [{ name: "Fine-tuned BERT", cls: "grey", values: [+D.bAI.macro_f1, +D.bStar.macro_f1] }, { name: "Best prompt", cls: "ink", values: [+D.fewAI.macro_f1, +D.fewStar.macro_f1] }, { name: "QLoRA", cls: "red", values: [+D.qAI.macro_f1, +D.qStar.macro_f1] }], 0)}
+    <div>
+      <p class="callout reveal">The ranking flips<b>${f2(D.fewAI.macro_f1)} vs ${f2(D.qStar.macro_f1)}</b></p>
+      ${bullets([`Against Claude's labels the prompted model is first (${f2(D.fewAI.macro_f1)})`, `Against the stars of the same reviews, QLoRA is first (${f2(D.qStar.macro_f1)})`, "Training on stars teaches the star convention"])}
+    </div>
+  </div>
+  ${src("Macro-F1 on the 600 Experiment 2 reviews")}`, NOTES.exp2);
+
+slide("Conclusions", "Conclusions: how much does training buy you?", `
+  <div class="cards three big reveal">
+    <div class="card hot"><h3>${f3(D.qlora.macro_f1)}</h3><p><b>Llama + QLoRA</b></p><p>0.5% of weights trained</p></div>
+    <div class="card"><h3>${f3(D.bert.macro_f1)}</h3><p><b>Fine-tuned BERT</b></p><p>about ${D.bertFaster}× faster than the prompt</p></div>
+    <div class="card"><h3>${f3(D.few.macro_f1)}</h3><p><b>Best prompt</b></p><p>no training at all</p></div>
+  </div>
+  <p class="banner light reveal"><b>Neutral is the hardest class for every method</b> (F1 ${f2(Math.min(...D.neuF1))} to ${f2(Math.max(...D.neuF1))}), mostly confused with Negative. Part of that is label noise: Claude agrees with the star labels at only 0.75 macro-F1.</p>
+  ${src("Test macro-F1")}`, NOTES.end);
 
 slide("References", "References", `
   <ol class="refs reveal">
@@ -220,7 +206,7 @@ const html = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ReviewLens: fine-tune or prompt?</title>
+<title>ReviewLens: Sentiment Classification of E-Commerce Product Reviews</title>
 <!-- Fonts load from Google; offline the deck falls back to Helvetica/Arial and still fits -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Nunito:wght@400;700&display=swap">
@@ -276,14 +262,6 @@ img, video, canvas, svg { max-width: 100%; max-height: 100%; }
 small { display: block; font: 500 21px var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--mute); margin-bottom: 10px; }
 h3 { font: 800 38px/1.15 var(--font-display); }
 
-/* === COVER === */
-.cover { background: var(--paper); padding: 150px 110px; }
-.cover .block { position: absolute; right: 0; top: 0; width: 520px; height: 1080px; background: var(--red); }
-.cover .kicker { font: 500 24px var(--font-display); letter-spacing: .12em; text-transform: uppercase; border-top: 3px solid var(--ink); padding-top: 18px; width: 1180px; }
-.cover h1 { font: 800 190px/.95 var(--font-display); letter-spacing: -.03em; margin-top: 110px; }
-.cover .sub { font-size: 44px; margin-top: 50px; width: 1100px; }
-.cover .authors { position: absolute; left: 110px; bottom: 90px; font: 500 28px var(--font-display); }
-
 /* === COMPONENTS === */
 .cards { display: grid; gap: 40px; }
 .cards.three { grid-template-columns: repeat(3, 1fr); } .cards.two { grid-template-columns: repeat(2, 1fr); }
@@ -306,9 +284,6 @@ h3 { font: 800 38px/1.15 var(--font-display); }
 .flow > b { align-self: center; font-size: 48px; color: var(--mute); }
 .flow .strong { font: 800 34px var(--font-display); flex: 1.5; } .flow .strong small { margin: 14px 0 0; text-transform: none; letter-spacing: 0; font-size: 24px; }
 .flow .hot { background: var(--ink); color: #fff; font: 800 34px/1.3 var(--font-display); }
-.todo { margin-top: 56px; border: 3px dashed var(--red); background: var(--tint); padding: 34px 40px; font-size: 38px; }
-.todo b { display: block; font: 800 24px var(--font-display); letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
-.todo ul { list-style: none; } .todo li + li { margin-top: 10px; }
 .split { display: grid; grid-template-columns: 1080px 1fr; gap: 80px; align-items: start; } .split.even { grid-template-columns: 1fr 1fr; }
 .points { list-style: none; } .points li { font-size: 40px; padding: 22px 0; border-top: 2px solid var(--grey); } .points li:first-child { border-top: 3px solid var(--ink); }
 .callout { background: var(--tint); border-left: 10px solid var(--red); padding: 24px 30px; font: 500 24px var(--font-display); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 40px; }
@@ -317,6 +292,22 @@ h3 { font: 800 38px/1.15 var(--font-display); }
 .prompt .dashed { background: var(--tint); border: 3px dashed var(--red); } .prompt .hot { background: var(--ink); color: #fff; font: 800 44px var(--font-display); } .prompt .hot small { color: var(--grey); }
 .model { background: var(--wash); padding: 44px 48px; } .model h3 { font-size: 46px; } .model > p { margin-top: 8px; }
 .adapter { background: var(--red); color: #fff; padding: 34px 38px; margin: 36px 0 30px; width: 76%; } .model .io { color: var(--mute); font-size: 32px; }
+
+/* === additions for the team-deck content === */
+.cards.compact .card { min-height: 0; } .cards.compact .card p { font-size: 34px; } .cards.gap { margin-top: 56px; }
+.chip.quote { font: 400 italic 32px/1.3 var(--font-body); } .chip.quote small { font-style: normal; color: var(--red); }
+.row { margin-top: 44px; } .banner { margin-top: 44px; }
+.funnel small { margin-bottom: 14px; } .funnel b { font-size: 76px; } .funnel span { font-size: 30px; display: block; }
+.flow.steps > div { min-height: 200px; font-size: 44px; } .flow.steps small:first-child { margin: 0 0 8px; text-transform: uppercase; letter-spacing: .1em; font-size: 21px; color: var(--red); }
+.prf h3 { font-size: 28px; margin-bottom: 10px; } .prf td, .prf th { font-size: 30px; padding: 12px 8px; text-align: center; border-bottom: 2px solid var(--grey); } .prf th:first-child { text-align: left; }
+.prf tr:first-child th { font: 500 20px var(--font-display); letter-spacing: .08em; text-transform: uppercase; border-bottom: 3px solid var(--ink); } .prf td.hot { background: var(--tint); color: var(--red); font-weight: 800; }
+.prf.setup td, .prf.setup th { text-align: left; font-size: 28px; padding: 13px 10px; } .prf.setup tr:first-child th { font: 800 28px var(--font-body); letter-spacing: 0; text-transform: none; border-bottom: 2px solid var(--grey); }
+.prf.setup tr.hot th, .prf.setup tr.hot td { background: var(--tint); color: var(--red); font-weight: 800; } .prf.setup + .aside { margin-top: 24px; }
+.prf + .callout { margin: 30px 0 18px; } svg .v { font: 800 30px var(--font-display); } svg .c { font: 500 28px var(--font-display); } .aside { font-size: 30px; color: var(--mute); }
+.hbars { display: flex; flex-direction: column; gap: 16px; } .hbars > div { display: flex; align-items: center; gap: 22px; }
+.hbars span { width: 420px; text-align: right; font-size: 30px; } .hbars > div > div { flex: 1; }
+.hbars i { display: block; font: 800 28px var(--font-display); color: #fff; text-align: right; padding: 10px 14px; }
+.title { min-height: 80px; }
 
 /* === BAR CHART (0–1 axis; plot height = 1.0) === */
 .plot { display: flex; align-items: flex-end; gap: 0; height: 520px; border-bottom: 3px solid var(--ink); padding-top: 60px; }
@@ -339,7 +330,7 @@ table { border-collapse: collapse; width: 100%; }
 .results th, .results td { padding: 30px 20px; font-size: 40px; text-align: center; border-bottom: 2px solid var(--grey); }
 .results th { font-family: var(--font-display); font-weight: 800; } .results th:first-child { text-align: left; }
 .results tr:first-child th { border-bottom: 4px solid var(--ink); font-size: 26px; letter-spacing: .08em; text-transform: uppercase; }
-.results td.hot { background: var(--tint); color: var(--red); font: 800 44px var(--font-display); } .results .pending td { color: var(--red); font-style: italic; }
+.results td.hot { background: var(--tint); color: var(--red); font: 800 44px var(--font-display); }
 .refs { padding-left: 50px; } .refs li { font-size: 30px; margin-bottom: 24px; max-width: 1560px; }
 
 /* === DECK CHROME (outside the stage) === */
@@ -365,7 +356,7 @@ class SlidePresentation {
   constructor() {
     this.slides = [...document.querySelectorAll('.slide')];
     this.stage = document.getElementById('deckStage');
-    this.slides.forEach((s, i) => { if (i) s.dataset.n = i + 1; });
+    this.slides.forEach((s, i) => { s.dataset.n = i + 1; });
     const scale = () => {
       const f = Math.min(innerWidth / 1920, innerHeight / 1080);
       this.stage.style.transform = 'translate(' + (innerWidth - 1920 * f) / 2 + 'px,' + (innerHeight - 1080 * f) / 2 + 'px) scale(' + f + ')';
@@ -404,7 +395,7 @@ const editor = {
     document.body.classList.toggle('editing', this.isActive);
     editToggle.classList.toggle('active', this.isActive);
     editToggle.textContent = this.isActive ? 'Editing: Ctrl+S saves a copy, E exits' : 'Edit text';
-    document.querySelectorAll('.slide h1,.slide h2,.slide h3,.slide p,.slide li,.slide td,.slide th,.slide small,.slide span,.todo').forEach((el) => {
+    document.querySelectorAll('.slide h1,.slide h2,.slide h3,.slide p,.slide li,.slide td,.slide th,.slide small,.slide span').forEach((el) => {
       if (this.isActive) el.setAttribute('contenteditable', 'true'); else el.removeAttribute('contenteditable');
     });
   },
