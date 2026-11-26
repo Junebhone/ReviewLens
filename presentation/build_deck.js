@@ -1,5 +1,6 @@
-// Team deck. Slides 1–6 are Dinh's slides, copied unchanged from docs/slides/build_slides.js; slides 7–13
-// (QLoRA method, training, results, Exp. 2, comparison, conclusions) are JN's, added in the same style. Longqi's BERT slides are still to be added.
+// Team deck. Slides 1–6 are Dinh's slides, copied unchanged from docs/slides/build_slides.js; slides 7–10
+// are Longqi's four BERT slides (content from docs/slides/Longqi_BERT_Experiment_Slides.pptx); slides 11–17 (QLoRA method,
+// training, results, Exp. 2, comparison, conclusions) are JN's. Speaking order: Dinh, Longqi, JN.
 // Run:  (cd ../docs/slides && npm install) && NODE_PATH=../docs/slides/node_modules node build_deck.js
 // Rebuilding overwrites the .pptx, so hand edits made in PowerPoint are lost.
 const pptxgen = require("pptxgenjs");
@@ -312,7 +313,7 @@ pres.addSection({ title: "Prompted Llama" });
 
 
 // =====================================================================================
-// Slides 7–14, added for the team deck in the same style. Numbers come from deck_data.js,
+// Slides 7–18, added for the team deck in the same style. Numbers come from deck_data.js,
 // which reads the committed result files.
 // =====================================================================================
 const { f2, f3, NOTES } = D;
@@ -343,15 +344,15 @@ function settings2(s, settings) {
   });
 }
 // per-class precision / recall / F1 of one results row, Neutral (the hard class) picked out
-function prfTable(s, r, title, hotCols = ["f1"]) {
-  T(s, title, { x: 5.7, y: 1.2, w: 3.8, h: 0.3, fontSize: 12, bold: true, color: C.text1 });
+function prfTable(s, r, title, hotCols = ["f1"], x = 5.7, y = 1.2, w = 3.8) {
+  T(s, title, { x, y, w, h: 0.3, fontSize: 12, bold: true, color: C.text1 });
   const hdr = (t) => ({ text: t, options: { bold: true, color: HEX.slate, fill: { color: HEX.paper }, align: "center" } });
   const rows = [["Class", "Precision", "Recall", "F1"].map(hdr)];
   ["Negative", "Neutral", "Positive"].forEach((l) => rows.push([hdr(l), ...["precision", "recall", "f1"].map((m) => {
     const hot = l === "Neutral" && hotCols.includes(m);
     return { text: Number(r[`${l}_${m}`]).toFixed(2), options: { align: "center", bold: hot, color: hot ? HEX.paper : HEX.ink, fill: { color: hot ? HEX.neg : HEX.mist } } };
   })]));
-  s.addTable(rows, { objectName: "prf-table", x: 5.7, y: 1.6, w: 3.8, colW: [1.1, 1.0, 0.85, 0.85],
+  s.addTable(rows, { objectName: "prf-table", x, y: y + 0.4, w, colW: [1.1, 1.0, 0.85, 0.85].map((c) => (c * w) / 3.8),
     rowH: 0.42, fontSize: 12, fontFace: "Calibri", border: { type: "solid", pt: 2, color: HEX.paper }, valign: "middle" });
 }
 // left: F1 chart of two settings; right: per-class scores and a takeaway card
@@ -370,7 +371,55 @@ function resultSlide(s, series, r, tableTitle, headline, detail, hotCols) {
   ], { x: 5.9, y: 3.75, w: 3.4, h: 0.95, fontSize: 12, valign: "top" });
 }
 
-// Longqi's BERT slides are not in yet: they go here, after Dinh's Exp. 2 slide.
+// ---------- Fine-tuned BERT (Longqi): his four slides. The confusion matrix on his results slide is left out. ----------
+pres.addSection({ title: "Fine-tuned BERT" });
+{
+  const s = pres.addSlide({ masterName: "Content", sectionTitle: "Fine-tuned BERT" });
+  s.addText("Fine-tuned BERT for three-class sentiment", { placeholder: "title" });
+  steps3(s, [["Tokenize", `BERT tokenizer\nmax length ${D.binfo.max_length}`], ["Fine-tune", `bert-base-uncased\n${D.binfo.epochs} epochs · LR 2e-5`], ["Select", "Best val macro-F1\ncheckpoint at epoch 3"]]);
+  settings2(s, [
+    ["Shared data split", "40,000 train · 5,000 validation\n5,000 held-out test", "same split as all three methods"],
+    ["Training setup", `Batch ${D.binfo.train_batch_size} · weight decay ${D.binfo.weight_decay}\nseed ${D.binfo.seed} · NVIDIA L4`, `${Number(D.binfo.training_minutes).toFixed(1)} min training time`],
+  ]);
+  T(s, "Evaluated on the shared 5,000-review balanced test set · main metric: macro-F1", { x: 0.5, y: 4.6, w: 9, h: 0.3, fontSize: 12, italic: true, color: C.text2 });
+  s.addNotes(NOTES.bert1);
+}
+{
+  const s = pres.addSlide({ masterName: "Content", sectionTitle: "Fine-tuned BERT" });
+  s.addText("Training strategy and loss design", { placeholder: "title" });
+  steps3(s, [["Encode", "[CLS] representation\nlinear head gives 3 logits"], ["Optimize", "AdamW, LR 2e-5\nbatch 16 for 3 epochs"], ["Select", "Evaluate each epoch\nkeep best validation macro-F1"]]);
+  settings2(s, [
+    ["Loss function", "Unweighted 3-class cross-entropy\nL = −(1/N) Σ log p(yᵢ | xᵢ)", "balanced classes, no class weights"],
+    ["Training control", "750 warmup steps (10%)\nweight decay 0.01", "checkpoint each epoch, resume enabled"],
+  ]);
+  T(s, "Seed 42 with dynamic padding and mixed precision. The test set stays untouched during training.", { x: 0.5, y: 4.6, w: 9, h: 0.3, fontSize: 12, italic: true, color: C.text2 });
+  s.addNotes(NOTES.bert2);
+}
+{
+  const s = pres.addSlide({ masterName: "Content", sectionTitle: "Fine-tuned BERT" });
+  s.addText(`BERT holds up on test: val ${f3(D.bertVal.macro_f1)}, test ${f3(D.bert.macro_f1)}`, { placeholder: "title" });
+  resultSlide(s, [["Validation", D.bertVal], ["Test", D.bert]], D.bert, "Test precision, recall and F1",
+    `${D.cmBert[1][0]}% of Neutral reviews are predicted Negative`,
+    `Neutral is the weak class (F1 ${f3(D.bert.Neutral_f1)}). Positive is strongest at ${f3(D.bert.Positive_f1)} F1.`);
+  s.addNotes(NOTES.bert3);
+}
+{
+  const s = pres.addSlide({ masterName: "Content", sectionTitle: "Fine-tuned BERT" });
+  s.addText("Exp. 2: BERT on 600 AI-labeled reviews", { placeholder: "title" });
+  T(s, "Claude Haiku labelled each review from text only; star ratings were hidden", { x: 0.5, y: 1.1, w: 9, h: 0.3, fontSize: 13, color: C.text2 });
+  card(s, "bert-exp2-stat", 0.5, 1.6, 3.2, 2.3, TINT);
+  T(s, f3(D.bAI.macro_f1), { x: 0.7, y: 1.7, w: 2.8, h: 0.85, fontSize: 48, bold: true, color: C.accent1, align: "center", valign: "middle", fontFace: "Cambria" });
+  T(s, "Macro-F1", { x: 0.7, y: 2.55, w: 2.8, h: 0.3, fontSize: 13, bold: true, color: C.text1, align: "center" });
+  T(s, `Macro precision ${f3(D.bAI.macro_precision)}\nMacro recall ${f3(D.bAI.macro_recall)}`, { x: 0.7, y: 2.88, w: 2.8, h: 0.5, fontSize: 12, bold: true, color: C.accent2, align: "center" });
+  T(s, "Fine-tuned BERT vs AI labels", { x: 0.7, y: 3.45, w: 2.8, h: 0.3, fontSize: 12, color: C.text2, align: "center" });
+  prfTable(s, D.bAI, "Per-class results on Experiment 2", ["f1"], 4.0, 1.6, 5.5);
+  card(s, "bert-exp2-insight", 0.5, 4.1, 9, 0.75);
+  T(s, [
+    { text: `Positive is strongest (F1 ${f3(D.bAI.Positive_f1)}). `, options: { bold: true, color: HEX.ink } },
+    { text: `Neutral remains weakest (F1 ${f3(D.bAI.Neutral_f1)}), with lower precision than recall.`, options: { color: HEX.ink } },
+  ], { x: 0.75, y: 4.15, w: 8.5, h: 0.65, fontSize: 13, valign: "middle" });
+  s.addNotes(NOTES.bert4);
+}
 
 // ---------- Llama + QLoRA (JN) ----------
 pres.addSection({ title: "Llama + QLoRA" });

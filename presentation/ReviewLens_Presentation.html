@@ -254,6 +254,75 @@ body.editing [contenteditable]:hover { outline: 3px dashed var(--red); outline-o
 </section>
 
 <section class="slide ">
+  <header class="chrome"><span><i></i>Fine-tuned BERT</span><span>ReviewLens</span></header>
+  <h2 class="title reveal">Fine-tuned BERT for three-class sentiment</h2>
+  <div class="body">
+  <div class="flow steps reveal"><div class="strong"><small>Step 1</small>Tokenize<small>BERT tokenizer, max length 384</small></div><b>→</b><div class="strong"><small>Step 2</small>Fine-tune<small>bert-base-uncased, 3 epochs · LR 2e-5</small></div><b>→</b><div class="strong"><small>Step 3</small>Select<small>Best val macro-F1: checkpoint at epoch 3</small></div></div>
+  <div class="cards two compact gap reveal">
+    <div class="card"><small>same split as all three methods</small><h3>Shared data split</h3><p>40,000 train · 5,000 validation · 5,000 held-out test</p></div>
+    <div class="card hot"><small>16.9 min training time</small><h3>Training setup</h3><p>Batch 16 · weight decay 0.01 · seed 42 · NVIDIA L4</p></div>
+  </div>
+  <p class="source">Evaluated on the shared 5,000-review balanced test set · main metric: macro-F1</p></div>
+  <aside class="notes">[~30 s]<br>My method fine-tunes bert-base-uncased for three-class sentiment classification. I tokenize each review and cap the input at 384 tokens; only 0.18 percent of reviews are longer than that. The model trains for three epochs on the same 40,000-review split used by the team, and I select the checkpoint with the best validation macro-F1. On an NVIDIA L4, the full training run took about 16.9 minutes.</aside>
+</section>
+
+<section class="slide ">
+  <header class="chrome"><span><i></i>Fine-tuned BERT</span><span>ReviewLens</span></header>
+  <h2 class="title reveal">Training strategy and loss design</h2>
+  <div class="body">
+  <div class="flow steps reveal"><div class="strong"><small>Step 1</small>Encode<small>[CLS] representation; linear head gives 3 logits</small></div><b>→</b><div class="strong"><small>Step 2</small>Optimize<small>AdamW, LR 2e-5; batch 16 for 3 epochs</small></div><b>→</b><div class="strong"><small>Step 3</small>Select<small>Evaluate each epoch; keep best validation macro-F1</small></div></div>
+  <div class="cards two compact gap reveal">
+    <div class="card"><small>balanced classes, no class weights</small><h3>Loss function</h3><p>Unweighted 3-class cross-entropy: L = −(1/N) Σ log p(yᵢ | xᵢ)</p></div>
+    <div class="card hot"><small>checkpoint each epoch, resume enabled</small><h3>Training control</h3><p>750 warmup steps (10%) · weight decay 0.01</p></div>
+  </div>
+  <p class="source">Seed 42 with dynamic padding and mixed precision. The test set stays untouched during training.</p></div>
+  <aside class="notes">[~35 s]<br>BERT produces three logits from the CLS representation. Hugging Face Trainer applies the standard unweighted cross-entropy loss. I did not add class weights because the training split is balanced across Negative, Neutral, and Positive. AdamW uses a learning rate of 2e-5, weight decay of 0.01, and 750 warmup steps. I evaluate and save at the end of every epoch, then reload the checkpoint with the highest validation macro-F1. The notebook can also resume from the last checkpoint if Colab disconnects.</aside>
+</section>
+
+<section class="slide ">
+  <header class="chrome"><span><i></i>Fine-tuned BERT</span><span>ReviewLens</span></header>
+  <h2 class="title reveal">BERT holds up on test: val 0.796, test 0.783</h2>
+  <div class="body">
+  <div class="split">
+    <div class="chart reveal"><div class="plot">
+      <div class="group">
+        <div class="bars"><div class="bar grey" style="height:79.8%"><span>0.80</span></div><div class="bar ink" style="height:77.7%"><span>0.78</span></div></div>
+        <div class="cat">Negative</div>
+      </div>
+      <div class="group focus">
+        <div class="bars"><div class="bar grey" style="height:70.7%"><span>0.71</span></div><div class="bar ink" style="height:69.2%"><span>0.69</span></div></div>
+        <div class="cat">Neutral</div>
+      </div>
+      <div class="group">
+        <div class="bars"><div class="bar grey" style="height:88.3%"><span>0.88</span></div><div class="bar ink" style="height:88.0%"><span>0.88</span></div></div>
+        <div class="cat">Positive</div>
+      </div>
+      <div class="group">
+        <div class="bars"><div class="bar grey" style="height:79.6%"><span>0.80</span></div><div class="bar ink" style="height:78.3%"><span>0.78</span></div></div>
+        <div class="cat">Macro-F1</div>
+      </div></div><div class="legend"><span><i class="grey"></i>Validation</span><span><i class="ink"></i>Test</span></div></div>
+    <div><div class="prf reveal"><h3>Test precision, recall and F1</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr><tr><th>Negative</th><td class="">0.78</td><td class="">0.77</td><td class="">0.78</td></tr><tr><th>Neutral</th><td class="">0.67</td><td class="">0.71</td><td class="hot">0.69</td></tr><tr><th>Positive</th><td class="">0.90</td><td class="">0.86</td><td class="">0.88</td></tr></table></div><p class="callout reveal">Neutral reviews predicted Negative<b>21%</b></p><p class="aside reveal">Neutral is the weak class (F1 0.692). Positive is strongest at 0.880 F1.</p></div>
+  </div><p class="source">F1 per class on the validation and test sets (n = 5,000 each)</p></div>
+  <aside class="notes">[~40 s]<br>The model is stable from validation to test: macro-F1 moves from 0.796 to 0.783. Positive is the strongest class at 0.880 F1, and Negative is also solid. Neutral remains the hardest class at 0.692 F1. The per-class scores show the main error pattern: about 21 percent of true Neutral reviews are predicted as Negative. That is the class I would target first with more data or a better objective.</aside>
+</section>
+
+<section class="slide ">
+  <header class="chrome"><span><i></i>Fine-tuned BERT</span><span>ReviewLens</span></header>
+  <h2 class="title reveal">Exp. 2: BERT on 600 AI-labeled reviews</h2>
+  <div class="body">
+  <div class="split even">
+    <div>
+      <p class="callout reveal">Fine-tuned BERT vs AI labels · macro-F1<b>0.803</b></p>
+      <ul class="points reveal"><li>Macro precision <b>0.806</b></li><li>Macro recall <b>0.816</b></li></ul>
+    </div>
+    <div class="prf reveal"><h3>Per-class results on Experiment 2</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr><tr><th>Negative</th><td class="">0.95</td><td class="">0.73</td><td class="">0.82</td></tr><tr><th>Neutral</th><td class="">0.63</td><td class="">0.78</td><td class="hot">0.70</td></tr><tr><th>Positive</th><td class="">0.84</td><td class="">0.94</td><td class="">0.89</td></tr></table></div>
+  </div>
+  <p class="banner light reveal"><b>Positive is strongest (F1 0.886).</b> Neutral remains weakest (F1 0.698), with lower precision than recall.</p>
+  <p class="source">Claude Haiku labelled each review from text only; star ratings were hidden</p></div>
+  <aside class="notes">[~35 s]<br>For Experiment 2, I evaluated the trained BERT model on 600 additional reviews. Claude Haiku labelled the text without seeing the star rating. BERT reaches 0.803 macro-F1 against those AI labels and 0.788 against the original star labels for the same reviews, a difference of only 0.015. Since the AI labels agree with the stars at 0.746, this suggests BERT is fairly stable even when the label source changes.</aside>
+</section>
+
+<section class="slide ">
   <header class="chrome"><span><i></i>Llama + QLoRA</span><span>ReviewLens</span></header>
   <h2 class="title reveal">Llama 3.1 8B + QLoRA, 0.5% of weights trained</h2>
   <div class="body">

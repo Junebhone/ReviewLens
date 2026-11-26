@@ -1,8 +1,8 @@
 // Builds ReviewLens_Presentation.html (single self-contained file, no dependencies).  Run:  node build_web.js
 // Same slides and wording as build_deck.js (the team deck built on Dinh's slides), in the Swiss Modern web style
 // (frontend-slides skill: fixed 1920x1080 stage, white / black / one red accent).
-// Slides 1–6 are Dinh's; their speaker notes are read from docs/slides/build_slides.js. Slides 7–13 are JN's.
-// Longqi's BERT slides are not in yet: they go after slide 6.
+// Slides 1–6 are Dinh's; their speaker notes are read from docs/slides/build_slides.js. Slides 7–10 are Longqi's
+// (content from docs/slides/Longqi_BERT_Experiment_Slides.pptx, without its confusion matrix). Slides 11–17 are JN's.
 // Rebuilding overwrites the .html, so text edited in the browser and saved over it is lost.
 const fs = require("fs");
 const path = require("path");
@@ -126,7 +126,41 @@ slide("Prompted Llama", "Exp. 2: prompted model agrees with AI labels", `
   <p class="banner light reveal"><b>Stars are a noisy label.</b> Both models read many 3-star reviews as Negative, so part of the test "error" is label noise. 0.879 is agreement between two LLMs, not a ground-truth score.</p>
   ${src("Macro-F1 on 600 extra reviews labelled by Claude Haiku from the text only (stars hidden)")}`, dinhNotes[5]);
 
-// ================= slides 7–11: JN =================
+// ================= slides 7–10: Longqi =================
+slide("Fine-tuned BERT", "Fine-tuned BERT for three-class sentiment", `
+  ${flow([["Tokenize", `BERT tokenizer, max length ${D.binfo.max_length}`], ["Fine-tune", `bert-base-uncased, ${D.binfo.epochs} epochs · LR 2e-5`], ["Select", "Best val macro-F1: checkpoint at epoch 3"]])}
+  <div class="cards two compact gap reveal">
+    <div class="card"><small>same split as all three methods</small><h3>Shared data split</h3><p>40,000 train · 5,000 validation · 5,000 held-out test</p></div>
+    <div class="card hot"><small>${Number(D.binfo.training_minutes).toFixed(1)} min training time</small><h3>Training setup</h3><p>Batch ${D.binfo.train_batch_size} · weight decay ${D.binfo.weight_decay} · seed ${D.binfo.seed} · NVIDIA L4</p></div>
+  </div>
+  ${src("Evaluated on the shared 5,000-review balanced test set · main metric: macro-F1")}`, NOTES.bert1);
+
+slide("Fine-tuned BERT", "Training strategy and loss design", `
+  ${flow([["Encode", "[CLS] representation; linear head gives 3 logits"], ["Optimize", "AdamW, LR 2e-5; batch 16 for 3 epochs"], ["Select", "Evaluate each epoch; keep best validation macro-F1"]])}
+  <div class="cards two compact gap reveal">
+    <div class="card"><small>balanced classes, no class weights</small><h3>Loss function</h3><p>Unweighted 3-class cross-entropy: L = −(1/N) Σ log p(yᵢ | xᵢ)</p></div>
+    <div class="card hot"><small>checkpoint each epoch, resume enabled</small><h3>Training control</h3><p>750 warmup steps (10%) · weight decay 0.01</p></div>
+  </div>
+  ${src("Seed 42 with dynamic padding and mixed precision. The test set stays untouched during training.")}`, NOTES.bert2);
+
+slide("Fine-tuned BERT", `BERT holds up on test: val ${f3(D.bertVal.macro_f1)}, test ${f3(D.bert.macro_f1)}`,
+  result([{ name: "Validation", cls: "grey", values: D.f1s(D.bertVal) }, { name: "Test", cls: "ink", values: D.f1s(D.bert) }],
+    "Test precision, recall and F1", D.bert, "Neutral reviews predicted Negative", `${D.cmBert[1][0]}%`,
+    `Neutral is the weak class (F1 ${f3(D.bert.Neutral_f1)}). Positive is strongest at ${f3(D.bert.Positive_f1)} F1.`) +
+  src("F1 per class on the validation and test sets (n = 5,000 each)"), NOTES.bert3);
+
+slide("Fine-tuned BERT", "Exp. 2: BERT on 600 AI-labeled reviews", `
+  <div class="split even">
+    <div>
+      <p class="callout reveal">Fine-tuned BERT vs AI labels · macro-F1<b>${f3(D.bAI.macro_f1)}</b></p>
+      ${bullets([`Macro precision <b>${f3(D.bAI.macro_precision)}</b>`, `Macro recall <b>${f3(D.bAI.macro_recall)}</b>`])}
+    </div>
+    ${prf("Per-class results on Experiment 2", D.bAI)}
+  </div>
+  <p class="banner light reveal"><b>Positive is strongest (F1 ${f3(D.bAI.Positive_f1)}).</b> Neutral remains weakest (F1 ${f3(D.bAI.Neutral_f1)}), with lower precision than recall.</p>
+  ${src("Claude Haiku labelled each review from text only; star ratings were hidden")}`, NOTES.bert4);
+
+// ================= slides 11–17: JN =================
 slide("Llama + QLoRA", "Llama 3.1 8B + QLoRA, 0.5% of weights trained", `
   ${flow([["Freeze", "Llama-3.1-8B-Instruct in 4-bit; 8.07 B weights, not trained"], ["Adapt", "LoRA adapters, rank 16; 41.9 M trainable weights (0.52%)"], ["Train", "Target is the label only; 1 epoch over 40,000 reviews"]])}
   <div class="cards two compact gap reveal">
