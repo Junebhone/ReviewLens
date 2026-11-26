@@ -530,7 +530,7 @@ pres.addSection({ title: "Comparison" });
   const hot = { bold: true, fill: { color: HEX.amber } };
   const row = (name, r, train, sec, o = {}) => [cell(name, { align: "left", bold: true }), cell(f3(r.macro_f1), o.f1), cell(f3(r.Neutral_f1), o.neu), cell(train), cell(sec, o.sec)];
   s.addTable([
-    ["Method", "Macro-F1", "Neutral F1", "Training", "s / review"].map(hd),
+    ["Method", "Macro-F1", "Neutral F1", "Training", "Seconds per review"].map(hd),
     row("Fine-tuned BERT", D.bert, Math.round(D.bcost.training_minutes) + " min", f3(D.bcost.sec_per_review) + " (L4)", { sec: hot }),
     row("Llama, zero-shot", D.zero, "none", f3(D.zc.sec_per_review) + " (L4)"),
     row("Llama, best prompt", D.few, "none", f3(D.fc.sec_per_review) + " (L4)"),

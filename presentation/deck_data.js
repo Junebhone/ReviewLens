@@ -47,7 +47,7 @@ const setup = [
   ["GPU", "NVIDIA A100, 80 GB", true],
   ["Training time", `${Math.round(cost.training_minutes)} min (1 epoch, 2,500 steps)`, true],
   ["Trainable weights", "41.9 M of 8.07 B (0.52%)", false],
-  ["Inference time", `${f3(cost.sec_per_review)} s per review`, false],
+  ["Inference time", `${f3(cost.sec_per_review)} seconds per review`, false],
   ["Validation macro-F1", `${f3(qVal.macro_f1)} (600 reviews)`, false],
 ];
 if (!/A100.*80GB/.test(cost.gpu_training)) throw new Error("GPU in inference_cost.csv is not the A100 the slide names");

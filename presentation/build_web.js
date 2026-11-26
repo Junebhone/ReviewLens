@@ -204,7 +204,7 @@ slide("Llama + QLoRA", "Exp. 2: QLoRA on the AI-labelled reviews", `
 const trow = (name, r, train, sec, hot = []) => `<tr><th>${name}</th>${[f3(r.macro_f1), f3(r.Neutral_f1), train, sec].map((v, i) => `<td class="${hot.includes(i) ? "hot" : ""}">${v}</td>`).join("")}</tr>`;
 slide("Comparison", "Three methods on the same test set", `
   <table class="results reveal">
-    <tr><th>Method</th><th>Macro-F1</th><th>Neutral F1</th><th>Training</th><th>s / review</th></tr>
+    <tr><th>Method</th><th>Macro-F1</th><th>Neutral F1</th><th>Training</th><th>Seconds per review</th></tr>
     ${trow("Fine-tuned BERT", D.bert, Math.round(D.bcost.training_minutes) + " min", f3(D.bcost.sec_per_review) + " (L4)", [3])}
     ${trow("Llama, zero-shot", D.zero, "none", f3(D.zc.sec_per_review) + " (L4)")}
     ${trow("Llama, best prompt", D.few, "none", f3(D.fc.sec_per_review) + " (L4)")}
