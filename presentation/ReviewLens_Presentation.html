@@ -96,6 +96,8 @@ h3 { font: 800 38px/1.15 var(--font-display); }
 .row { margin-top: 44px; } .banner { margin-top: 44px; }
 .funnel small { margin-bottom: 14px; } .funnel b { font-size: 76px; } .funnel span { font-size: 30px; display: block; }
 .flow.steps > div { min-height: 200px; font-size: 44px; } .flow.steps small:first-child { margin: 0 0 8px; text-transform: uppercase; letter-spacing: .1em; font-size: 21px; color: var(--red); }
+.split .matrix h3 { font-size: 28px; margin-bottom: 10px; } .split .matrix td { font-size: 34px; height: 76px; } .split .matrix th { font-size: 24px; padding: 8px 12px; }
+.matrix + .callout { margin: 30px 0 18px; } .prf + .aside { margin-top: 24px; }
 .prf h3 { font-size: 28px; margin-bottom: 10px; } .prf td, .prf th { font-size: 30px; padding: 12px 8px; text-align: center; border-bottom: 2px solid var(--grey); } .prf th:first-child { text-align: left; }
 .prf tr:first-child th { font: 500 20px var(--font-display); letter-spacing: .08em; text-transform: uppercase; border-bottom: 3px solid var(--ink); } .prf td.hot { background: var(--tint); color: var(--red); font-weight: 800; }
 .prf.setup td, .prf.setup th { text-align: left; font-size: 28px; padding: 13px 10px; } .prf.setup tr:first-child th { font: 800 28px var(--font-body); letter-spacing: 0; text-transform: none; border-bottom: 2px solid var(--grey); }
@@ -159,7 +161,7 @@ body.editing [contenteditable]:hover { outline: 3px dashed var(--red); outline-o
     <div class="chip"><small>Label?</small>Negative<br>Neutral<br>Positive</div>
   </div>
   <p class="banner light reveal"><b>Main metric: macro-F1</b>, so Neutral counts as much as the easy classes.</p>
-  <p class="source">One task, three methods, same data. Also reported: per-class precision, recall and F1.</p></div>
+  <p class="source">One task, three methods, same data. Also reported: per-class precision / recall / F1, confusion matrices.</p></div>
   <aside class="notes">[~60 s · 0:00–1:00]<br>Hello everyone, I'm Quoc, and our project is ReviewLens. Every online seller has the same problem: thousands of reviews come in, and the ones that matter most, from unhappy customers, are buried in the pile. Our goal is to sort every review automatically into Negative, Neutral or Positive.<br>What makes this project interesting is that we solve the same task in three different ways, on exactly the same data. Longqi fine-tunes BERT, Bhone fine-tunes Llama with QLoRA, and I take the opposite route: the same Llama with no training at all, only prompting. So we can ask a practical question: how much does training actually buy you?<br>We judge everything by macro-F1, so the hard Neutral class counts as much as the easy ones. And keep this review in mind: it has three stars, but it reads like a complaint. We'll come back to that.</aside>
 </section>
 
@@ -219,9 +221,9 @@ body.editing [contenteditable]:hover { outline: 3px dashed var(--red); outline-o
         <div class="bars"><div class="bar grey" style="height:67.7%"><span>0.68</span></div><div class="bar ink" style="height:78.3%"><span>0.78</span></div></div>
         <div class="cat">Macro-F1</div>
       </div></div><div class="legend"><span><i class="grey"></i>Zero-shot</span><span><i class="ink"></i>Few-shot k=5 + definitions</span></div></div>
-    <div><div class="prf reveal"><h3>Final design: per-class scores (test set)</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr><tr><th>Negative</th><td class="">0.74</td><td class="">0.85</td><td class="">0.79</td></tr><tr><th>Neutral</th><td class="">0.69</td><td class="">0.66</td><td class="hot">0.68</td></tr><tr><th>Positive</th><td class="">0.94</td><td class="">0.84</td><td class="">0.89</td></tr></table></div><p class="callout reveal">Neutral reviews → Negative<b>62% → 29%</b></p><p class="aside reveal">Still the main error. Neutral recall 32% → 66%, F1 0.43 → 0.68.</p></div>
+    <div><div class="matrix reveal"><h3>Final design, % of each true class</h3><table><tr><th></th><th>Neg.</th><th>Neu.</th><th>Pos.</th></tr><tr><th>Negative</th><td class="" style="background:rgba(17,17,17,0.77);color:#fff">85%</td><td class="" style="background:rgba(17,17,17,0.14);color:#111">15%</td><td class="" style="background:rgba(17,17,17,0.01);color:#111">1%</td></tr><tr><th>Neutral</th><td class="hit" style="background:rgba(17,17,17,0.26);color:#111">29%</td><td class="" style="background:rgba(17,17,17,0.59);color:#fff">66%</td><td class="" style="background:rgba(17,17,17,0.04);color:#111">4%</td></tr><tr><th>Positive</th><td class="" style="background:rgba(17,17,17,0.01);color:#111">1%</td><td class="" style="background:rgba(17,17,17,0.14);color:#111">15%</td><td class="" style="background:rgba(17,17,17,0.76);color:#fff">84%</td></tr></table></div><p class="callout reveal">Neutral reviews → Negative<b>62% → 29%</b></p><p class="aside reveal">Still the main error. Neutral recall 32% → 66%, F1 0.43 → 0.68.</p></div>
   </div><p class="source">F1 per class on the test set (n = 5,000)</p></div>
-  <aside class="notes">[~45 s · 2:40–3:25]<br>That design work pays off: a well-chosen prompt adds about ten points of macro-F1, with zero training. What matters is where the gain comes from. Negative and Positive were already easy; almost all of the improvement is on Neutral. The examples show the model what a “middle” review looks like, which an instruction alone doesn't convey.<br>But the per-class scores show Neutral is still the weak point, and the error goes in one direction: Neutral reviews get pushed toward Negative, and rarely toward Positive. When I read those reviews, many are real complaints from customers who still gave three stars. So the question becomes: is the model wrong, or is the label?</aside>
+  <aside class="notes">[~45 s · 2:40–3:25]<br>That design work pays off: a well-chosen prompt adds about ten points of macro-F1, with zero training. What matters is where the gain comes from. Negative and Positive were already easy; almost all of the improvement is on Neutral. The examples show the model what a “middle” review looks like, which an instruction alone doesn't convey.<br>But the confusion matrix shows Neutral is still the weak point, and the error goes in one direction: Neutral reviews get pushed toward Negative, and rarely toward Positive. When I read those reviews, many are real complaints from customers who still gave three stars. So the question becomes: is the model wrong, or is the label?</aside>
 </section>
 
 <section class="slide ">
@@ -283,27 +285,12 @@ body.editing [contenteditable]:hover { outline: 3px dashed var(--red); outline-o
   <header class="chrome"><span><i></i>Fine-tuned BERT</span><span>ReviewLens</span></header>
   <h2 class="title reveal">BERT holds up on test: val 0.796, test 0.783</h2>
   <div class="body">
-  <div class="split">
-    <div class="chart reveal"><div class="plot">
-      <div class="group">
-        <div class="bars"><div class="bar grey" style="height:79.8%"><span>0.80</span></div><div class="bar ink" style="height:77.7%"><span>0.78</span></div></div>
-        <div class="cat">Negative</div>
-      </div>
-      <div class="group focus">
-        <div class="bars"><div class="bar grey" style="height:70.7%"><span>0.71</span></div><div class="bar ink" style="height:69.2%"><span>0.69</span></div></div>
-        <div class="cat">Neutral</div>
-      </div>
-      <div class="group">
-        <div class="bars"><div class="bar grey" style="height:88.3%"><span>0.88</span></div><div class="bar ink" style="height:88.0%"><span>0.88</span></div></div>
-        <div class="cat">Positive</div>
-      </div>
-      <div class="group">
-        <div class="bars"><div class="bar grey" style="height:79.6%"><span>0.80</span></div><div class="bar ink" style="height:78.3%"><span>0.78</span></div></div>
-        <div class="cat">Macro-F1</div>
-      </div></div><div class="legend"><span><i class="grey"></i>Validation</span><span><i class="ink"></i>Test</span></div></div>
-    <div><div class="prf reveal"><h3>Test precision, recall and F1</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr><tr><th>Negative</th><td class="">0.78</td><td class="">0.77</td><td class="">0.78</td></tr><tr><th>Neutral</th><td class="">0.67</td><td class="">0.71</td><td class="hot">0.69</td></tr><tr><th>Positive</th><td class="">0.90</td><td class="">0.86</td><td class="">0.88</td></tr></table></div><p class="callout reveal">Neutral reviews predicted Negative<b>21%</b></p><p class="aside reveal">Neutral is the weak class (F1 0.692). Positive is strongest at 0.880 F1.</p></div>
-  </div><p class="source">F1 per class on the validation and test sets (n = 5,000 each)</p></div>
-  <aside class="notes">[~40 s]<br>The model is stable from validation to test: macro-F1 moves from 0.796 to 0.783. Positive is the strongest class at 0.880 F1, and Negative is also solid. Neutral remains the hardest class at 0.692 F1. The per-class scores show the main error pattern: about 21 percent of true Neutral reviews are predicted as Negative. That is the class I would target first with more data or a better objective.</aside>
+  <div class="split even">
+    <div><div class="prf reveal"><h3>Test precision, recall and F1</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr><tr><th>Negative</th><td class="">0.78</td><td class="">0.77</td><td class="">0.78</td></tr><tr><th>Neutral</th><td class="">0.67</td><td class="">0.71</td><td class="hot">0.69</td></tr><tr><th>Positive</th><td class="">0.90</td><td class="">0.86</td><td class="">0.88</td></tr></table></div><p class="aside reveal"><b>Macro:</b> precision 0.785, recall 0.781, F1 0.783.</p></div>
+    <div><div class="matrix reveal"><h3>Test confusion matrix, % of each true class</h3><table><tr><th></th><th>Neg.</th><th>Neu.</th><th>Pos.</th></tr><tr><th>Negative</th><td class="" style="background:rgba(17,17,17,0.69);color:#fff">77%</td><td class="" style="background:rgba(17,17,17,0.19);color:#111">21%</td><td class="" style="background:rgba(17,17,17,0.01);color:#111">1%</td></tr><tr><th>Neutral</th><td class="hit" style="background:rgba(17,17,17,0.19);color:#111">21%</td><td class="" style="background:rgba(17,17,17,0.64);color:#fff">71%</td><td class="" style="background:rgba(17,17,17,0.07);color:#111">8%</td></tr><tr><th>Positive</th><td class="" style="background:rgba(17,17,17,0.01);color:#111">1%</td><td class="" style="background:rgba(17,17,17,0.12);color:#111">13%</td><td class="" style="background:rgba(17,17,17,0.77);color:#fff">86%</td></tr></table></div><p class="callout reveal">Neutral reviews predicted Negative<b>21%</b></p></div>
+  </div>
+  <p class="source">Neutral is the weak class (F1 0.692). Positive is strongest at 0.880 F1.</p></div>
+  <aside class="notes">[~40 s]<br>The model is stable from validation to test: macro-F1 moves from 0.796 to 0.783. Positive is the strongest class at 0.880 F1, and Negative is also solid. Neutral remains the hardest class at 0.692 F1. The confusion matrix shows the main error pattern: about 21 percent of true Neutral reviews are predicted as Negative. That is the class I would target first with more data or a better objective.</aside>
 </section>
 
 <section class="slide ">
@@ -372,9 +359,9 @@ body.editing [contenteditable]:hover { outline: 3px dashed var(--red); outline-o
         <div class="bars"><div class="bar ink" style="height:78.3%"><span>0.78</span></div><div class="bar red" style="height:83.8%"><span>0.84</span></div></div>
         <div class="cat">Macro-F1</div>
       </div></div><div class="legend"><span><i class="ink"></i>Best prompt (k=5 + definitions)</span><span><i class="red"></i>QLoRA</span></div></div>
-    <div><div class="prf reveal"><h3>QLoRA: per-class scores (test set)</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr><tr><th>Negative</th><td class="">0.84</td><td class="">0.81</td><td class="">0.83</td></tr><tr><th>Neutral</th><td class="">0.74</td><td class="hot">0.80</td><td class="hot">0.77</td></tr><tr><th>Positive</th><td class="">0.95</td><td class="">0.90</td><td class="">0.92</td></tr></table></div><p class="callout reveal">Neutral F1<b>0.68 → 0.77</b></p><p class="aside reveal">Neutral recall 66% → 80%. Better on all three classes; all 5,000 outputs are a bare label.</p></div>
+    <div><div class="matrix reveal"><h3>QLoRA, % of each true class</h3><table><tr><th></th><th>Neg.</th><th>Neu.</th><th>Pos.</th></tr><tr><th>Negative</th><td class="" style="background:rgba(17,17,17,0.73);color:#fff">81%</td><td class="" style="background:rgba(17,17,17,0.16);color:#111">18%</td><td class="" style="background:rgba(17,17,17,0.00);color:#111">0%</td></tr><tr><th>Neutral</th><td class="hit" style="background:rgba(17,17,17,0.14);color:#111">15%</td><td class="" style="background:rgba(17,17,17,0.72);color:#fff">80%</td><td class="" style="background:rgba(17,17,17,0.05);color:#111">5%</td></tr><tr><th>Positive</th><td class="" style="background:rgba(17,17,17,0.01);color:#111">1%</td><td class="" style="background:rgba(17,17,17,0.09);color:#111">10%</td><td class="" style="background:rgba(17,17,17,0.81);color:#fff">90%</td></tr></table></div><p class="callout reveal">Neutral reviews → Negative<b>29% → 15%</b></p><p class="aside reveal">Neutral recall 66% → 80%, F1 0.68 → 0.77; all 5,000 outputs are a bare label.</p></div>
   </div><p class="source">F1 per class on the test set (n = 5,000)</p></div>
-  <aside class="notes">SPEAKER: JN. ~60 s.<br>Against the best prompt, QLoRA is better on every class. The largest gain is Neutral, F1 0.68 to 0.77: Neutral recall rises from 66% to 80%. Negative recall drops a little, 85% to 81%, but Negative precision rises from 0.74 to 0.84: the model stops calling Neutral reviews Negative. On macro-F1 the gain over the best prompt is 0.055 (95% bootstrap interval 0.045 to 0.065). Because QLoRA uses the zero-shot prompt, the direct effect of fine-tuning is zero-shot 0.68 to QLoRA 0.84. Every one of the 5,000 outputs was a bare label.</aside>
+  <aside class="notes">SPEAKER: JN. ~60 s.<br>Against the best prompt, QLoRA is better on every class. The largest gain is Neutral, F1 0.68 to 0.77: Neutral recall rises from 66% to 80%. Negative recall drops a little, 85% to 81%, but Negative precision rises from 0.74 to 0.84: the model stops calling Neutral reviews Negative. In the confusion matrix, each row is a true class and sums to 100%: Neutral reviews predicted Negative fall from 29% to 15%. On macro-F1 the gain over the best prompt is 0.055 (95% bootstrap interval 0.045 to 0.065). Because QLoRA uses the zero-shot prompt, the direct effect of fine-tuning is zero-shot 0.68 to QLoRA 0.84. Every one of the 5,000 outputs was a bare label.</aside>
 </section>
 
 <section class="slide ">

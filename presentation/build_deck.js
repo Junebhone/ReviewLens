@@ -115,7 +115,7 @@ pres.addSection({ title: "Introduction" });
   card(s, "metric", 0.5, 4.1, 9, 0.75);
   T(s, [
     { text: "Main metric: macro-F1 ", options: { bold: true, color: HEX.ink } },
-    { text: "(the mean of the three per-class F1 scores, so Neutral counts as much as the easy classes). Also reported: per-class precision, recall and F1.", options: { color: HEX.ink } },
+    { text: "(the mean of the three per-class F1 scores, so Neutral counts as much as the easy classes). Also reported: per-class precision / recall / F1, confusion matrices.", options: { color: HEX.ink } },
   ], { x: 0.75, y: 4.15, w: 8.5, h: 0.65, fontSize: 12, valign: "middle" });
 
   s.addNotes("[~60 s · 0:00–1:00]\nHello everyone, I'm Quoc, and our project is ReviewLens. Every online seller has the same problem: thousands of reviews come in, and the ones that matter most, from unhappy customers, are buried in the pile. Our goal is to sort every review automatically into Negative, Neutral or Positive.\nWhat makes this project interesting is that we solve the same task in three different ways, on exactly the same data. Longqi fine-tunes BERT, Bhone fine-tunes Llama with QLoRA, and I take the opposite route: the same Llama with no training at all, only prompting. So we can ask a practical question: how much does training actually buy you?\nWe judge everything by macro-F1, so the hard Neutral class counts as much as the easy ones. And keep this review in mind: it has three stars, but it reads like a complaint. We'll come back to that.");
@@ -227,7 +227,7 @@ pres.addSection({ title: "Prompted Llama" });
     titleColor: HEX.ink,
   }, chartText));
 
-  prfTable(s, D.few, "Final design: per-class scores (test set)"); // was a confusion matrix
+  cmTable(s, D.cmFew, "Final design confusion matrix (% of each true class)");
 
   card(s, "takeaway", 5.7, 3.65, 3.8, 1.15, "F3D2C9");
   T(s, [
@@ -235,7 +235,7 @@ pres.addSection({ title: "Prompted Llama" });
     { text: "Still the main error (62% zero-shot). The prompt helps most on Neutral: recall 32% → 66%, F1 0.43 → 0.68.", options: { color: HEX.ink } },
   ], { x: 5.9, y: 3.75, w: 3.4, h: 0.95, fontSize: 12, valign: "top" });
 
-  s.addNotes("[~45 s · 2:40–3:25]\nThat design work pays off: a well-chosen prompt adds about ten points of macro-F1, with zero training. What matters is where the gain comes from. Negative and Positive were already easy; almost all of the improvement is on Neutral. The examples show the model what a “middle” review looks like, which an instruction alone doesn't convey.\nBut the per-class scores show Neutral is still the weak point, and the error goes in one direction: Neutral reviews get pushed toward Negative, and rarely toward Positive. When I read those reviews, many are real complaints from customers who still gave three stars. So the question becomes: is the model wrong, or is the label?");
+  s.addNotes("[~45 s · 2:40–3:25]\nThat design work pays off: a well-chosen prompt adds about ten points of macro-F1, with zero training. What matters is where the gain comes from. Negative and Positive were already easy; almost all of the improvement is on Neutral. The examples show the model what a “middle” review looks like, which an instruction alone doesn't convey.\nBut the confusion matrix shows Neutral is still the weak point, and the error goes in one direction: Neutral reviews get pushed toward Negative, and rarely toward Positive. When I read those reviews, many are real complaints from customers who still gave three stars. So the question becomes: is the model wrong, or is the label?");
 }
 
 // ---------- Prompt design selection on validation (§9) ----------
@@ -344,6 +344,20 @@ function settings2(s, settings) {
   });
 }
 // per-class precision / recall / F1 of one results row, Neutral (the hard class) picked out
+// confusion matrix in row percentages (course guideline: percentages, not counts); Neutral → Negative picked out
+function cmTable(s, cm, title, x = 5.7, y = 1.2, w = 3.8) {
+  T(s, title, { x, y, w, h: 0.3, fontSize: 12, bold: true, color: C.text1 });
+  const names = ["Neg", "Neu", "Pos"];
+  const hdr = (t) => ({ text: t, options: { bold: true, color: HEX.slate, fill: { color: HEX.paper }, align: "center" } });
+  const rows = [[hdr("True \\ Pred"), ...names.map(hdr)]];
+  cm.forEach((r, i) => rows.push([hdr(names[i]), ...r.map((v, j) => {
+    const hot = i === 1 && j === 0, diag = i === j;
+    return { text: v + "%", options: { align: "center", bold: hot || diag, color: hot || diag ? HEX.paper : HEX.ink,
+      fill: { color: hot ? HEX.neg : diag ? HEX.teal : HEX.mist } } };
+  })]));
+  s.addTable(rows, { objectName: "cm-table", x, y: y + 0.4, w, colW: [1.25, 0.85, 0.85, 0.85].map((c) => (c * w) / 3.8),
+    rowH: 0.42, fontSize: 12, fontFace: "Calibri", border: { type: "solid", pt: 2, color: HEX.paper }, valign: "middle" });
+}
 function prfTable(s, r, title, hotCols = ["f1"], x = 5.7, y = 1.2, w = 3.8) {
   T(s, title, { x, y, w, h: 0.3, fontSize: 12, bold: true, color: C.text1 });
   const hdr = (t) => ({ text: t, options: { bold: true, color: HEX.slate, fill: { color: HEX.paper }, align: "center" } });
@@ -355,15 +369,15 @@ function prfTable(s, r, title, hotCols = ["f1"], x = 5.7, y = 1.2, w = 3.8) {
   s.addTable(rows, { objectName: "prf-table", x, y: y + 0.4, w, colW: [1.1, 1.0, 0.85, 0.85].map((c) => (c * w) / 3.8),
     rowH: 0.42, fontSize: 12, fontFace: "Calibri", border: { type: "solid", pt: 2, color: HEX.paper }, valign: "middle" });
 }
-// left: F1 chart of two settings; right: per-class scores and a takeaway card
-function resultSlide(s, series, r, tableTitle, headline, detail, hotCols) {
+// left: F1 chart of two settings; right: confusion matrix and a takeaway card
+function resultSlide(s, series, cm, cmTitle, headline, detail) {
   s.addChart(pres.charts.BAR, series.map(([name, row]) => ({ name, labels: CATS, values: D.f1s(row) })), Object.assign({
     objectName: "f1-chart", x: 0.4, y: 1.15, w: 5.0, h: 3.85, barDir: "col", barGapWidthPct: 60,
     chartColors: [HEX.grey, HEX.amber], showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "0.00",
     valAxisMinVal: 0, valAxisMaxVal: 1, valAxisHidden: true, valGridLine: { style: "none" }, catGridLine: { style: "none" },
     showLegend: true, legendPos: "t", showTitle: true, title: "F1 per class (n = 5,000)", titleFontSize: 12, titleColor: HEX.ink,
   }, chartText));
-  prfTable(s, r, tableTitle, hotCols);
+  cmTable(s, cm, cmTitle);
   card(s, "takeaway", 5.7, 3.65, 3.8, 1.15, ROSE);
   T(s, [
     { text: headline, options: { bold: true, color: HEX.neg, breakLine: true } },
@@ -371,7 +385,7 @@ function resultSlide(s, series, r, tableTitle, headline, detail, hotCols) {
   ], { x: 5.9, y: 3.75, w: 3.4, h: 0.95, fontSize: 12, valign: "top" });
 }
 
-// ---------- Fine-tuned BERT (Longqi): his four slides. The confusion matrix on his results slide is left out. ----------
+// ---------- Fine-tuned BERT (Longqi): his four slides. ----------
 pres.addSection({ title: "Fine-tuned BERT" });
 {
   const s = pres.addSlide({ masterName: "Content", sectionTitle: "Fine-tuned BERT" });
@@ -398,9 +412,18 @@ pres.addSection({ title: "Fine-tuned BERT" });
 {
   const s = pres.addSlide({ masterName: "Content", sectionTitle: "Fine-tuned BERT" });
   s.addText(`BERT holds up on test: val ${f3(D.bertVal.macro_f1)}, test ${f3(D.bert.macro_f1)}`, { placeholder: "title" });
-  resultSlide(s, [["Validation", D.bertVal], ["Test", D.bert]], D.bert, "Test precision, recall and F1",
-    `${D.cmBert[1][0]}% of Neutral reviews are predicted Negative`,
-    `Neutral is the weak class (F1 ${f3(D.bert.Neutral_f1)}). Positive is strongest at ${f3(D.bert.Positive_f1)} F1.`);
+  prfTable(s, D.bert, "Test precision, recall and F1", ["f1"], 0.5, 1.2, 4.9);
+  card(s, "bert-val-test", 0.5, 3.65, 4.9, 1.15);
+  T(s, [
+    { text: `Macro-F1: validation ${f3(D.bertVal.macro_f1)} → test ${f3(D.bert.macro_f1)}`, options: { bold: true, color: HEX.ink, breakLine: true } },
+    { text: `Macro precision ${f3(D.bert.macro_precision)}, macro recall ${f3(D.bert.macro_recall)} on the test set.`, options: { color: HEX.ink } },
+  ], { x: 0.7, y: 3.75, w: 4.5, h: 0.95, fontSize: 12, valign: "top" });
+  cmTable(s, D.cmBert, "Test confusion matrix (% of each true class)");
+  card(s, "takeaway", 5.7, 3.65, 3.8, 1.15, ROSE);
+  T(s, [
+    { text: `${D.cmBert[1][0]}% of Neutral reviews are predicted Negative`, options: { bold: true, color: HEX.neg, breakLine: true } },
+    { text: `Neutral is the weak class (F1 ${f3(D.bert.Neutral_f1)}). Positive is strongest at ${f3(D.bert.Positive_f1)} F1.`, options: { color: HEX.ink } },
+  ], { x: 5.9, y: 3.75, w: 3.4, h: 0.95, fontSize: 12, valign: "top" });
   s.addNotes(NOTES.bert3);
 }
 {
@@ -468,9 +491,9 @@ pres.addSection({ title: "Llama + QLoRA" });
 {
   const s = pres.addSlide({ masterName: "Content", sectionTitle: "Llama + QLoRA" });
   s.addText(`QLoRA lifts test macro-F1: ${f2(D.few.macro_f1)} → ${f2(D.qlora.macro_f1)}`, { placeholder: "title" });
-  resultSlide(s, [["Best prompt (k=5 + definitions)", D.few], ["QLoRA", D.qlora]], D.qlora, "QLoRA: per-class scores (test set)",
-    `Neutral F1 ${f2(D.few.Neutral_f1)} → ${f2(D.qlora.Neutral_f1)}`,
-    `Neutral recall ${D.pct(D.few.Neutral_recall)}% → ${D.pct(D.qlora.Neutral_recall)}%. Better on all three classes; all 5,000 outputs are a bare label.`, ["recall", "f1"]);
+  resultSlide(s, [["Best prompt (k=5 + definitions)", D.few], ["QLoRA", D.qlora]], D.cmQ, "QLoRA confusion matrix (% of each true class)",
+    `${D.cmQ[1][0]}% of Neutral reviews → Negative`,
+    `Down from ${D.cmFew[1][0]}% with the best prompt. Neutral recall ${D.pct(D.few.Neutral_recall)}% → ${D.pct(D.qlora.Neutral_recall)}%, F1 ${f2(D.few.Neutral_f1)} → ${f2(D.qlora.Neutral_f1)}.`);
   s.addNotes(NOTES.qloraRes);
 }
 {

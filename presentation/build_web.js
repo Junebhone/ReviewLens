@@ -2,7 +2,7 @@
 // Same slides and wording as build_deck.js (the team deck built on Dinh's slides), in the Swiss Modern web style
 // (frontend-slides skill: fixed 1920x1080 stage, white / black / one red accent).
 // Slides 1–6 are Dinh's; their speaker notes are read from docs/slides/build_slides.js. Slides 7–10 are Longqi's
-// (content from docs/slides/Longqi_BERT_Experiment_Slides.pptx, without its confusion matrix). Slides 11–17 are JN's.
+// (content from docs/slides/Longqi_BERT_Experiment_Slides.pptx). Slides 11–17 are JN's.
 // Rebuilding overwrites the .html, so text edited in the browser and saved over it is lost.
 const fs = require("fs");
 const path = require("path");
@@ -41,11 +41,17 @@ const flow = (steps) => `<div class="flow steps reveal">${steps.map(([h, d], i) 
 // per-class precision / recall / F1 of one results row, Neutral F1 (the hard class) picked out
 const prf = (name, r, hotCols = ["f1"]) => `<div class="prf reveal"><h3>${name}</h3><table><tr><th></th><th>Precision</th><th>Recall</th><th>F1</th></tr>${LABELS.map((l) =>
   `<tr><th>${l}</th>${["precision", "recall", "f1"].map((m) => `<td class="${l === "Neutral" && hotCols.includes(m) ? "hot" : ""}">${f2(r[`${l}_${m}`])}</td>`).join("")}</tr>`).join("")}</table></div>`;
-// left: F1 chart of two settings; right: per-class scores and a callout
-const result = (series, name, r, label, big, note, hotCols) => `
+// confusion matrix in row percentages (course guideline: percentages, not counts); Neutral → Negative outlined
+function matrix(name, cm) {
+  const rows = cm.map((r, i) => `<tr><th>${LABELS[i]}</th>${r.map((p, j) =>
+    `<td class="${i === 1 && j === 0 ? "hit" : ""}" style="background:rgba(17,17,17,${(p / 100 * 0.9).toFixed(2)});color:${p > 45 ? "#fff" : "#111"}">${p}%</td>`).join("")}</tr>`).join("");
+  return `<div class="matrix reveal"><h3>${name}</h3><table><tr><th></th><th>Neg.</th><th>Neu.</th><th>Pos.</th></tr>${rows}</table></div>`;
+}
+// left: F1 chart of two settings; right: confusion matrix and a callout
+const result = (series, name, cm, label, big, note) => `
   <div class="split">
     ${chart(CATS, series, 1)}
-    <div>${prf(name, r, hotCols)}<p class="callout reveal">${label}<b>${big}</b></p><p class="aside reveal">${note}</p></div>
+    <div>${matrix(name, cm)}<p class="callout reveal">${label}<b>${big}</b></p><p class="aside reveal">${note}</p></div>
   </div>`;
 // training and validation loss by step, as an inline SVG line chart
 function lossChart(curve) {
@@ -69,7 +75,7 @@ slide("Introduction", "ReviewLens: Sentiment Classification of E-Commerce Produc
     <div class="chip"><small>Label?</small>Negative<br>Neutral<br>Positive</div>
   </div>
   <p class="banner light reveal"><b>Main metric: macro-F1</b>, so Neutral counts as much as the easy classes.</p>
-  ${src("One task, three methods, same data. Also reported: per-class precision, recall and F1.")}`, dinhNotes[0]);
+  ${src("One task, three methods, same data. Also reported: per-class precision / recall / F1, confusion matrices.")}`, dinhNotes[0]);
 
 slide("Introduction", "Data: one shared, balanced split", `
   <div class="funnel reveal">
@@ -97,9 +103,9 @@ slide("Prompted Llama", "Prompted Llama 3.1 8B, no training", `
 
 slide("Prompted Llama", `The best prompt lifts test macro-F1: ${f2(D.zero.macro_f1)} → ${f2(D.few.macro_f1)}`,
   result([{ name: "Zero-shot", cls: "grey", values: D.f1s(D.zero) }, { name: "Few-shot k=5 + definitions", cls: "ink", values: D.f1s(D.few) }],
-    "Final design: per-class scores (test set)", D.few, "Neutral reviews → Negative", `62% → ${D.cmFew[1][0]}%`,
+    "Final design, % of each true class", D.cmFew, "Neutral reviews → Negative", `62% → ${D.cmFew[1][0]}%`,
     `Still the main error. Neutral recall ${D.pct(D.zero.Neutral_recall)}% → ${D.pct(D.few.Neutral_recall)}%, F1 ${f2(D.zero.Neutral_f1)} → ${f2(D.few.Neutral_f1)}.`) +
-  src("F1 per class on the test set (n = 5,000)"), dinhNotes[3].replace("the confusion matrix shows", "the per-class scores show"));
+  src("F1 per class on the test set (n = 5,000)"), dinhNotes[3]);
 
 {
   // validation macro-F1 of the eight designs (quoc_llama_prompting/results/validation_selection.csv); axis 0.5–0.85 as in Dinh's chart
@@ -143,11 +149,12 @@ slide("Fine-tuned BERT", "Training strategy and loss design", `
   </div>
   ${src("Seed 42 with dynamic padding and mixed precision. The test set stays untouched during training.")}`, NOTES.bert2);
 
-slide("Fine-tuned BERT", `BERT holds up on test: val ${f3(D.bertVal.macro_f1)}, test ${f3(D.bert.macro_f1)}`,
-  result([{ name: "Validation", cls: "grey", values: D.f1s(D.bertVal) }, { name: "Test", cls: "ink", values: D.f1s(D.bert) }],
-    "Test precision, recall and F1", D.bert, "Neutral reviews predicted Negative", `${D.cmBert[1][0]}%`,
-    `Neutral is the weak class (F1 ${f3(D.bert.Neutral_f1)}). Positive is strongest at ${f3(D.bert.Positive_f1)} F1.`) +
-  src("F1 per class on the validation and test sets (n = 5,000 each)"), NOTES.bert3);
+slide("Fine-tuned BERT", `BERT holds up on test: val ${f3(D.bertVal.macro_f1)}, test ${f3(D.bert.macro_f1)}`, `
+  <div class="split even">
+    <div>${prf("Test precision, recall and F1", D.bert)}<p class="aside reveal"><b>Macro:</b> precision ${f3(D.bert.macro_precision)}, recall ${f3(D.bert.macro_recall)}, F1 ${f3(D.bert.macro_f1)}.</p></div>
+    <div>${matrix("Test confusion matrix, % of each true class", D.cmBert)}<p class="callout reveal">Neutral reviews predicted Negative<b>${D.cmBert[1][0]}%</b></p></div>
+  </div>
+  ${src(`Neutral is the weak class (F1 ${f3(D.bert.Neutral_f1)}). Positive is strongest at ${f3(D.bert.Positive_f1)} F1.`)}`, NOTES.bert3);
 
 slide("Fine-tuned BERT", "Exp. 2: BERT on 600 AI-labeled reviews", `
   <div class="split even">
@@ -181,8 +188,8 @@ slide("Llama + QLoRA", `Training: ${Math.round(D.cost.training_minutes)} minutes
 
 slide("Llama + QLoRA", `QLoRA lifts test macro-F1: ${f2(D.few.macro_f1)} → ${f2(D.qlora.macro_f1)}`,
   result([{ name: "Best prompt (k=5 + definitions)", cls: "ink", values: D.f1s(D.few) }, { name: "QLoRA", cls: "red", values: D.f1s(D.qlora) }],
-    "QLoRA: per-class scores (test set)", D.qlora, "Neutral F1", `${f2(D.few.Neutral_f1)} → ${f2(D.qlora.Neutral_f1)}`,
-    `Neutral recall ${D.pct(D.few.Neutral_recall)}% → ${D.pct(D.qlora.Neutral_recall)}%. Better on all three classes; all 5,000 outputs are a bare label.`, ["recall", "f1"]) +
+    "QLoRA, % of each true class", D.cmQ, "Neutral reviews → Negative", `${D.cmFew[1][0]}% → ${D.cmQ[1][0]}%`,
+    `Neutral recall ${D.pct(D.few.Neutral_recall)}% → ${D.pct(D.qlora.Neutral_recall)}%, F1 ${f2(D.few.Neutral_f1)} → ${f2(D.qlora.Neutral_f1)}; all 5,000 outputs are a bare label.`) +
   src("F1 per class on the test set (n = 5,000)"), NOTES.qloraRes);
 
 slide("Llama + QLoRA", "Exp. 2: QLoRA on the AI-labelled reviews", `
@@ -333,6 +340,8 @@ h3 { font: 800 38px/1.15 var(--font-display); }
 .row { margin-top: 44px; } .banner { margin-top: 44px; }
 .funnel small { margin-bottom: 14px; } .funnel b { font-size: 76px; } .funnel span { font-size: 30px; display: block; }
 .flow.steps > div { min-height: 200px; font-size: 44px; } .flow.steps small:first-child { margin: 0 0 8px; text-transform: uppercase; letter-spacing: .1em; font-size: 21px; color: var(--red); }
+.split .matrix h3 { font-size: 28px; margin-bottom: 10px; } .split .matrix td { font-size: 34px; height: 76px; } .split .matrix th { font-size: 24px; padding: 8px 12px; }
+.matrix + .callout { margin: 30px 0 18px; } .prf + .aside { margin-top: 24px; }
 .prf h3 { font-size: 28px; margin-bottom: 10px; } .prf td, .prf th { font-size: 30px; padding: 12px 8px; text-align: center; border-bottom: 2px solid var(--grey); } .prf th:first-child { text-align: left; }
 .prf tr:first-child th { font: 500 20px var(--font-display); letter-spacing: .08em; text-transform: uppercase; border-bottom: 3px solid var(--ink); } .prf td.hot { background: var(--tint); color: var(--red); font-weight: 800; }
 .prf.setup td, .prf.setup th { text-align: left; font-size: 28px; padding: 13px 10px; } .prf.setup tr:first-child th { font: 800 28px var(--font-body); letter-spacing: 0; text-transform: none; border-bottom: 2px solid var(--grey); }

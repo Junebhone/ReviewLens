@@ -101,7 +101,7 @@ The same `Llama-3.1-8B-Instruct` model, fine-tuned with QLoRA [4]: the base mode
 
 ## 4. Evaluation
 
-We report per-class precision, recall and F1, and micro- and macro-averaged precision, recall and F1. Macro-F1 is the main comparison metric because it weights the three classes equally. The proposal also listed overall accuracy and a confusion matrix; following the instructor's feedback, neither is reported, and class-specific errors are described through per-class precision and recall instead.
+We report per-class precision, recall and F1, and micro- and macro-averaged precision, recall and F1. Macro-F1 is the main comparison metric because it weights the three classes equally. A confusion matrix, in row percentages, is used separately to analyze class-specific errors; it is not a performance metric. The proposal also listed overall accuracy; following the instructor's feedback it is not reported.
 
 - **Experiment 1:** the held-out test set (5,000 reviews, star-based gold labels).
 - **Experiment 2:** each final model is run on the 600 AI-labeled reviews and scored against the AI labels, and against the star labels of the same reviews for reference.
@@ -131,6 +131,20 @@ Per-class precision / recall / F1:
 | Llama, zero-shot + definitions | 0.707 / 0.880 / 0.784 | 0.657 / 0.605 / 0.630 | 0.939 / 0.782 / 0.853 |
 | Llama, few-shot (k = 5 + definitions) | 0.737 / 0.846 / 0.788 | 0.688 / 0.664 / 0.675 | 0.943 / 0.836 / 0.886 |
 | Llama + QLoRA | 0.838 / 0.814 / 0.826 | 0.739 / 0.800 / 0.768 | 0.946 / 0.896 / 0.920 |
+
+Confusion matrices of the three final models on the test set, as percentages of each true class (rows: star label; columns: prediction):
+
+| Method | True class | Negative | Neutral | Positive |
+|---|---|---|---|---|
+| BERT (fine-tuned) | Negative | 77.3 | 21.4 | 1.3 |
+|  | Neutral | 20.7 | 71.1 | 8.2 |
+|  | Positive | 1.0 | 13.0 | 86.0 |
+| Llama, few-shot (k = 5 + definitions) | Negative | 84.6 | 14.6 | 0.7 |
+|  | Neutral | 29.3 | 66.3 | 4.3 |
+|  | Positive | 0.9 | 15.5 | 83.6 |
+| Llama + QLoRA | Negative | 81.4 | 18.4 | 0.2 |
+|  | Neutral | 15.2 | 80.0 | 4.9 |
+|  | Positive | 0.5 | 9.8 | 89.6 |
 
 ### 5.2 Experiment 2: 600 AI-labeled reviews
 
