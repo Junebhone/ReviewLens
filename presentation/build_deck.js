@@ -118,7 +118,7 @@ pres.addSection({ title: "Introduction" });
     { text: "(the mean of the three per-class F1 scores, so Neutral counts as much as the easy classes). Also reported: per-class precision / recall / F1, confusion matrices.", options: { color: HEX.ink } },
   ], { x: 0.75, y: 4.15, w: 8.5, h: 0.65, fontSize: 12, valign: "middle" });
 
-  s.addNotes("[~60 s · 0:00–1:00]\nHello everyone, I'm Quoc, and our project is ReviewLens. Every online seller has the same problem: thousands of reviews come in, and the ones that matter most, from unhappy customers, are buried in the pile. Our goal is to sort every review automatically into Negative, Neutral or Positive.\nWhat makes this project interesting is that we solve the same task in three different ways, on exactly the same data. Longqi fine-tunes BERT, Bhone fine-tunes Llama with QLoRA, and I take the opposite route: the same Llama with no training at all, only prompting. So we can ask a practical question: how much does training actually buy you?\nWe judge everything by macro-F1, so the hard Neutral class counts as much as the easy ones. And keep this review in mind: it has three stars, but it reads like a complaint. We'll come back to that.");
+  s.addNotes("[~50 s · 0:00–0:50]\nHello everyone, my name is Quoc, and our project is called ReviewLens. So, here is the problem. Online sellers get thousands of reviews, and it is hard to find the unhappy customers by reading them one by one. That's why we want a model that puts each review into one of three groups: Negative, Neutral or Positive.\nIn our team, we solve this same task in three different ways, with the same data. Longqi fine-tunes BERT, and Bhone fine-tunes Llama. My part is different, because I use Llama without any training. I only change the prompt.\nFor the main score, we use macro-F1, so Neutral is just as important as the other two classes. And please remember this example. It has three stars, but it sounds like a complaint. I will come back to it later.");
 }
 
 // ---------- Data ----------
@@ -164,7 +164,7 @@ pres.addSection({ title: "Introduction" });
   T(s, "Source: Amazon Reviews 2023, McAuley Lab (UCSD) · split seed 42",
     { x: 0.5, y: 4.8, w: 9, h: 0.28, fontSize: 10, italic: true, color: C.text2 });
 
-  s.addNotes("[~60 s · 1:00–2:00]\nAll three methods share one dataset, so any difference in results comes from the method, not the data. We start from Amazon's Cell Phones and Accessories reviews, keep reviews long enough to carry a real opinion, and clean out the noise.\nLabels come from the star rating, which is standard practice, but it creates a problem: Neutral reviews are by far the rarest. On the natural mix, a model could almost ignore Neutral and still look good. So we draw a balanced sample and fix one train, validation and test split that everyone uses.\nThere's one assumption here worth questioning: is the star rating really the truth? To test it, I added Experiment 2: a separate set of reviews labelled by Claude from the text alone, with the stars hidden. Scoring every method against both label sets lets us separate model error from label noise.");
+  s.addNotes("[~60 s · 0:50–1:50]\nNow, the data. All three of us use the same data, so if our results are different, it is because of the method. We start from about 20 million Amazon reviews for cell phones. Then we keep the reviews that are long enough to show an opinion, and we clean up the text.\nFor the labels, we use the star rating. But Neutral reviews are much less common than the others, so a model could almost skip Neutral and still get a good score. That's why we take a balanced sample of 50,000 reviews, and everyone uses the same train, validation and test split.\nBut I also had a question: is the star rating always correct? So I ran Experiment 2. I asked Claude to label new reviews by reading only the text, without the stars. Then we test every method on both kinds of labels, so we can see if a mistake comes from the model or from the label.");
 }
 
 // ---------- Slide 1: Method ----------
@@ -208,7 +208,7 @@ pres.addSection({ title: "Prompted Llama" });
   T(s, "Evaluated on the shared 5,000-review balanced test set · main metric: macro-F1",
     { x: 0.5, y: 4.6, w: 9, h: 0.3, fontSize: 12, italic: true, color: C.text2 });
 
-  s.addNotes("[~40 s · 2:00–2:40]\nMy method needs no training at all. Llama 3.1 8B Instruct reads one prompt: instructions, a short definition of each label, a few labelled examples, and then the review. It answers with greedy decoding, so every result is deterministic and reproducible, and a simple parser extracts the label.\nThe real design work is the prompt itself. I treated it like a hyperparameter: I compared eight designs on the validation set only and kept the test set untouched until the end. One trade-off to keep in mind is cost: the winning prompt is about ten times longer than zero-shot, so every prediction is slower and more expensive.");
+  s.addNotes("[~40 s · 1:50–2:30]\nNext is my method, and the idea is simple: no training. I give Llama one prompt with the instructions, a short meaning of each label, a few example reviews, and then the new review. The model answers, and I take the label from its answer. I also use greedy decoding, so I get the same result every time.\nSo the main work is finding a good prompt. I tried eight prompts on the validation set, and I kept the test set for the very end. But one thing to note: the best prompt is about ten times longer, so each prediction is slower and costs more.");
 }
 
 // ---------- Slide 2: Test results ----------
@@ -235,7 +235,7 @@ pres.addSection({ title: "Prompted Llama" });
     { text: "Still the main error (62% zero-shot). The prompt helps most on Neutral: recall 32% → 66%, F1 0.43 → 0.68.", options: { color: HEX.ink } },
   ], { x: 5.9, y: 3.75, w: 3.4, h: 0.95, fontSize: 12, valign: "top" });
 
-  s.addNotes("[~45 s · 2:40–3:25]\nThat design work pays off: a well-chosen prompt adds about ten points of macro-F1, with zero training. What matters is where the gain comes from. Negative and Positive were already easy; almost all of the improvement is on Neutral. The examples show the model what a “middle” review looks like, which an instruction alone doesn't convey.\nBut the confusion matrix shows Neutral is still the weak point, and the error goes in one direction: Neutral reviews get pushed toward Negative, and rarely toward Positive. When I read those reviews, many are real complaints from customers who still gave three stars. So the question becomes: is the model wrong, or is the label?");
+  s.addNotes("[~50 s · 2:30–3:20]\nAnd here is the result. With a better prompt, macro-F1 goes from 0.68 to 0.78, without any training. But the interesting part is where the gain comes from. Negative and Positive were already easy, so almost all of the gain is in Neutral. I think the examples show the model what a \"middle\" review looks like.\nHowever, Neutral is still the hardest class. In the confusion matrix, almost 30% of Neutral reviews are still predicted as Negative, but very few as Positive. And when I read these reviews myself, many of them really are complaints, even with three stars. So the question is: is the model wrong, or is the label wrong?");
 }
 
 // ---------- Prompt design selection on validation (§9) ----------
@@ -278,7 +278,7 @@ pres.addSection({ title: "Prompted Llama" });
     { text: "Validation 0.800 → test 0.783: picking among 8 designs barely overfit.", options: { color: HEX.ink } },
   ], { x: 0.7, y: 4.55, w: 8.6, h: 0.5, fontSize: 12, valign: "middle" });
 
-  s.addNotes("[~40 s · 3:25–4:05]\nBefore I answer that, a quick look at how I chose the prompt. Two lessons stand out. First, examples matter more than instructions: definitions help, but examples help more. Second, more isn't always better: going beyond five examples per class actually hurts, and which examples you pick matters almost as much as how many. That's a real weakness of prompting: results are sensitive to small choices.\nThe top two designs are a statistical tie, so I don't over-claim the value of the definitions. And the test score lands close to validation, so choosing among eight designs didn't overfit.");
+  s.addNotes("[~35 s · 3:20–3:55]\nBefore I answer that, here is how I picked the prompt. I learned two things. First, examples help more than definitions. Second, more examples are not always better. With more than five examples per class, the score went down. And using different examples can also change the score, so prompting is quite sensitive.\nAlso, the test score is close to the validation score, so I don't think we overfit when we picked the prompt.");
 }
 
 // ---------- Slide 3: Experiment 2 ----------
@@ -308,7 +308,7 @@ pres.addSection({ title: "Prompted Llama" });
     { text: "Both models read many 3-star reviews as Negative, so part of the test \"error\" is label noise. 0.879 is agreement between two LLMs, not a ground-truth score.", options: { color: HEX.ink } },
   ], { x: 0.75, y: 4.1, w: 8.5, h: 0.75, fontSize: 13, valign: "middle" });
 
-  s.addNotes("[~45 s · 4:05–4:50]\nNow, back to that question. In Experiment 2, my few-shot model agrees much more with Claude's text-based labels than with the star ratings, and Claude disagrees with the stars in the same way. Two different models, reading only the text, reach the same conclusion: a three-star rating often hides a negative review.\nThe takeaway is that star ratings are a noisy proxy for sentiment, so part of what looks like model error is really label noise. One honest caveat: agreement between two language models is not ground truth. But it suggests our test scores may understate what these models can do.\nThat's my part. Next, my teammates will show how much training changes the picture.");
+  s.addNotes("[~50 s · 3:55–4:45]\nSo, back to my question. In Experiment 2, my model gets 0.88 against Claude's labels, but only 0.79 against the stars, on the same reviews. And Claude also disagrees with the stars in the same way. So two different models, reading only the text, say the same thing: many three-star reviews are actually negative.\nThis means the star rating is not a perfect label. So some of the \"mistakes\" are really label problems, not model problems. But to be fair, two AI models agreeing doesn't prove they are right. Still, the real performance may be a bit better than our test score shows.\nThat's the end of my part. Next, my teammates will show how much training can help. Thank you.");
 }
 
 
@@ -428,19 +428,21 @@ pres.addSection({ title: "Fine-tuned BERT" });
 }
 {
   const s = pres.addSlide({ masterName: "Content", sectionTitle: "Fine-tuned BERT" });
-  s.addText("Exp. 2: BERT on 600 AI-labeled reviews", { placeholder: "title" });
-  T(s, "Claude Haiku labelled each review from text only; star ratings were hidden", { x: 0.5, y: 1.1, w: 9, h: 0.3, fontSize: 13, color: C.text2 });
-  card(s, "bert-exp2-stat", 0.5, 1.6, 3.2, 2.3, TINT);
-  T(s, f3(D.bAI.macro_f1), { x: 0.7, y: 1.7, w: 2.8, h: 0.85, fontSize: 48, bold: true, color: C.accent1, align: "center", valign: "middle", fontFace: "Cambria" });
-  T(s, "Macro-F1", { x: 0.7, y: 2.55, w: 2.8, h: 0.3, fontSize: 13, bold: true, color: C.text1, align: "center" });
-  T(s, `Macro precision ${f3(D.bAI.macro_precision)}\nMacro recall ${f3(D.bAI.macro_recall)}`, { x: 0.7, y: 2.88, w: 2.8, h: 0.5, fontSize: 12, bold: true, color: C.accent2, align: "center" });
-  T(s, "Fine-tuned BERT vs AI labels", { x: 0.7, y: 3.45, w: 2.8, h: 0.3, fontSize: 12, color: C.text2, align: "center" });
-  prfTable(s, D.bAI, "Per-class results on Experiment 2", ["f1"], 4.0, 1.6, 5.5);
-  card(s, "bert-exp2-insight", 0.5, 4.1, 9, 0.75);
+  s.addText("Exp. 2: BERT is stable across label sources", { placeholder: "title" });
+  T(s, "600 extra reviews labelled by Claude Haiku from the text only (stars hidden)", { x: 0.5, y: 1.1, w: 9, h: 0.3, fontSize: 13, color: C.text2 });
+  [[D.bAI, "Fine-tuned BERT\nvs AI labels", true], [D.bStar, "Fine-tuned BERT\nvs star labels (same 600)", false]].forEach(([r, label, main], i) => {
+    const x = 2.05 + i * 3.1;
+    card(s, `bert-exp2-${i + 1}`, x, 1.6, 2.8, 2.0, main ? TINT : C.background2);
+    T(s, f3(r.macro_f1), { x: x + 0.2, y: 1.68, w: 2.4, h: 0.85, fontSize: 48, bold: true, color: main ? HEX.amber : HEX.slate, align: "center", valign: "middle", fontFace: "Cambria" });
+    T(s, `Macro-P ${f3(r.macro_precision)}    Macro-R ${f3(r.macro_recall)}`, { x: x + 0.1, y: 2.55, w: 2.6, h: 0.25, fontSize: 10, bold: true, color: C.accent2, align: "center" });
+    T(s, label, { x: x + 0.2, y: 2.9, w: 2.4, h: 0.55, fontSize: 13, color: C.text2, align: "center" });
+  });
+  T(s, "Large number: macro-F1. P and R: macro-averaged. Both results use the same 600 BERT predictions.", { x: 0.5, y: 3.65, w: 9, h: 0.25, fontSize: 10, italic: true, color: C.text2 });
+  card(s, "bert-exp2-insight", 0.5, 4.0, 9, 0.95);
   T(s, [
-    { text: `Positive is strongest (F1 ${f3(D.bAI.Positive_f1)}). `, options: { bold: true, color: HEX.ink } },
-    { text: `Neutral remains weakest (F1 ${f3(D.bAI.Neutral_f1)}), with lower precision than recall.`, options: { color: HEX.ink } },
-  ], { x: 0.75, y: 4.15, w: 8.5, h: 0.65, fontSize: 13, valign: "middle" });
+    { text: `Only a ${(D.bAI.macro_f1 - D.bStar.macro_f1).toFixed(3)} gap across label sets. `, options: { bold: true, color: HEX.ink } },
+    { text: "BERT scores similarly when evaluated against text-based AI labels and star-based labels on the same 600 reviews.", options: { color: HEX.ink } },
+  ], { x: 0.75, y: 4.1, w: 8.5, h: 0.75, fontSize: 13, valign: "middle" });
   s.addNotes(NOTES.bert4);
 }
 

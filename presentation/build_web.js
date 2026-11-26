@@ -156,16 +156,13 @@ slide("Fine-tuned BERT", `BERT holds up on test: val ${f3(D.bertVal.macro_f1)}, 
   </div>
   ${src(`Neutral is the weak class (F1 ${f3(D.bert.Neutral_f1)}). Positive is strongest at ${f3(D.bert.Positive_f1)} F1.`)}`, NOTES.bert3);
 
-slide("Fine-tuned BERT", "Exp. 2: BERT on 600 AI-labeled reviews", `
-  <div class="split even">
-    <div>
-      <p class="callout reveal">Fine-tuned BERT vs AI labels · macro-F1<b>${f3(D.bAI.macro_f1)}</b></p>
-      ${bullets([`Macro precision <b>${f3(D.bAI.macro_precision)}</b>`, `Macro recall <b>${f3(D.bAI.macro_recall)}</b>`])}
-    </div>
-    ${prf("Per-class results on Experiment 2", D.bAI)}
+slide("Fine-tuned BERT", "Exp. 2: BERT is stable across label sources", `
+  <div class="cards two big reveal">
+    <div class="card hot"><h3>${f3(D.bAI.macro_f1)}</h3><p><b>Fine-tuned BERT vs AI labels</b></p><p>Macro-P ${f3(D.bAI.macro_precision)} · Macro-R ${f3(D.bAI.macro_recall)}</p></div>
+    <div class="card"><h3>${f3(D.bStar.macro_f1)}</h3><p><b>Fine-tuned BERT vs star labels (same 600)</b></p><p>Macro-P ${f3(D.bStar.macro_precision)} · Macro-R ${f3(D.bStar.macro_recall)}</p></div>
   </div>
-  <p class="banner light reveal"><b>Positive is strongest (F1 ${f3(D.bAI.Positive_f1)}).</b> Neutral remains weakest (F1 ${f3(D.bAI.Neutral_f1)}), with lower precision than recall.</p>
-  ${src("Claude Haiku labelled each review from text only; star ratings were hidden")}`, NOTES.bert4);
+  <p class="banner light reveal"><b>Only a ${(D.bAI.macro_f1 - D.bStar.macro_f1).toFixed(3)} gap across label sets.</b> BERT scores similarly when evaluated against text-based AI labels and star-based labels on the same 600 reviews.</p>
+  ${src("600 extra reviews labelled by Claude Haiku from the text only (stars hidden). Large number: macro-F1. Both results use the same 600 BERT predictions.")}`, NOTES.bert4);
 
 // ================= slides 11–17: JN =================
 slide("Llama + QLoRA", "Llama 3.1 8B + QLoRA, 0.5% of weights trained", `
